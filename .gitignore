@@ -1,0 +1,13 @@
+# Personal core.md copies (users may want to keep customized versions private)
+core-archive.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
