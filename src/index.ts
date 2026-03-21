@@ -6,6 +6,7 @@ import { updateCommand } from "./commands/update.js";
 import { resetCommand } from "./commands/reset.js";
 import { connectCommand } from "./commands/connect.js";
 import { disconnectCommand } from "./commands/disconnect.js";
+import { syncCommand } from "./commands/sync.js";
 
 declare const __VERSION__: string;
 
@@ -54,5 +55,10 @@ program
   .command("disconnect")
   .description("Remove amem integration")
   .action(() => disconnectCommand());
+
+program
+  .command("sync")
+  .description("Re-inject identity into platform config file")
+  .action(() => syncCommand());
 
 program.parse();
