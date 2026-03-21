@@ -157,6 +157,8 @@ Your identity carries over automatically. Only project-specific context is creat
 | `acore update` | Save AI's updated output back |
 | `acore update --global` | Update your global identity |
 | `acore reset` | Start fresh (archives current config) |
+| `acore connect` | Connect acore with amem for automated memory |
+| `acore disconnect` | Remove amem integration |
 
 <details>
 <summary><strong>Manual setup (without CLI)</strong></summary>
