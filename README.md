@@ -9,7 +9,7 @@
 
 ### The identity layer for AI companions.
 
-Give any AI a persistent personality and relationship memory — in a single file.
+Give any AI a persistent personality, emotional intelligence, and relationship memory — in a single file.
 
 <br>
 
@@ -41,9 +41,12 @@ Your preferences. Your communication style. The context of your work. The decisi
 **acore** is one markdown file — `core.md` — that you paste into any AI's system prompt.
 
 It tells the AI:
-- **Who it is** — personality, communication style, values
+- **Who it is** — personality, communication style, values, boundaries
 - **Who you are** — your role, preferences, work context
 - **Where you left off** — session summary, active topics, recent decisions
+- **How your relationship works** — trust level, emotional patterns, conflict history
+- **How to adapt** — context-aware behavior modes for coding, creative work, and personal conversations
+- **What to remember and forget** — intelligent memory lifecycle with importance scoring
 
 The AI reads it, behaves accordingly, and at the end of your session, you ask it to update the file. Next session, it picks up right where you left off.
 
