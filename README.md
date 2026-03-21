@@ -132,11 +132,17 @@ The interactive wizard sets up your AI's identity in under a minute:
   ○ The Architect — systematic, precise, forward-thinking
   ○ Custom...
 
+? Where will you use this?
+  ● Claude Code (auto-injects into CLAUDE.md)
+  ○ Cursor (auto-injects into .cursorrules)
+  ○ Windsurf (auto-injects into .windsurfrules)
+  ○ ChatGPT (copies to clipboard)
+
 ✔ Created ~/.acore/core.md (identity)
 ✔ Created .acore/context.md (project)
-✔ Copied to clipboard
+✔ Injected into CLAUDE.md
 
-For Claude Code, Cursor, and Windsurf — identity is auto-injected into your config file. For other platforms, it's copied to your clipboard.
+Done. Claude Code will load your identity automatically.
 ```
 
 ### In another project
@@ -152,7 +158,7 @@ Your identity carries over automatically. Only project-specific context is creat
 
 | Command | What it does |
 |:--------|:------------|
-| `acore copy` | Copy your merged identity to clipboard |
+| `acore copy` | Inject identity into platform config (or clipboard) |
 | `acore show` | View your current config summary |
 | `acore update` | Save AI's updated output back |
 | `acore update --global` | Update your global identity |
@@ -564,11 +570,15 @@ Use **Claude Projects** and paste into **Project Instructions**. Persists across
 
 ### Claude Code
 
-Add contents to your project's **`CLAUDE.md`** file. Claude Code reads it automatically every session.
+The CLI auto-injects into your project's **`CLAUDE.md`** when you select Claude Code during setup. Claude Code reads it automatically every session. Run `acore sync` to update it anytime.
 
-### Cursor / Windsurf
+### Cursor
 
-Add to **AI rules configuration**. Both support MCP — pair with amem for the best experience.
+The CLI auto-injects into **`.cursorrules`** when you select Cursor during setup. Pair with amem (`acore connect`) for the best experience.
+
+### Windsurf
+
+The CLI auto-injects into **`.windsurfrules`** when you select Windsurf during setup. Pair with amem (`acore connect`) for the best experience.
 
 ### API Usage
 
