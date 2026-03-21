@@ -3,8 +3,8 @@
 <br>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/aman--core-identity_layer-white?style=for-the-badge&labelColor=0d1117&color=58a6ff">
-  <img alt="aman-core" src="https://img.shields.io/badge/aman--core-identity_layer-black?style=for-the-badge&labelColor=f6f8fa&color=24292f">
+  <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/acore-identity_layer-white?style=for-the-badge&labelColor=0d1117&color=58a6ff">
+  <img alt="acore" src="https://img.shields.io/badge/acore-identity_layer-black?style=for-the-badge&labelColor=f6f8fa&color=24292f">
 </picture>
 
 ### The identity layer for AI companions.
@@ -38,7 +38,7 @@ Your preferences. Your communication style. The context of your work. The decisi
 
 ## 💡 The Solution
 
-**aman-core** is one markdown file — `core.md` — that you paste into any AI's system prompt.
+**acore** is one markdown file — `core.md` — that you paste into any AI's system prompt.
 
 It tells the AI:
 - **Who it is** — personality, communication style, values
@@ -55,7 +55,7 @@ The AI reads it, behaves accordingly, and at the end of your session, you ask it
 
 ## 🧠 The Key Insight
 
-aman-core is built on one idea: **AI memory is two things, not one.**
+acore is built on one idea: **AI memory is two things, not one.**
 
 <table>
 <tr>
@@ -107,8 +107,8 @@ aman-core is built on one idea: **AI memory is two things, not one.**
 ### 1️⃣ &nbsp; Get the file
 
 ```bash
-git clone https://github.com/amanasmuei/aman-core.git
-cd aman-core
+git clone https://github.com/amanasmuei/acore.git
+cd acore
 ```
 
 Or just [**download `core.md` directly**](core.md) — it's the only file you need.
@@ -581,11 +581,11 @@ After customizing `core.md` with your personal information:
 
 The original [Project-AI-MemoryCore](https://github.com/Kiyoraka/Project-AI-MemoryCore) proved that structured memory transforms the AI experience. But complex multi-file systems are a lot of overhead for a personal tool.
 
-**aman-core takes a different approach: one file, not thirty.**
+**acore takes a different approach: one file, not thirty.**
 
 Identity memory — who the AI is, who you are, how you work together — is inherently personal. It belongs in a file you write and control. Knowledge memory — corrections, decisions, patterns — is inherently automated. It belongs in a tool like [amem](https://github.com/amanasmuei/amem) that handles it without manual effort.
 
-By separating these concerns, aman-core stays radically simple while supporting rich, evolving AI relationships.
+By separating these concerns, acore stays radically simple while supporting rich, evolving AI relationships.
 
 ---
 
@@ -612,7 +612,7 @@ Contributions are welcome! Whether it's improving the `core.md` template, adding
 
 <br>
 
-*aman-core v1*
+*acore v1*
 
 **One file. Any AI. Your identity.**
 

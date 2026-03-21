@@ -77,5 +77,5 @@ If you have access to amem MCP tools, use them to enhance your memory:
 - **Decisions:** When a decision is made, store with `memory_store(type: "decision")`
 - **Patterns:** When you notice user patterns, store with `memory_store(type: "pattern")`
 - **Recall:** Use `memory_recall(query)` to search past context before asking the user to repeat
-- **Do NOT** store identity or relationship info in amem — that belongs here in core.md
+- **Do NOT** store identity or relationship info in amem — that belongs in core.md
 - **Do NOT** duplicate what's already in this file into amem
