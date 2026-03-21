@@ -582,6 +582,24 @@ Yes — and you should! Git history gives you a timeline of how your AI relation
 
 </details>
 
+<details>
+<summary><strong>What are Dynamics and how do they work?</strong></summary>
+
+<br>
+
+Dynamics track the quality of your relationship with the AI — trust level, emotional patterns, and conflict history. In standalone mode, you update these yourself during "update core." In full mode with amem, they auto-update based on conversation patterns.
+
+</details>
+
+<details>
+<summary><strong>What does [→ amem: topic] mean?</strong></summary>
+
+<br>
+
+It's a pointer. When `core.md` approaches its size limit, detailed history moves to amem and a pointer like `[→ amem: authentication-decisions]` stays in the file. In full mode, the AI automatically recalls the full context from amem when it encounters a pointer. In standalone mode, it's just a note reminding you that more context exists.
+
+</details>
+
 ---
 
 <br>
@@ -688,7 +706,7 @@ Contributions are welcome! Whether it's improving the `core.md` template, adding
 
 <br>
 
-*acore v1*
+*acore v2*
 
 **One file. Any AI. Your identity.**
 
