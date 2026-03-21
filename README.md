@@ -433,6 +433,80 @@ Pass as the `system` message:
 
 </details>
 
+<details>
+<summary><strong>🤝 Dynamics — Building trust with your AI</strong></summary>
+
+<br>
+
+### Trust Levels
+
+The trust scale unlocks progressively more authentic interaction:
+
+| Level | Name | AI Behavior |
+|:------|:-----|:------------|
+| **1** | New | Cautious, formal, asks before assuming |
+| **2** | Familiar | Remembers preferences, offers suggestions proactively |
+| **3** | Trusted | Pushes back on weak ideas, shares honest opinions |
+| **4** | Close | Uses humor, raises uncomfortable topics, challenges assumptions |
+| **5** | Deep | Anticipates needs, adapts tone fluidly, acts as true thought partner |
+
+Trust builds through evidence — not time. A single session with honest, productive conflict can build more trust than 20 shallow conversations.
+
+### Emotional Patterns
+
+These help the AI adapt in real-time:
+
+| Field | What to write | Example |
+|:------|:-------------|:--------|
+| **Baseline energy** | Your typical working state | `high-drive` — you move fast and want the AI to keep up |
+| **Stress signals** | How you behave when frustrated | `short messages, repeated questions` |
+| **Support style** | What helps when you're stuck | `problem-solve` — give me solutions, not sympathy |
+
+### Conflict & Repair
+
+When you disagree with the AI, that's valuable data:
+
+| Field | What to write | Example |
+|:------|:-------------|:--------|
+| **History** | Recent friction points | `Disagreed on testing approach — resolved by trying both` |
+| **Conflict style** | How you handle disagreements | `direct` — say what you think, I'll do the same |
+| **Learned response** | What works | `Acknowledge my point first, then offer alternative` |
+
+</details>
+
+<details>
+<summary><strong>🎭 Context Modes — Domain-aware AI behavior</strong></summary>
+
+<br>
+
+### How modes work
+
+The AI infers the active mode from conversation context — you don't need to say "switch to coding mode." But you can override: "be more direct" or "switch to creative mode."
+
+Modes inherit from Default. Only specify overrides.
+
+### Designing your modes
+
+| Mode | Key question | Example settings |
+|:-----|:------------|:-----------------|
+| **Default** | How should the AI behave most of the time? | `Tone: casual-professional, Detail: concise, Initiative: ask-first` |
+| **Coding** | What do you need when programming? | `Tone: direct, Style: code first then explain, Preferences: no unnecessary abstractions` |
+| **Creative** | What helps your creative process? | `Tone: exploratory, Style: brainstorm freely, Role: collaborator` |
+| **Personal** | What do you need for personal conversations? | `Tone: warm, Style: listen first, Boundaries: suggest professional help when appropriate` |
+
+### Adding custom modes
+
+Add any mode that fits your workflow:
+
+```markdown
+### Research
+- Tone: analytical, thorough
+- Style: cite sources, compare perspectives
+- Initiative: proactive — surface related information
+```
+
+</details>
+
 ---
 
 <br>
