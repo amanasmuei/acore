@@ -35,6 +35,7 @@ program
   .command("update")
   .description("Save AI's updated output back to config")
   .option("--global", "Update global identity instead of project context")
+  .option("-y, --yes", "Skip confirmation")
   .action((options) => updateCommand(options));
 
 program
