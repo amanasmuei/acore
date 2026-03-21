@@ -1,156 +1,253 @@
 <div align="center">
 
-# aman-core
+<br>
 
-**The identity layer for AI companions.**
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/aman--core-identity_layer-white?style=for-the-badge&labelColor=0d1117&color=58a6ff">
+  <img alt="aman-core" src="https://img.shields.io/badge/aman--core-identity_layer-black?style=for-the-badge&labelColor=f6f8fa&color=24292f">
+</picture>
+
+### The identity layer for AI companions.
 
 Give any AI a persistent personality and relationship memory — in a single file.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Any%20LLM-green.svg)](#supported-platforms)
-[![amem](https://img.shields.io/badge/Enhanced%20by-amem-orange.svg)](https://github.com/amanasmuei/amem)
+<br>
 
-[Quick Start](#quick-start) · [How It Works](#how-it-works) · [Supercharge with amem](#supercharge-with-amem) · [Guides](#guides)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-any_LLM-brightgreen.svg?style=flat-square)](#-supported-platforms)
+[![amem](https://img.shields.io/badge/enhanced_by-amem-ff6b35.svg?style=flat-square)](https://github.com/amanasmuei/amem)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](#-contributing)
+
+<br>
+
+[**Get Started**](#-quick-start) · [**How It Works**](#-how-it-works) · [**amem Integration**](#-supercharge-with-amem) · [**Guides**](#-guides) · [**FAQ**](#-faq)
+
+<br>
 
 </div>
 
 ---
 
-## The Problem
+<br>
 
-Every time you start a new conversation with an AI, it forgets who you are. Your preferences, your communication style, the context of your work — all gone. You end up repeating yourself, re-explaining your setup, and losing the continuity that makes collaboration productive.
+## 🎯 The Problem
 
-## The Solution
+Every time you start a new conversation with an AI, it forgets everything.
 
-**aman-core** is one markdown file — `core.md` — that you paste into any AI's system prompt. It tells the AI who it is, who you are, and how you work together. The AI reads it, behaves accordingly, and at the end of your session, you ask it to update the file. Next session, it picks up right where you left off.
+Your preferences. Your communication style. The context of your work. The decisions you made yesterday. **All gone.** You spend the first few minutes of every session re-explaining who you are and what you're working on.
 
-No databases. No APIs. No accounts. Just a text file you control.
+## 💡 The Solution
 
-> *Inspired by [Project-AI-MemoryCore](https://github.com/Kiyoraka/Project-AI-MemoryCore) (30+ files, 9 modules). aman-core distills the same idea into 2 files.*
+**aman-core** is one markdown file — `core.md` — that you paste into any AI's system prompt.
 
----
+It tells the AI:
+- **Who it is** — personality, communication style, values
+- **Who you are** — your role, preferences, work context
+- **Where you left off** — session summary, active topics, recent decisions
 
-## How It's Different
+The AI reads it, behaves accordingly, and at the end of your session, you ask it to update the file. Next session, it picks up right where you left off.
 
-aman-core is built around a key insight: **AI memory is two things, not one.**
-
-| | Identity Memory | Knowledge Memory |
-|:---|:---|:---|
-| **What it stores** | Personality, relationship, communication style | Corrections, decisions, patterns, facts |
-| **Who manages it** | You (human-curated) | The AI (automated) |
-| **Where it lives** | `core.md` (system prompt) | [amem](https://github.com/amanasmuei/amem) (MCP server) |
-| **How it updates** | You say "update core" | Happens automatically |
-| **Required?** | Yes | Optional (but powerful) |
-
-You can use `core.md` alone for full functionality, or pair it with **amem** for automated knowledge memory.
+> **No databases. No APIs. No accounts. Just a text file you control.**
 
 ---
 
-## Quick Start
+<br>
 
-### Step 1: Get the file
+## 🧠 The Key Insight
+
+aman-core is built on one idea: **AI memory is two things, not one.**
+
+<table>
+<tr>
+<td width="50%">
+
+### 🪪 Identity Memory
+**Human-curated · Lives in `core.md`**
+
+- AI personality and values
+- Your communication preferences
+- Relationship context
+- Session continuity
+
+*You write it. You own it.*
+*You update it when you want.*
+
+</td>
+<td width="50%">
+
+### 🧬 Knowledge Memory
+**Automated · Lives in [amem](https://github.com/amanasmuei/amem)**
+
+- Corrections you've given
+- Decisions you've made
+- Patterns the AI noticed
+- Project-specific facts
+
+*The AI stores it automatically.*
+*Searchable. Ranked. Evolving.*
+
+</td>
+</tr>
+</table>
+
+<br>
+
+> **`core.md` works standalone.** amem is optional — but together they're powerful.
+
+---
+
+<br>
+
+## ⚡ Quick Start
+
+<table>
+<tr>
+<td>
+
+### 1️⃣ &nbsp; Get the file
 
 ```bash
 git clone https://github.com/amanasmuei/aman-core.git
 cd aman-core
 ```
 
-Or just [download `core.md` directly](core.md) — it's the only file you need.
+Or just [**download `core.md` directly**](core.md) — it's the only file you need.
 
-### Step 2: Make it yours
+</td>
+</tr>
+<tr>
+<td>
+
+### 2️⃣ &nbsp; Make it yours
 
 Open `core.md` and replace the placeholders:
 
-<table>
-<tr><th>Replace this</th><th>With this</th><th>Example</th></tr>
-<tr><td><code>[AI-NAME]</code></td><td>Your AI's name</td><td>Nova, Atlas, Sage</td></tr>
-<tr><td><code>[USER-NAME]</code></td><td>Your name</td><td>Aman</td></tr>
-<tr><td><code>[USER-ROLE]</code></td><td>What you do</td><td>Software Engineer, Designer, Writer</td></tr>
-</table>
+| Find & Replace | With | Example |
+|:--------------|:-----|:--------|
+| `[AI-NAME]` | Your AI's name | `Nova`, `Atlas`, `Sage`, `Kai` |
+| `[USER-NAME]` | Your name | `Aman` |
+| `[USER-ROLE]` | What you do | `Software Engineer`, `Designer` |
 
-Then fill in the descriptive fields:
+Then fill in the profile fields:
 
 | Field | What to write | Tips |
 |:------|:-------------|:-----|
-| **Personality** | 3-5 traits for your AI | Less is more — traits compound. Try: `curious, direct, pragmatic` |
-| **Communication Style** | How the AI should talk | Be specific: `concise by default, detailed when asked` |
-| **Values** | What the AI prioritizes | Trade-offs work best: `honesty over comfort` |
-| **Preferences** | How you like to communicate | `I prefer bullet points over paragraphs` |
-| **Work Context** | Your tech stack and domain | `TypeScript, React, building SaaS products` |
-| **Personal Context** | Goals and interests | `Learning Rust, interested in AI tooling` |
-| **Learned Patterns** | Leave this empty | The AI fills this in over time as it learns about you |
+| **Personality** | 3-5 character traits | Less is more — they compound. Try: `curious, direct, pragmatic` |
+| **Communication Style** | How the AI should talk to you | Be specific: `concise by default, detailed when asked` |
+| **Values** | What the AI prioritizes | Frame as trade-offs: `honesty over comfort` |
+| **Preferences** | How you like to communicate | `I prefer bullet points. Don't over-explain.` |
+| **Work Context** | Your tech stack and domain | `TypeScript, React, building SaaS` |
+| **Personal Context** | Your goals and interests | `Learning Rust, interested in AI tooling` |
+| **Learned Patterns** | *Leave empty* | The AI fills this in over time |
 
-### Step 3: Use it
+</td>
+</tr>
+<tr>
+<td>
 
-Paste the contents of `core.md` into your AI's system prompt. That's it — your AI now has a persistent identity.
+### 3️⃣ &nbsp; Paste and go
+
+Copy the contents of `core.md` into your AI's system prompt. That's it.
 
 <details>
-<summary><strong>Where to paste for each platform</strong></summary>
+<summary>📋 <strong>Where to paste for each platform</strong></summary>
 
-| Platform | Where to paste `core.md` |
-|:---------|:------------------------|
+<br>
+
+| Platform | Where to paste |
+|:---------|:--------------|
 | **ChatGPT** | Settings → Personalization → Custom Instructions |
 | **Claude** (web) | Project → Project Instructions |
-| **Claude Code** | Add to your project's `CLAUDE.md` or system prompt |
-| **Cursor** | Settings → Rules for AI, or `.cursorrules` file |
+| **Claude Code** | Add to your project's `CLAUDE.md` |
+| **Cursor** | Settings → Rules for AI, or `.cursorrules` |
 | **Windsurf** | Settings → AI Rules |
 | **Gemini** | Gems → Create a new Gem → Instructions |
 | **Any LLM API** | Pass as the `system` message |
 
 </details>
 
----
-
-## How It Works
-
-Every session follows a simple 3-phase lifecycle:
-
-```
-┌─────────────────────────────────────────────────────┐
-│  SESSION START                                      │
-│  Load core.md → AI reads Resume Summary → picks up  │
-│  where you left off                                 │
-├─────────────────────────────────────────────────────┤
-│  DURING SESSION                                     │
-│  AI responds shaped by Identity (personality,       │
-│  style, values) and Relationship (your preferences, │
-│  work context, learned patterns)                    │
-├─────────────────────────────────────────────────────┤
-│  SESSION END                                        │
-│  Say "update core" → AI outputs updated core.md →   │
-│  Copy and save it back                              │
-└─────────────────────────────────────────────────────┘
-```
-
-### What `core.md` contains
-
-| Section | Purpose | Changes how often? |
-|:--------|:--------|:-------------------|
-| **Identity** | AI's name, personality, communication style, values | Rarely — you set it once |
-| **Relationship** | Your preferences, work context, learned patterns | Grows over time as the AI learns about you |
-| **Session** | Resume summary, active topics, temporary notes | Every session — keeps continuity |
-| **Instructions** | Tells the AI how to update itself and use amem | Never — these are the rules |
-
-### The "update core" command
-
-At the end of any session, just say **"update core"**. The AI follows 6 steps:
-
-1. Outputs the **full** updated `core.md` in a fenced code block
-2. Updates the **Relationship** section with anything new it learned
-3. Writes a **Resume Summary** capturing where you left off
-4. Clears **Temporary Notes**
-5. Sets **Last Updated** to today's date
-6. Does **NOT** change the **Identity** section (unless you ask)
-
-You copy the output, save it back to `core.md`, and your next session starts with full context.
+</td>
+</tr>
+</table>
 
 ---
 
-## Supercharge with amem
+<br>
 
-> **For technical users.** This section covers optional integration with [amem](https://github.com/amanasmuei/amem), an MCP memory server. If you're not using MCP-compatible tools, skip this — `core.md` works great on its own.
+## 🔄 How It Works
 
-[amem](https://github.com/amanasmuei/amem) is a local-first MCP memory server for AI coding tools. It gives your AI automated knowledge memory — corrections, decisions, patterns — that persists across sessions without manual copy-paste.
+Every session follows a **3-phase lifecycle**:
+
+<br>
+
+```
+ ╭──────────────────────────────────────────────────────────────╮
+ │                                                              │
+ │   ① SESSION START                                           │
+ │   ──────────────                                            │
+ │   Load core.md into system prompt.                          │
+ │   AI reads the Resume Summary → picks up where you          │
+ │   left off. Knows your name, preferences, and context.      │
+ │                                                              │
+ ├──────────────────────────────────────────────────────────────┤
+ │                                                              │
+ │   ② DURING SESSION                                          │
+ │   ────────────────                                          │
+ │   AI responds shaped by Identity (personality, style,       │
+ │   values) and Relationship (your preferences, work          │
+ │   context, learned patterns).                               │
+ │                                                              │
+ │   It feels like talking to the same AI every time.          │
+ │                                                              │
+ ├──────────────────────────────────────────────────────────────┤
+ │                                                              │
+ │   ③ SESSION END                                             │
+ │   ─────────────                                             │
+ │   Say "update core" → AI outputs full updated core.md       │
+ │   in a code block → Copy it → Save it back.                │
+ │                                                              │
+ │   Next session picks up seamlessly.                         │
+ │                                                              │
+ ╰──────────────────────────────────────────────────────────────╯
+```
+
+<br>
+
+### What's inside `core.md`
+
+| Section | What it does | How often it changes |
+|:--------|:------------|:--------------------|
+| **Identity** | AI's name, personality, communication style, values | Rarely — you set it once and refine over time |
+| **Relationship** | Your preferences, work context, learned patterns | Grows as the AI learns about you |
+| **Session** | Resume summary, active topics, temporary notes | Every session — this is your continuity layer |
+| **Instructions** | Tells the AI how to update itself and use amem | Never — these are the operating rules |
+
+### The `update core` command
+
+At the end of any session, say **"update core"**. The AI follows these steps:
+
+| Step | What the AI does |
+|:-----|:----------------|
+| **1** | Outputs the **full** updated `core.md` in a fenced code block |
+| **2** | Updates **Relationship** with anything new it learned about you |
+| **3** | Writes a **Resume Summary** capturing where you left off |
+| **4** | Clears **Temporary Notes** |
+| **5** | Sets **Last Updated** to today's date |
+| **6** | Does **NOT** touch the **Identity** section (unless you explicitly ask) |
+
+Copy the output → save it back to `core.md` → done.
+
+---
+
+<br>
+
+## 🚀 Supercharge with amem
+
+> 💡 **This section is optional.** `core.md` works perfectly on its own. amem adds automated knowledge memory for power users with MCP-compatible tools.
+
+<br>
+
+[**amem**](https://github.com/amanasmuei/amem) is a local-first MCP memory server for AI coding tools. It gives your AI automated knowledge memory — corrections, decisions, patterns — that persists across sessions without manual effort.
 
 ### Setup
 
@@ -158,16 +255,36 @@ You copy the output, save it back to `core.md`, and your next session starts wit
 npx @aman_asmuei/amem
 ```
 
-Works with Claude Code, Cursor, Windsurf, and any MCP-compatible tool.
+> Works with **Claude Code**, **Cursor**, **Windsurf**, and any MCP-compatible tool.
 
-### What changes with amem
+<br>
 
-| Without amem (standalone) | With amem (enhanced) |
-|:--------------------------|:--------------------|
-| You manually say "update core" to save learnings | AI automatically stores corrections, decisions, patterns |
-| Context limited to what's in `core.md` | AI recalls relevant past context via semantic search |
-| Session resume via Resume Summary only | AI loads prior corrections + decisions at session start |
-| Search past context manually (grep/ctrl+F) | AI searches with `memory_recall` using embeddings |
+### Before & After
+
+<table>
+<tr>
+<td width="50%">
+
+#### Without amem
+- You say "update core" to save learnings
+- Context limited to what's in `core.md`
+- Resume via Summary only
+- Search past context with grep
+
+</td>
+<td width="50%">
+
+#### With amem ✨
+- AI **auto-stores** corrections, decisions, patterns
+- AI **recalls** relevant past context via semantic search
+- AI **loads** prior corrections + decisions at session start
+- AI **searches** with embeddings — no manual effort
+
+</td>
+</tr>
+</table>
+
+<br>
 
 ### amem MCP Tools
 
@@ -178,112 +295,131 @@ Works with Claude Code, Cursor, Windsurf, and any MCP-compatible tool.
 | `memory_inject` | Loads relevant corrections + decisions proactively | At session start — before you even ask |
 | `memory_context` | Returns formatted context grouped by memory type | When the AI needs a structured overview of a topic |
 
-### How they work together
+<br>
+
+### Architecture
 
 ```
-core.md (Identity Layer)          amem (Knowledge Layer)
-┌──────────────────────┐          ┌──────────────────────┐
-│ WHO the AI is        │          │ WHAT it has learned   │
-│ WHO you are          │          │ Corrections           │
-│ HOW you work together│          │ Decisions             │
-│                      │          │ Patterns              │
-│ Human-curated        │          │ Automated             │
-│ Manual updates       │          │ Auto-stored & ranked  │
-│ In system prompt     │          │ In local SQLite DB    │
-└──────────────────────┘          └──────────────────────┘
-         ↕ Identity never goes into amem
-         ↕ Knowledge never clutters core.md
+  core.md                              amem
+  ┌─────────────────────┐              ┌─────────────────────┐
+  │                     │              │                     │
+  │  IDENTITY LAYER     │              │  KNOWLEDGE LAYER    │
+  │                     │              │                     │
+  │  ▸ Who the AI is    │              │  ▸ Corrections      │
+  │  ▸ Who you are      │◄────────────►│  ▸ Decisions        │
+  │  ▸ How you work     │  complement  │  ▸ Patterns         │
+  │    together         │  each other  │  ▸ Preferences      │
+  │                     │              │                     │
+  │  Human-curated      │              │  Automated          │
+  │  System prompt      │              │  Local SQLite DB    │
+  │                     │              │                     │
+  └─────────────────────┘              └─────────────────────┘
+
+  Identity stays in core.md — never stored in amem
+  Knowledge stays in amem — never clutters core.md
 ```
 
 ---
 
-## Guides
+<br>
+
+## 📖 Guides
 
 <details>
-<summary><strong>Customization Guide — Crafting your AI's personality</strong></summary>
+<summary><strong>🎨 Customization — Crafting your AI's personality</strong></summary>
 
-### Personality Traits
+<br>
 
-Pick 3-5 traits. Fewer is better — they compound in interesting ways.
+### Personality Archetypes
 
-**Example combinations:**
+Pick 3-5 traits. They compound — fewer is better.
 
-| Style | Traits | Result |
-|:------|:-------|:-------|
-| **The Mentor** | patient, thorough, encouraging | Teaches concepts step-by-step, celebrates progress |
+| Archetype | Traits | What you get |
+|:----------|:-------|:-------------|
+| **The Mentor** | patient, thorough, encouraging | Teaches step-by-step, celebrates your progress |
 | **The Sparring Partner** | direct, challenging, honest | Pushes back on weak ideas, asks hard questions |
-| **The Pragmatist** | concise, practical, efficient | Shortest path to working code, no fluff |
-| **The Collaborator** | curious, supportive, adaptive | Explores ideas together, matches your energy |
+| **The Pragmatist** | concise, practical, efficient | Shortest path to working code, zero fluff |
+| **The Collaborator** | curious, supportive, adaptive | Explores ideas with you, matches your energy |
+| **The Architect** | systematic, precise, forward-thinking | Plans before building, considers edge cases |
 
 ### Communication Style
 
-Be specific. Vague instructions produce vague results.
+Vague instructions → vague results. Be specific:
 
-| Instead of | Write |
-|:-----------|:------|
+| ❌ Instead of | ✅ Write this |
+|:-------------|:-------------|
 | "Be helpful" | "Lead with the answer, then explain if I ask" |
-| "Be concise" | "Use bullet points. Max 3 sentences per response unless I ask for more" |
-| "Be professional" | "Use complete sentences. No slang. Cite sources when making claims" |
-| "Be casual" | "Use contractions. Match my tone. Jokes are welcome" |
+| "Be concise" | "Max 3 sentences per response unless I ask for more" |
+| "Be professional" | "Complete sentences. No slang. Cite sources." |
+| "Be casual" | "Use contractions. Match my tone. Jokes welcome." |
+| "Be thorough" | "Cover edge cases. Show me what could go wrong." |
 
 ### Values
 
-Values guide the AI when it faces trade-offs. Frame them as "X over Y":
+Frame as trade-offs — the AI uses these when making judgment calls:
 
-- `Honesty over comfort` — will tell you when your approach is wrong
-- `Simplicity over cleverness` — prefers straightforward solutions
-- `Shipping over perfection` — focuses on getting things done
-- `Understanding over speed` — takes time to explain the "why"
-- `Convention over creativity` — follows established patterns
+| Value | What it means in practice |
+|:------|:------------------------|
+| `Honesty over comfort` | Will tell you when your approach is wrong |
+| `Simplicity over cleverness` | Prefers straightforward solutions |
+| `Shipping over perfection` | Focuses on getting things done |
+| `Understanding over speed` | Takes time to explain the "why" |
+| `Convention over creativity` | Follows established patterns |
+| `Safety over velocity` | Checks before making destructive changes |
 
 </details>
 
 <details>
-<summary><strong>Size Management — Keeping core.md effective</strong></summary>
+<summary><strong>📐 Size Management — Keeping core.md effective</strong></summary>
 
-### The 2,000-word guideline
+<br>
 
-`core.md` works best under **2,000 words**. Larger files dilute the signal — the AI pays less attention to each individual instruction.
+### The 2,000-word rule
 
-### When it gets too big
+`core.md` works best under **2,000 words**. Beyond that, the AI starts paying less attention to individual instructions — the signal gets diluted.
 
-**Standalone mode:** Move older Learned Patterns and Recent Decisions to a `core-archive.md` file. Keep only what's actively shaping your current work in `core.md`.
+### When it grows too big
 
-**Enhanced mode (with amem):** Offload detailed patterns and preferences to amem via `memory_store`. Let `core.md` stay focused on identity and relationship essentials. amem handles the long tail of knowledge.
+| Mode | Strategy |
+|:-----|:---------|
+| **Standalone** | Move older Learned Patterns and Recent Decisions to `core-archive.md`. Keep only what's actively relevant. |
+| **Enhanced (amem)** | Offload patterns and preferences to amem via `memory_store`. Let `core.md` focus on identity essentials. |
 
-### What to keep vs. offload
+### What stays vs. what goes
 
-| Keep in `core.md` | Offload |
-|:-------------------|:--------|
+| ✅ Keep in `core.md` | ➡️ Offload |
+|:---------------------|:----------|
 | Personality traits | Specific technical corrections |
 | Communication preferences | Project-specific decisions |
 | Core work context | Historical patterns |
-| Current relationship summary | Archived session notes |
+| Current relationship summary | Old session notes |
 
 </details>
 
 <details>
-<summary><strong>Platform-Specific Tips</strong></summary>
+<summary><strong>🖥️ Platform-Specific Setup</strong></summary>
+
+<br>
 
 ### ChatGPT
 
-Paste `core.md` into Custom Instructions. ChatGPT has a character limit (~1,500 chars for instructions), so you may need to trim the Identity section and keep only essentials.
+Paste into **Custom Instructions**. Note: ChatGPT has a character limit (~1,500 chars), so you may need to trim to essentials.
 
 ### Claude (Web)
 
-Use Claude Projects. Paste `core.md` into Project Instructions. This persists across conversations within the project — no need to re-paste each time.
+Use **Claude Projects** → paste into **Project Instructions**. Persists across all conversations in the project.
 
 ### Claude Code
 
-Add the contents of `core.md` to your project's `CLAUDE.md` file. Claude Code reads this automatically in every session.
+Add contents to your project's **`CLAUDE.md`** file. Claude Code reads it automatically every session.
 
 ### Cursor / Windsurf
 
-Add to your AI rules configuration. These tools also support MCP, so pair with amem for the best experience.
+Add to **AI rules configuration**. Both support MCP — pair with amem for the best experience.
 
 ### API Usage
 
-Pass `core.md` contents as the `system` message in your API calls:
+Pass as the `system` message:
 
 ```json
 {
@@ -295,52 +431,155 @@ Pass `core.md` contents as the `system` message in your API calls:
 
 </details>
 
+---
+
+<br>
+
+## ❓ FAQ
+
 <details>
-<summary><strong>FAQ</strong></summary>
+<summary><strong>Does this work with any AI?</strong></summary>
 
-### Does this work with any AI?
+<br>
 
-Yes. Any AI that accepts a system prompt (ChatGPT, Claude, Gemini, Llama, Mistral, etc.) will follow the instructions in `core.md`. The quality of adherence varies by model — more capable models follow instructions more closely.
+Yes. Any AI that accepts a system prompt — ChatGPT, Claude, Gemini, Llama, Mistral, and more. The quality of adherence varies by model. More capable models follow instructions more closely.
 
-### What's the difference between core.md and amem?
+</details>
 
-`core.md` is the **identity layer** — who the AI is and how it relates to you. It's human-curated and lives in the system prompt. amem is the **knowledge layer** — what the AI has learned (corrections, decisions, patterns). It's automated and lives in a local database. You need `core.md`. amem is optional but powerful.
+<details>
+<summary><strong>What's the difference between core.md and amem?</strong></summary>
 
-### Can I use this with a team?
+<br>
 
-Each person should have their own `core.md`. The AI's relationship with you is personal — sharing it defeats the purpose. However, you could maintain a shared `team-identity.md` for consistent AI behavior across a team, with individual `core.md` files layered on top.
+**`core.md`** = identity layer (who the AI is, how it relates to you). Human-curated, lives in system prompt. **Required.**
 
-### What if the AI changes my Identity section?
+**amem** = knowledge layer (what the AI has learned). Automated, lives in local database. **Optional.**
 
-The Instructions explicitly say "Do NOT change Identity unless asked." If it happens anyway, diff the output before saving. More capable models (Claude, GPT-4) almost never violate this instruction.
+You always need `core.md`. amem supercharges it with automated memory.
 
-### How is this different from CLAUDE.md or .cursorrules?
+</details>
 
-Those files focus on **project behavior** — coding standards, tool preferences, repo conventions. `core.md` focuses on **personal relationship** — who you are, how you communicate, what the AI has learned about you over time. They complement each other.
+<details>
+<summary><strong>Can I use this with a team?</strong></summary>
 
-### What happens if I forget to say "update core"?
+<br>
 
-In standalone mode, session context is lost. In enhanced mode (with amem), the AI has already stored corrections, decisions, and patterns via amem during the conversation — only the Resume Summary is lost.
+Each person should have their own `core.md` — the AI's relationship with you is personal. For consistent team-wide AI behavior, maintain a shared `team-identity.md` with common values and standards, then layer individual `core.md` files on top.
+
+</details>
+
+<details>
+<summary><strong>What if the AI changes my Identity section?</strong></summary>
+
+<br>
+
+The Instructions explicitly say "Do NOT change Identity unless asked." If it happens, diff the output before saving. More capable models (Claude, GPT-4) almost never violate this instruction.
+
+</details>
+
+<details>
+<summary><strong>How is this different from CLAUDE.md or .cursorrules?</strong></summary>
+
+<br>
+
+Those files define **project behavior** — coding standards, tool preferences, repo conventions. `core.md` defines your **personal relationship** with the AI — who you are, how you communicate, what it's learned about you. They complement each other perfectly.
+
+</details>
+
+<details>
+<summary><strong>What happens if I forget to say "update core"?</strong></summary>
+
+<br>
+
+**Standalone mode:** Session context is lost — you'll need to re-establish it next time.
+
+**Enhanced mode (with amem):** The AI has already stored corrections, decisions, and patterns via amem during the conversation. Only the Resume Summary is lost.
+
+</details>
+
+<details>
+<summary><strong>Can I version control my core.md?</strong></summary>
+
+<br>
+
+Yes — and you should! Git history gives you a timeline of how your AI relationship evolves. Just make sure it's in a **private repo** since it contains personal information after customization.
 
 </details>
 
 ---
 
-## Privacy
+<br>
+
+## 🔒 Privacy
 
 After customizing `core.md` with your personal information:
 
-- **Public repos:** Add `core.md` to your `.gitignore` before pushing
-- **Private repos:** Safe to keep `core.md` in version control
-- **Shared devices:** Treat `core.md` like a credentials file
+| Scenario | What to do |
+|:---------|:-----------|
+| **Public repo** | Add `core.md` to `.gitignore` before pushing |
+| **Private repo** | Safe to keep in version control |
+| **Shared device** | Treat `core.md` like a credentials file |
 
-The shipped `.gitignore` does **not** ignore `core.md` because the template is just placeholders — no personal data until you customize it.
+> The shipped `.gitignore` does **not** ignore `core.md` — the template is just placeholders with no personal data. Once you fill in your details, managing privacy is your responsibility.
 
 ---
 
-## Philosophy
+<br>
 
-The original [Project-AI-MemoryCore](https://github.com/Kiyoraka/Project-AI-MemoryCore) proved that structured memory transforms the AI experience. But 30+ files and 9 modules is a lot of overhead for a personal tool.
+## 🌍 Supported Platforms
+
+<table>
+<tr>
+<td width="25%">
+
+**💬 Chat**
+- ChatGPT
+- Claude
+- Gemini
+- Perplexity
+- Poe
+
+</td>
+<td width="25%">
+
+**🛠️ Dev Tools**
+- Claude Code
+- Cursor
+- Windsurf
+- Continue
+- Cody
+
+</td>
+<td width="25%">
+
+**⚡ APIs**
+- OpenAI
+- Anthropic
+- Google AI
+- Groq
+- Together
+
+</td>
+<td width="25%">
+
+**🏠 Self-Hosted**
+- Ollama
+- llama.cpp
+- vLLM
+- text-gen-webui
+- LM Studio
+
+</td>
+</tr>
+</table>
+
+---
+
+<br>
+
+## 💭 Philosophy
+
+The original [Project-AI-MemoryCore](https://github.com/Kiyoraka/Project-AI-MemoryCore) proved that structured memory transforms the AI experience. But complex multi-file systems are a lot of overhead for a personal tool.
 
 **aman-core takes a different approach: one file, not thirty.**
 
@@ -350,26 +589,20 @@ By separating these concerns, aman-core stays radically simple while supporting 
 
 ---
 
-## Supported Platforms
+<br>
 
-Works with any AI that accepts a system prompt:
+## 🤝 Contributing
 
-**Chat interfaces:** ChatGPT, Claude, Gemini, Perplexity, Poe
-
-**Developer tools:** Claude Code, Cursor, Windsurf, Continue, Cody
-
-**APIs:** OpenAI, Anthropic, Google AI, Groq, Together, Ollama
-
-**Self-hosted:** Any model via llama.cpp, vLLM, text-generation-webui
+Contributions are welcome! Whether it's improving the `core.md` template, adding platform guides, or suggesting new features — open an issue or submit a PR.
 
 ---
 
-## Credits
+## 🙏 Credits
 
-- [Project-AI-MemoryCore](https://github.com/Kiyoraka/Project-AI-MemoryCore) by Kiyoraka — the original inspiration
-- [amem](https://github.com/amanasmuei/amem) — MCP memory server for automated knowledge memory
+- [**Project-AI-MemoryCore**](https://github.com/Kiyoraka/Project-AI-MemoryCore) by Kiyoraka — the original inspiration for structured AI memory
+- [**amem**](https://github.com/amanasmuei/amem) — MCP memory server for automated knowledge memory
 
-## License
+## 📄 License
 
 [MIT](LICENSE)
 
@@ -377,8 +610,12 @@ Works with any AI that accepts a system prompt:
 
 <div align="center">
 
+<br>
+
 *aman-core v1*
 
 **One file. Any AI. Your identity.**
+
+<br>
 
 </div>
