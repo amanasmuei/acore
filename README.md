@@ -193,26 +193,33 @@ Every session follows a **3-phase lifecycle**:
  │   ① SESSION START                                           │
  │   ──────────────                                            │
  │   Load core.md into system prompt.                          │
- │   AI reads the Resume Summary → picks up where you          │
- │   left off. Knows your name, preferences, and context.      │
+ │   AI reads Resume Summary → picks up where you left off.    │
+ │   Loads trust level, emotional patterns, and context modes.  │
+ │   With amem: recalls relevant memories automatically.        │
  │                                                              │
  ├──────────────────────────────────────────────────────────────┤
  │                                                              │
  │   ② DURING SESSION                                          │
  │   ────────────────                                          │
- │   AI responds shaped by Identity (personality, style,       │
- │   values) and Relationship (your preferences, work          │
- │   context, learned patterns).                               │
+ │   AI responds shaped by Identity (personality, values),      │
+ │   Relationship (preferences, work context), and Dynamics     │
+ │   (trust level, emotional patterns).                        │
  │                                                              │
- │   It feels like talking to the same AI every time.          │
+ │   Context Modes adapt behavior automatically — direct        │
+ │   when coding, exploratory when brainstorming, warm          │
+ │   for personal conversations.                               │
+ │                                                              │
+ │   It feels like talking to someone who truly knows you.      │
  │                                                              │
  ├──────────────────────────────────────────────────────────────┤
  │                                                              │
  │   ③ SESSION END                                             │
  │   ─────────────                                             │
- │   Say "update core" → AI outputs full updated core.md       │
- │   in a code block → Copy it → Save it back.                │
+ │   Say "update core" → AI updates Relationship, Dynamics,    │
+ │   and Session → runs Memory Lifecycle rules (consolidate,    │
+ │   compress, forget) → outputs full updated core.md.         │
  │                                                              │
+ │   With amem: observations auto-stored during session.        │
  │   Next session picks up seamlessly.                         │
  │                                                              │
  ╰──────────────────────────────────────────────────────────────╯
