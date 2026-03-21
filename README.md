@@ -222,10 +222,13 @@ Every session follows a **3-phase lifecycle**:
 
 | Section | What it does | How often it changes |
 |:--------|:------------|:--------------------|
-| **Identity** | AI's name, personality, communication style, values | Rarely — you set it once and refine over time |
+| **Identity** | AI's name, personality, communication style, values, boundaries | Rarely — you set it once and refine over time |
 | **Relationship** | Your preferences, work context, learned patterns | Grows as the AI learns about you |
 | **Session** | Resume summary, active topics, temporary notes | Every session — this is your continuity layer |
-| **Instructions** | Tells the AI how to update itself and use amem | Never — these are the operating rules |
+| **Dynamics** | Trust & rapport, emotional patterns, conflict & repair history | Evolves over many sessions — the relationship deepens |
+| **Context Modes** | Per-domain behavior (coding, creative, personal) | Set once, refined as AI learns your preferences per mode |
+| **Memory Lifecycle** | What to remember, consolidate, and forget | Rarely — these are the operating rules for memory |
+| **Instructions** | How to update, permission model, amem integration | Never — these are the system rules |
 
 ### The `update core` command
 
