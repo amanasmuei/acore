@@ -37,7 +37,7 @@ export function parseSummary(content: string): CoreSummary {
 
 export async function showCommand(): Promise<void> {
   if (!globalConfigExists()) {
-    p.log.error("No acore config found. Run " + pc.bold("acore init") + " first.");
+    p.log.error("No acore config found. Run " + pc.bold("acore") + " first.");
     process.exit(1);
   }
 
