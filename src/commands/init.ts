@@ -120,20 +120,6 @@ async function runFullWizard(): Promise<{
     values = archetype.values;
   }
 
-  if (archetypeChoice === "custom") {
-    const communicationStyle = (await p.select({
-      message: `How should ${aiName} talk to you?`,
-      options: [
-        { value: "concise by default, detailed when asked", label: "Concise by default, detailed when asked" },
-        { value: "always thorough and detailed", label: "Always thorough and detailed" },
-        { value: "match my energy and pace", label: "Match my energy and pace" },
-      ],
-    })) as string;
-
-    if (p.isCancel(communicationStyle)) process.exit(0);
-    communication = communicationStyle;
-  }
-
   const selectedValues = (await p.multiselect({
     message: "What matters more?",
     options: [
