@@ -13,7 +13,7 @@ Give any AI a persistent personality, emotional intelligence, and relationship m
 
 <br>
 
-[![npm](https://img.shields.io/npm/v/acore?style=flat-square&color=cb3837)](https://www.npmjs.com/package/acore)
+[![npm](https://img.shields.io/npm/v/@aman_asmuei/acore?style=flat-square&color=cb3837)](https://www.npmjs.com/package/@aman_asmuei/acore)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-any_LLM-brightgreen.svg?style=flat-square)](#-supported-platforms)
 [![amem](https://img.shields.io/badge/enhanced_by-amem-ff6b35.svg?style=flat-square)](https://github.com/amanasmuei/amem)
@@ -43,7 +43,7 @@ Your preferences. Your communication style. The context of your work. The decisi
 One command. One file. Any LLM.
 
 ```bash
-npx acore
+npx @aman_asmuei/acore
 ```
 
 It tells the AI:
@@ -114,7 +114,7 @@ AI memory is two things, not one.
 ### One command to get started
 
 ```bash
-npx acore
+npx @aman_asmuei/acore
 ```
 
 The interactive wizard sets up your AI's identity in under a minute:
@@ -143,7 +143,7 @@ Paste into your AI's system prompt. That's it.
 
 ```bash
 cd ~/my-other-project
-npx acore init
+npx @aman_asmuei/acore init
 ```
 
 Your identity carries over automatically. Only project-specific context is created.
