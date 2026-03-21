@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import { detectPlatform, detectStack, detectRole } from "../src/lib/detect.js";
+import { detectPlatform, detectStack, detectRole, detectUserName } from "../src/lib/detect.js";
 
 describe("detect", () => {
   let tmpDir: string;
@@ -312,6 +312,26 @@ describe("detect", () => {
     it("returns Developer when Package.swift exists", () => {
       fs.writeFileSync(path.join(tmpDir, "Package.swift"), "// swift\n");
       expect(detectRole(tmpDir)).toBe("Developer");
+    });
+  });
+
+  // ─── detectUserName ─────────────────────────────────────────────────────
+
+  describe("detectUserName", () => {
+    it("returns a string or null", () => {
+      const name = detectUserName();
+      expect(name === null || typeof name === "string").toBe(true);
+    });
+
+    it("returns null when git is unavailable", () => {
+      const originalPath = process.env.PATH;
+      process.env.PATH = "";
+      try {
+        const name = detectUserName();
+        expect(name).toBeNull();
+      } finally {
+        process.env.PATH = originalPath;
+      }
     });
   });
 });

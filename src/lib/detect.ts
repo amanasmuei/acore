@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import type { InjectPlatform } from "./platform.js";
 
 const CODE_MANIFESTS = [
@@ -30,6 +31,22 @@ const FRAMEWORK_DEPS: Array<[string, string]> = [
 
 function exists(filePath: string): boolean {
   return fs.existsSync(filePath);
+}
+
+/**
+ * Detect the user's name from git config.
+ * Returns null silently if git is not installed, not a repo, or user.name is unset.
+ */
+export function detectUserName(): string | null {
+  try {
+    const name = execFileSync("git", ["config", "user.name"], {
+      encoding: "utf-8",
+      timeout: 3000,
+    }).trim();
+    return name || null;
+  } catch {
+    return null;
+  }
 }
 
 /**
