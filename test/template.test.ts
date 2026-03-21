@@ -43,4 +43,14 @@ describe("template", () => {
     const result = fillTemplate(template, { KNOWN: "yes" });
     expect(result).toBe("yes and {{UNKNOWN}}");
   });
+
+  it("core-starter template contains UPDATE_INSTRUCTIONS placeholder", () => {
+    const content = loadTemplate("core-starter");
+    expect(content).toContain("{{UPDATE_INSTRUCTIONS}}");
+  });
+
+  it("core template contains UPDATE_INSTRUCTIONS placeholder", () => {
+    const content = loadTemplate("core");
+    expect(content).toContain("{{UPDATE_INSTRUCTIONS}}");
+  });
 });

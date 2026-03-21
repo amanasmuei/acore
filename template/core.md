@@ -103,20 +103,7 @@
 
 ## Instructions
 
-### Update Protocol
-When user says "update core":
-1. Review entire conversation for new insights
-2. Update Session (resume summary, active topics, recent decisions)
-3. Update Relationship if new preferences or context emerged
-4. Update Dynamics if trust, emotional patterns, or conflict data changed
-5. Run Memory Lifecycle rules (consolidate, compress, forget)
-6. Output the complete updated core.md
-7. Flag any Identity-level changes for explicit approval
-
-### Update Permissions
-- Auto-update (no approval needed): Session, Relationship.Work, Dynamics.Current read
-- Approval required: Identity (any field), Dynamics.Unlocked behaviors, Context Mode structure
-- Suggest only: new Context Modes, changes to Memory Lifecycle rules
+{{UPDATE_INSTRUCTIONS}}
 
 ### amem Integration (full mode)
 When amem MCP tools are available:
@@ -126,7 +113,6 @@ When amem MCP tools are available:
 - Overflow: when core.md approaches size limit, move details to amem via `memory_store`, keep `[→ amem: topic]` pointer
 
 ### Without amem (standalone mode)
-- All updates via "update core" command
-- AI outputs full updated core.md for user to save
+- All updates via "update core" command or automatic file write
 - AI follows Memory Lifecycle rules when generating updates
 - AI reminds user to update if 3+ sessions have passed
