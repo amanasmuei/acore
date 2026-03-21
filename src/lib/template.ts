@@ -14,7 +14,7 @@ function getTemplatePath(name: string): string {
   return fromSrc;
 }
 
-export function loadTemplate(name: "core" | "context"): string {
+export function loadTemplate(name: "core" | "core-starter" | "context"): string {
   const templatePath = getTemplatePath(name);
   return fs.readFileSync(templatePath, "utf-8");
 }

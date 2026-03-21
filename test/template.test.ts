@@ -14,6 +14,19 @@ describe("template", () => {
     expect(content).toContain("## Work");
   });
 
+  it("loadTemplate reads the starter template", () => {
+    const content = loadTemplate("core-starter");
+    expect(content).toContain("{{AI_NAME}}");
+    expect(content).toContain("## Identity");
+    expect(content).toContain("## Instructions");
+    expect(content).toContain("## Session");
+    expect(content).toContain("### Growth Protocol");
+    // Should NOT contain Dynamics, Context Modes, or Memory Lifecycle sections
+    expect(content).not.toContain("## Dynamics");
+    expect(content).not.toContain("## Context Modes");
+    expect(content).not.toContain("## Memory Lifecycle");
+  });
+
   it("fillTemplate replaces all placeholders", () => {
     const template = "# {{AI_NAME}}\nRole: {{USER_NAME}}'s {{USER_ROLE}}";
     const result = fillTemplate(template, {
