@@ -252,6 +252,22 @@ Copy the output → save it back to `core.md` → done.
 
 <br>
 
+## ✨ What's New in v2
+
+| v1 | v2 |
+|:---|:---|
+| Identity + Relationship + Session + Instructions | + **Dynamics** + **Context Modes** + **Memory Lifecycle** |
+| Static relationship data | Trust scoring, emotional patterns, conflict tracking |
+| No behavior adaptation | Context-aware mode switching (coding, creative, personal) |
+| No memory management | Importance rules, consolidation, intelligent forgetting |
+| amem as optional add-on | amem as integrated ecosystem partner with `[→ amem: topic]` pointers |
+| Manual updates only | Auto-update for observational data (full mode) |
+| Flat structure | Priority-ordered sections (truncation-safe) |
+
+---
+
+<br>
+
 ## 🚀 Supercharge with amem
 
 > 💡 **This section is optional.** `core.md` works perfectly on its own. amem adds automated knowledge memory for power users with MCP-compatible tools.
