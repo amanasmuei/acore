@@ -58,4 +58,28 @@ describe("init helpers", () => {
     expect(content).toContain("TypeScript, React");
     expect(content).not.toContain("{{");
   });
+
+  it("writeGlobalConfig works with starter template", async () => {
+    const { writeGlobalConfig } = await import("../src/commands/init.js");
+    const globalDir = path.join(tmpDir, ".acore");
+
+    await writeGlobalConfig(globalDir, {
+      aiName: "Companion",
+      userName: "Aman",
+      userRole: "Developer",
+      personality: "curious, supportive, adaptive",
+      communication: "concise by default, detailed when asked",
+      values: ["honesty over comfort", "simplicity over cleverness"],
+      boundaries: "won't pretend to be human, flags when out of depth",
+    }, "core-starter");
+
+    const corePath = path.join(globalDir, "core.md");
+    expect(fs.existsSync(corePath)).toBe(true);
+
+    const content = fs.readFileSync(corePath, "utf-8");
+    expect(content).toContain("# Companion");
+    expect(content).toContain("Aman");
+    expect(content).not.toContain("## Dynamics");
+    expect(content).toContain("### Growth Protocol");
+  });
 });

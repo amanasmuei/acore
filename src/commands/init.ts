@@ -9,15 +9,17 @@ import { copyToClipboard } from "../lib/clipboard.js";
 import { mergeConfigs } from "../lib/merge.js";
 import { savePlatformConfig, getPlatformFile, isFileBasedPlatform, type InjectPlatform } from "../lib/platform.js";
 import { injectIntoFile } from "../lib/inject.js";
+import { detectPlatform, detectStack, detectRole } from "../lib/detect.js";
 import type { AcoreIdentity, AcoreContext } from "../types.js";
 
 export async function writeGlobalConfig(
   globalDir: string,
-  identity: AcoreIdentity
+  identity: AcoreIdentity,
+  templateName: "core" | "core-starter" = "core-starter"
 ): Promise<void> {
   fs.mkdirSync(globalDir, { recursive: true });
 
-  const template = loadTemplate("core");
+  const template = loadTemplate(templateName);
   const content = fillTemplate(template, {
     AI_NAME: identity.aiName,
     USER_NAME: identity.userName,
@@ -26,6 +28,7 @@ export async function writeGlobalConfig(
     COMMUNICATION: identity.communication,
     VALUES: identity.values.join(", "),
     BOUNDARIES: identity.boundaries,
+    DATE: new Date().toISOString().split("T")[0],
   });
 
   fs.writeFileSync(path.join(globalDir, "core.md"), content, "utf-8");
@@ -49,19 +52,11 @@ export async function writeLocalContext(
   fs.writeFileSync(path.join(localDir, "context.md"), content, "utf-8");
 }
 
-async function runFullWizard(): Promise<{
+async function runQuickSetup(): Promise<{
   identity: AcoreIdentity;
   context: AcoreContext;
-  platform: InjectPlatform;
+  platform: InjectPlatform | null;
 }> {
-  const aiName = (await p.text({
-    message: "What should your AI be called?",
-    placeholder: "Sage",
-    validate: (v) => (v.length === 0 ? "Name is required" : undefined),
-  })) as string;
-
-  if (p.isCancel(aiName)) process.exit(0);
-
   const userName = (await p.text({
     message: "What's your name?",
     validate: (v) => (v.length === 0 ? "Name is required" : undefined),
@@ -69,128 +64,25 @@ async function runFullWizard(): Promise<{
 
   if (p.isCancel(userName)) process.exit(0);
 
-  const userRole = (await p.text({
-    message: "What do you do?",
-    placeholder: "Software Engineer",
-    validate: (v) => (v.length === 0 ? "Role is required" : undefined),
-  })) as string;
+  const platform = detectPlatform();
+  const stack = detectStack();
+  const userRole = detectRole();
 
-  if (p.isCancel(userRole)) process.exit(0);
-
-  const archetypeOptions = [
-    ...archetypes.map((a) => ({
-      value: a.name,
-      label: `${a.label} — ${a.description}`,
-    })),
-    { value: "custom", label: "Custom..." },
-  ];
-
-  const archetypeChoice = (await p.select({
-    message: "Pick a personality archetype:",
-    options: archetypeOptions,
-  })) as string;
-
-  if (p.isCancel(archetypeChoice)) process.exit(0);
-
-  let personality: string;
-  let communication: string;
-  let values: string[];
-
-  if (archetypeChoice === "custom") {
-    personality = (await p.text({
-      message: "Personality traits (comma-separated):",
-      placeholder: "curious, direct, pragmatic",
-    })) as string;
-    if (p.isCancel(personality)) process.exit(0);
-
-    communication = (await p.text({
-      message: "Communication style:",
-      placeholder: "concise by default, detailed when asked",
-    })) as string;
-    if (p.isCancel(communication)) process.exit(0);
-
-    const valuesInput = (await p.text({
-      message: "Values (comma-separated):",
-      placeholder: "honesty over comfort, simplicity over cleverness",
-    })) as string;
-    if (p.isCancel(valuesInput)) process.exit(0);
-
-    values = valuesInput.split(",").map((v) => v.trim());
-  } else {
-    const archetype = archetypes.find((a) => a.name === archetypeChoice)!;
-    personality = archetype.personality;
-    communication = archetype.communication;
-    values = archetype.values;
-  }
-
-  const selectedValues = (await p.multiselect({
-    message: "What matters more?",
-    options: [
-      { value: "honesty over comfort", label: "Honesty over comfort" },
-      { value: "simplicity over cleverness", label: "Simplicity over cleverness" },
-      { value: "shipping over perfection", label: "Shipping over perfection" },
-      { value: "understanding over speed", label: "Understanding over speed" },
-      { value: "safety over velocity", label: "Safety over velocity" },
-    ],
-    initialValues: values,
-  })) as string[];
-
-  if (p.isCancel(selectedValues)) process.exit(0);
-  values = selectedValues;
-
-  const boundaries = (await p.text({
-    message: "Any hard boundaries for the AI? (optional)",
-    placeholder: "won't pretend to be human, flags when out of depth",
-    defaultValue: "won't pretend to be human, flags when out of depth",
-  })) as string;
-
-  if (p.isCancel(boundaries)) process.exit(0);
-
-  // Platform selection
-  const platform = (await p.select({
-    message: "Where will you use this?",
-    options: [
-      { value: "claude-code", label: "Claude Code (auto-injects into CLAUDE.md)" },
-      { value: "cursor", label: "Cursor (auto-injects into .cursorrules)" },
-      { value: "windsurf", label: "Windsurf (auto-injects into .windsurfrules)" },
-      { value: "chatgpt", label: "ChatGPT (copies to clipboard)" },
-      { value: "api", label: "API (copies to clipboard)" },
-      { value: "other", label: "Other (copies to clipboard)" },
-    ],
-  })) as InjectPlatform;
-
-  if (p.isCancel(platform)) process.exit(0);
-
-  // Project context
-  const stack = (await p.text({
-    message: "What's the tech stack for this project? (optional)",
-    placeholder: "TypeScript, React, Next.js",
-    defaultValue: "",
-  })) as string;
-
-  if (p.isCancel(stack)) process.exit(0);
-
-  const domain = (await p.text({
-    message: "What domain is this project in? (optional)",
-    placeholder: "SaaS platform",
-    defaultValue: "",
-  })) as string;
-
-  if (p.isCancel(domain)) process.exit(0);
+  const archetype = archetypes.find((a) => a.name === "collaborator")!;
 
   const identity: AcoreIdentity = {
-    aiName,
+    aiName: "Companion",
     userName,
     userRole,
-    personality,
-    communication,
-    values,
-    boundaries,
+    personality: archetype.personality,
+    communication: archetype.communication,
+    values: ["honesty over comfort", "simplicity over cleverness"],
+    boundaries: "won't pretend to be human, flags when out of depth",
   };
 
   const context: AcoreContext = {
     stack: stack || "not specified yet",
-    domain: domain || "",
+    domain: "",
     focus: "",
   };
 
@@ -238,18 +130,35 @@ async function runProjectWizard(globalDir: string): Promise<AcoreContext> {
   return { stack, domain: domain || "", focus: focus || "" };
 }
 
-function showPlatformTip(platform: string): void {
-  const tips: Record<string, string> = {
-    "claude-code": "Add to your project's CLAUDE.md file.\n  Claude Code reads it automatically.",
-    chatgpt: "Go to Settings → Personalization → Custom Instructions.\n  Paste the clipboard contents there.",
-    api: 'Pass as the "system" message in your API call.',
+function platformLabel(platform: InjectPlatform): string {
+  const labels: Record<string, string> = {
+    "claude-code": "Claude Code",
+    cursor: "Cursor",
+    windsurf: "Windsurf",
+    chatgpt: "ChatGPT",
+    api: "API",
+    other: "Other",
   };
+  return labels[platform] || platform;
+}
 
-  const tip = tips[platform];
-  if (tip) {
-    const amemTip = "\n\n  Want auto-memory? Run:\n  npx @aman_asmuei/amem";
-    p.note(tip + amemTip, "Platform tip");
-  }
+function showOnboardingCard(): void {
+  const card = [
+    "",
+    `  ${pc.green("✔")} You're set up. Here's how it works:`,
+    "",
+    "  1. Start a conversation — your AI knows you",
+    "  2. Work normally — it adapts to your style",
+    "  3. When done, it'll offer to save what it learned",
+    "",
+    `  ${pc.bold("acore show")}        See your current identity`,
+    `  ${pc.bold("acore customize")}   Personalize your AI`,
+    `  ${pc.bold("acore pull")}        Save AI's updates`,
+    "",
+    `  ${pc.dim("Your AI gets better every session.")}`,
+    "",
+  ];
+  p.note(card.join("\n"), "");
 }
 
 export async function initCommand(options: { global?: boolean }): Promise<void> {
@@ -260,19 +169,22 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
   const hasGlobal = globalConfigExists();
 
   if (options.global || !hasGlobal) {
-    // Full wizard
-    const { identity, context, platform } = await runFullWizard();
+    // Quick setup — 1 question
+    const { identity, context, platform } = await runQuickSetup();
 
-    await writeGlobalConfig(globalDir, identity);
+    await writeGlobalConfig(globalDir, identity, "core-starter");
     p.log.success(`Created ${pc.dim("~/.acore/core.md")} (identity)`);
 
     if (context.stack && context.stack !== "not specified yet") {
       await writeLocalContext(localDir, context);
       p.log.success(`Created ${pc.dim(".acore/context.md")} (project)`);
+      p.log.info(`Detected stack: ${pc.dim(context.stack)}`);
     }
 
+    const effectivePlatform: InjectPlatform = platform || "other";
+
     // Save platform config
-    savePlatformConfig(platform, localDir);
+    savePlatformConfig(effectivePlatform, localDir);
 
     // Merge and deliver
     const globalContent = fs.readFileSync(
@@ -286,8 +198,8 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
 
     const merged = mergeConfigs(globalContent, localContent);
 
-    if (isFileBasedPlatform(platform)) {
-      const platformFile = getPlatformFile(platform)!;
+    if (isFileBasedPlatform(effectivePlatform)) {
+      const platformFile = getPlatformFile(effectivePlatform)!;
       const filePath = path.join(process.cwd(), platformFile);
       const result = injectIntoFile(filePath, merged);
       if (result.created) {
@@ -304,11 +216,11 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
       }
     }
 
-    if (isFileBasedPlatform(platform)) {
-      p.outro("For Claude Code, Cursor, and Windsurf — identity is auto-injected into your config file. For other platforms, it's copied to your clipboard.");
-    } else {
-      p.outro("Paste into your AI's system prompt. That's it.");
-    }
+    p.log.info(`Platform: ${platformLabel(effectivePlatform)}`);
+
+    showOnboardingCard();
+
+    p.outro("Ready.");
   } else {
     // Project-only wizard
     if (localConfigExists()) {
@@ -325,20 +237,8 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
     await writeLocalContext(localDir, context);
     p.log.success(`Created ${pc.dim(".acore/context.md")}`);
 
-    // Platform selection
-    const platform = (await p.select({
-      message: "Where will you use this?",
-      options: [
-        { value: "claude-code", label: "Claude Code (auto-injects into CLAUDE.md)" },
-        { value: "cursor", label: "Cursor (auto-injects into .cursorrules)" },
-        { value: "windsurf", label: "Windsurf (auto-injects into .windsurfrules)" },
-        { value: "chatgpt", label: "ChatGPT (copies to clipboard)" },
-        { value: "api", label: "API (copies to clipboard)" },
-        { value: "other", label: "Other (copies to clipboard)" },
-      ],
-    })) as InjectPlatform;
-
-    if (p.isCancel(platform)) process.exit(0);
+    // Auto-detect platform instead of asking
+    const platform: InjectPlatform = detectPlatform() || "other";
 
     // Save platform config
     savePlatformConfig(platform, localDir);

@@ -34,7 +34,7 @@ describe("integration: full lifecycle", () => {
       communication: "lead with the answer",
       values: ["honesty over comfort", "simplicity over cleverness"],
       boundaries: "flags when out of depth",
-    });
+    }, "core");
 
     const content = fs.readFileSync(path.join(globalDir, "core.md"), "utf-8");
     expect(content).toContain("# Sage");
@@ -212,7 +212,7 @@ describe("integration: merge edge cases with real templates", () => {
       communication: "concise",
       values: ["honesty over comfort"],
       boundaries: "none",
-    });
+    }, "core");
 
     await writeLocalContext(localDir, {
       stack: "TypeScript",
