@@ -13,6 +13,10 @@ Give any AI a persistent personality, emotional intelligence, and relationship m
 
 <br>
 
+<img src="assets/demo.gif" alt="acore demo" width="600" />
+
+<br>
+
 [![npm](https://img.shields.io/npm/v/@aman_asmuei/acore?style=flat-square&color=cb3837)](https://www.npmjs.com/package/@aman_asmuei/acore)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-any_LLM-brightgreen.svg?style=flat-square)](#-supported-platforms)
