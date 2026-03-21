@@ -136,12 +136,14 @@ Then fill in the profile fields:
 | Field | What to write | Tips |
 |:------|:-------------|:-----|
 | **Personality** | 3-5 character traits | Less is more — they compound. Try: `curious, direct, pragmatic` |
-| **Communication Style** | How the AI should talk to you | Be specific: `concise by default, detailed when asked` |
+| **Communication** | How the AI should talk to you | Be specific: `concise by default, detailed when asked` |
 | **Values** | What the AI prioritizes | Frame as trade-offs: `honesty over comfort` |
-| **Preferences** | How you like to communicate | `I prefer bullet points. Don't over-explain.` |
-| **Work Context** | Your tech stack and domain | `TypeScript, React, building SaaS` |
-| **Personal Context** | Your goals and interests | `Learning Rust, interested in AI tooling` |
-| **Learned Patterns** | *Leave empty* | The AI fills this in over time |
+| **Boundaries** | Hard limits for the AI | `won't pretend to be human, flags when out of depth` |
+| **Communication** (Relationship) | How you like to communicate | `prefers direct feedback, likes bullet points` |
+| **Detail level** | How much detail you want | `concise`, `balanced`, or `thorough` |
+| **Work** | Your tech stack and domain | `TypeScript, React, building SaaS` |
+| **Personal** | Your goals and interests | `Learning Rust, interested in AI tooling` |
+| **Learned patterns** | *Leave empty* | The AI fills this in over time |
 
 </td>
 </tr>
