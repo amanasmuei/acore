@@ -17,7 +17,7 @@ export async function pullCommand(options: {
 }): Promise<void> {
   if (!globalConfigExists()) {
     p.log.error(
-      "No acore config found. Run " + pc.bold("acore init") + " first."
+      "No acore config found. Run " + pc.bold("acore") + " first."
     );
     process.exit(1);
   }
@@ -34,7 +34,7 @@ export async function pullCommand(options: {
     if (!config || !isFileBasedPlatform(config.platform)) {
       p.log.error(
         "No file-based platform configured. Run " +
-          pc.bold("acore init") +
+          pc.bold("acore") +
           " to set one."
       );
       process.exit(1);

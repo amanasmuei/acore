@@ -27,7 +27,7 @@ export async function copyCommand(): Promise<void> {
   const globalDir = getGlobalDir();
 
   if (!globalConfigExists()) {
-    p.log.error("No acore config found. Run " + pc.bold("acore init") + " first.");
+    p.log.error("No acore config found. Run " + pc.bold("acore") + " first.");
     process.exit(1);
   }
 

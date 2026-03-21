@@ -46,7 +46,7 @@ export async function connectCommand(): Promise<void> {
   p.intro(pc.bold("acore + amem") + " — unified ecosystem");
 
   if (!globalConfigExists()) {
-    p.log.error("No acore config found. Run " + pc.bold("acore init") + " first.");
+    p.log.error("No acore config found. Run " + pc.bold("acore") + " first.");
     process.exit(1);
   }
 

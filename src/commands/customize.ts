@@ -315,7 +315,7 @@ export async function customizeCommand(): Promise<void> {
 
   if (!globalConfigExists()) {
     p.log.error(
-      "No global config found. Run " + pc.bold("acore init") + " first."
+      "No global config found. Run " + pc.bold("acore") + " first."
     );
     process.exit(1);
   }
