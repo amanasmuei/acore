@@ -236,12 +236,13 @@ At the end of any session, say **"update core"**. The AI follows these steps:
 
 | Step | What the AI does |
 |:-----|:----------------|
-| **1** | Outputs the **full** updated `core.md` in a fenced code block |
-| **2** | Updates **Relationship** with anything new it learned about you |
-| **3** | Writes a **Resume Summary** capturing where you left off |
-| **4** | Clears **Temporary Notes** |
-| **5** | Sets **Last Updated** to today's date |
-| **6** | Does **NOT** touch the **Identity** section (unless you explicitly ask) |
+| **1** | Reviews the conversation for new insights |
+| **2** | Updates **Session** (resume summary, active topics, decisions) |
+| **3** | Updates **Relationship** with anything new it learned about you |
+| **4** | Updates **Dynamics** (trust, emotional patterns, conflict data) |
+| **5** | Runs **Memory Lifecycle** rules (consolidate, compress, forget) |
+| **6** | Outputs the **full** updated `core.md` in a code block |
+| **7** | Flags any **Identity** changes for your explicit approval |
 
 Copy the output → save it back to `core.md` → done.
 
