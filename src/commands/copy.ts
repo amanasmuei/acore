@@ -5,6 +5,8 @@ import path from "node:path";
 import { getGlobalDir, getLocalDir, globalConfigExists } from "../lib/paths.js";
 import { mergeConfigs } from "../lib/merge.js";
 import { copyToClipboard } from "../lib/clipboard.js";
+import { loadPlatformConfig, getPlatformFile, isFileBasedPlatform } from "../lib/platform.js";
+import { injectIntoFile } from "../lib/inject.js";
 
 export function buildMergedOutput(
   globalDir: string,
@@ -34,14 +36,24 @@ export async function copyCommand(): Promise<void> {
 
   const tokenEstimate = Math.round(merged.split(/\s+/).length * 1.3);
 
-  const copied = await copyToClipboard(merged);
-  if (copied) {
-    p.log.success(
-      `Copied core.md to clipboard (${pc.dim(`~${tokenEstimate} tokens`)})`
-    );
+  const config = loadPlatformConfig();
+
+  if (config && isFileBasedPlatform(config.platform)) {
+    const platformFile = getPlatformFile(config.platform)!;
+    const filePath = path.join(process.cwd(), platformFile);
+    const result = injectIntoFile(filePath, merged);
+    const action = result.created ? "Created" : "Updated";
+    p.log.success(`${action} ${pc.dim(platformFile)} (${pc.dim(`~${tokenEstimate} tokens`)})`);
   } else {
-    // Fallback: print to stdout
-    console.log(merged);
-    p.log.warning("Could not access clipboard — printed above instead");
+    const copied = await copyToClipboard(merged);
+    if (copied) {
+      p.log.success(
+        `Copied core.md to clipboard (${pc.dim(`~${tokenEstimate} tokens`)})`
+      );
+    } else {
+      // Fallback: print to stdout
+      console.log(merged);
+      p.log.warning("Could not access clipboard — printed above instead");
+    }
   }
 }

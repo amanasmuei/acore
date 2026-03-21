@@ -7,6 +7,8 @@ import { archetypes } from "../lib/archetypes.js";
 import { getGlobalDir, getLocalDir, globalConfigExists, localConfigExists } from "../lib/paths.js";
 import { copyToClipboard } from "../lib/clipboard.js";
 import { mergeConfigs } from "../lib/merge.js";
+import { savePlatformConfig, getPlatformFile, isFileBasedPlatform, type InjectPlatform } from "../lib/platform.js";
+import { injectIntoFile } from "../lib/inject.js";
 import type { AcoreIdentity, AcoreContext } from "../types.js";
 
 export async function writeGlobalConfig(
@@ -50,6 +52,7 @@ export async function writeLocalContext(
 async function runFullWizard(): Promise<{
   identity: AcoreIdentity;
   context: AcoreContext;
+  platform: InjectPlatform;
 }> {
   const aiName = (await p.text({
     message: "What should your AI be called?",
@@ -143,16 +146,18 @@ async function runFullWizard(): Promise<{
 
   if (p.isCancel(boundaries)) process.exit(0);
 
-  // Platform tip
+  // Platform selection
   const platform = (await p.select({
-    message: "Where will you use this? (for tips)",
+    message: "Where will you use this?",
     options: [
-      { value: "claude-code", label: "Claude Code / Cursor / Windsurf" },
-      { value: "chatgpt", label: "ChatGPT" },
-      { value: "api", label: "API (OpenAI, Anthropic, etc.)" },
-      { value: "skip", label: "Skip" },
+      { value: "claude-code", label: "Claude Code (auto-injects into CLAUDE.md)" },
+      { value: "cursor", label: "Cursor (auto-injects into .cursorrules)" },
+      { value: "windsurf", label: "Windsurf (auto-injects into .windsurfrules)" },
+      { value: "chatgpt", label: "ChatGPT (copies to clipboard)" },
+      { value: "api", label: "API (copies to clipboard)" },
+      { value: "other", label: "Other (copies to clipboard)" },
     ],
-  })) as string;
+  })) as InjectPlatform;
 
   if (p.isCancel(platform)) process.exit(0);
 
@@ -189,7 +194,7 @@ async function runFullWizard(): Promise<{
     focus: "",
   };
 
-  return { identity, context };
+  return { identity, context, platform };
 }
 
 async function runProjectWizard(globalDir: string): Promise<AcoreContext> {
@@ -256,7 +261,7 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
 
   if (options.global || !hasGlobal) {
     // Full wizard
-    const { identity, context } = await runFullWizard();
+    const { identity, context, platform } = await runFullWizard();
 
     await writeGlobalConfig(globalDir, identity);
     p.log.success(`Created ${pc.dim("~/.acore/core.md")} (identity)`);
@@ -266,7 +271,10 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
       p.log.success(`Created ${pc.dim(".acore/context.md")} (project)`);
     }
 
-    // Merge and copy
+    // Save platform config
+    savePlatformConfig(platform, localDir);
+
+    // Merge and deliver
     const globalContent = fs.readFileSync(
       path.join(globalDir, "core.md"),
       "utf-8"
@@ -277,15 +285,30 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
       : null;
 
     const merged = mergeConfigs(globalContent, localContent);
-    const copied = await copyToClipboard(merged);
 
-    if (copied) {
-      p.log.success("Copied to clipboard");
+    if (isFileBasedPlatform(platform)) {
+      const platformFile = getPlatformFile(platform)!;
+      const filePath = path.join(process.cwd(), platformFile);
+      const result = injectIntoFile(filePath, merged);
+      if (result.created) {
+        p.log.success(`Created ${pc.dim(platformFile)} with identity`);
+      } else {
+        p.log.success(`Updated ${pc.dim(platformFile)} with latest identity`);
+      }
     } else {
-      p.log.warning("Could not copy to clipboard — print with: acore show");
+      const copied = await copyToClipboard(merged);
+      if (copied) {
+        p.log.success("Copied to clipboard");
+      } else {
+        p.log.warning("Could not copy to clipboard — run: acore copy");
+      }
     }
 
-    p.outro("Paste into your AI's system prompt. That's it.");
+    if (isFileBasedPlatform(platform)) {
+      p.outro("For Claude Code, Cursor, and Windsurf — identity is auto-injected into your config file. For other platforms, it's copied to your clipboard.");
+    } else {
+      p.outro("Paste into your AI's system prompt. That's it.");
+    }
   } else {
     // Project-only wizard
     if (localConfigExists()) {
@@ -302,7 +325,25 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
     await writeLocalContext(localDir, context);
     p.log.success(`Created ${pc.dim(".acore/context.md")}`);
 
-    // Merge and copy
+    // Platform selection
+    const platform = (await p.select({
+      message: "Where will you use this?",
+      options: [
+        { value: "claude-code", label: "Claude Code (auto-injects into CLAUDE.md)" },
+        { value: "cursor", label: "Cursor (auto-injects into .cursorrules)" },
+        { value: "windsurf", label: "Windsurf (auto-injects into .windsurfrules)" },
+        { value: "chatgpt", label: "ChatGPT (copies to clipboard)" },
+        { value: "api", label: "API (copies to clipboard)" },
+        { value: "other", label: "Other (copies to clipboard)" },
+      ],
+    })) as InjectPlatform;
+
+    if (p.isCancel(platform)) process.exit(0);
+
+    // Save platform config
+    savePlatformConfig(platform, localDir);
+
+    // Merge and deliver
     const globalContent = fs.readFileSync(
       path.join(globalDir, "core.md"),
       "utf-8"
@@ -312,12 +353,29 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
       "utf-8"
     );
     const merged = mergeConfigs(globalContent, localContent);
-    const copied = await copyToClipboard(merged);
 
-    if (copied) {
-      p.log.success("Copied to clipboard");
+    if (isFileBasedPlatform(platform)) {
+      const platformFile = getPlatformFile(platform)!;
+      const filePath = path.join(process.cwd(), platformFile);
+      const result = injectIntoFile(filePath, merged);
+      if (result.created) {
+        p.log.success(`Created ${pc.dim(platformFile)} with identity`);
+      } else {
+        p.log.success(`Updated ${pc.dim(platformFile)} with latest identity`);
+      }
+    } else {
+      const copied = await copyToClipboard(merged);
+      if (copied) {
+        p.log.success("Copied to clipboard");
+      } else {
+        p.log.warning("Could not copy to clipboard — run: acore copy");
+      }
     }
 
-    p.outro("Paste into your AI's system prompt. That's it.");
+    if (isFileBasedPlatform(platform)) {
+      p.outro("For Claude Code, Cursor, and Windsurf — identity is auto-injected into your config file. For other platforms, it's copied to your clipboard.");
+    } else {
+      p.outro("Paste into your AI's system prompt. That's it.");
+    }
   }
 }
