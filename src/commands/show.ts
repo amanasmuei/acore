@@ -2,6 +2,7 @@ import * as p from "@clack/prompts";
 import pc from "picocolors";
 import { getGlobalDir, getLocalDir, globalConfigExists } from "../lib/paths.js";
 import { buildMergedOutput } from "./copy.js";
+import { detectAmemConnection } from "../lib/mcp-config.js";
 
 export interface CoreSummary {
   aiName: string;
@@ -46,6 +47,7 @@ export async function showCommand(): Promise<void> {
   const summary = parseSummary(merged);
 
   const tokenEstimate = Math.round(merged.split(/\s+/).length * 1.3);
+  const amemStatus = detectAmemConnection();
 
   const lines = [
     "",
@@ -63,6 +65,10 @@ export async function showCommand(): Promise<void> {
     summary.activeTopics && summary.activeTopics !== "[current threads]"
       ? `  Active: ${summary.activeTopics}`
       : "",
+    "",
+    amemStatus.connected
+      ? `  amem: ${pc.green("configured")} (${amemStatus.platform})`
+      : `  amem: ${pc.dim("not connected")} — run ${pc.bold("acore connect")}`,
     "",
     `  ${pc.dim(`${tokenEstimate} tokens`)}`,
     "",
