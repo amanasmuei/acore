@@ -69,11 +69,13 @@ acore is built on one idea: **AI memory is two things, not one.**
 
 - AI personality and values
 - Your communication preferences
-- Relationship context
+- Relationship dynamics & trust
+- Emotional patterns & context modes
+- Memory lifecycle rules
 - Session continuity
 
 *You write it. You own it.*
-*You update it when you want.*
+*The AI helps maintain it over time.*
 
 </td>
 <td width="50%">
