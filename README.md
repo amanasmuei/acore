@@ -136,7 +136,7 @@ The interactive wizard sets up your AI's identity in under a minute:
 ✔ Created .acore/context.md (project)
 ✔ Copied to clipboard
 
-Paste into your AI's system prompt. That's it.
+For Claude Code, Cursor, and Windsurf — identity is auto-injected into your config file. For other platforms, it's copied to your clipboard.
 ```
 
 ### In another project
@@ -158,6 +158,7 @@ Your identity carries over automatically. Only project-specific context is creat
 | `acore update --global` | Update your global identity |
 | `acore reset` | Start fresh (archives current config) |
 | `acore connect` | Connect acore with amem for automated memory |
+| `acore sync` | Re-inject identity into platform config file |
 | `acore disconnect` | Remove amem integration |
 
 <details>
