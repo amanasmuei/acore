@@ -105,27 +105,41 @@ acore is built on one idea: **AI memory is two things, not one.**
 
 ## ⚡ Quick Start
 
-<table>
-<tr>
-<td>
-
-### 1️⃣ &nbsp; Get the file
+### Install and go
 
 ```bash
-git clone https://github.com/amanasmuei/acore.git
-cd acore
+npx acore
 ```
 
-Or just [**download `core.md` directly**](core.md) — it's the only file you need.
+The wizard walks you through setting up your AI's identity in under a minute — name, personality, communication style, values. It creates your config and copies it to your clipboard.
 
-</td>
-</tr>
-<tr>
-<td>
+Paste into your AI's system prompt. That's it.
 
-### 2️⃣ &nbsp; Make it yours
+### In another project
 
-Open `core.md` and replace the placeholders:
+```bash
+cd ~/my-other-project
+npx acore init
+```
+
+Your identity carries over automatically. Only project-specific context (tech stack, session) is created.
+
+### Ongoing commands
+
+| Command | What it does |
+|:--------|:------------|
+| `acore copy` | Copy your merged identity to clipboard |
+| `acore show` | View your current config summary |
+| `acore update` | Save AI's updated output back |
+| `acore update --global` | Update your global identity |
+| `acore reset` | Start fresh (archives current config) |
+
+<details>
+<summary><strong>📋 Manual setup (without CLI)</strong></summary>
+
+<br>
+
+Prefer to do it yourself? Download [`core.md`](core.md) directly and edit the placeholders:
 
 | Find & Replace | With | Example |
 |:--------------|:-----|:--------|
@@ -133,31 +147,12 @@ Open `core.md` and replace the placeholders:
 | `[USER-NAME]` | Your name | `Aman` |
 | `[USER-ROLE]` | What you do | `Software Engineer`, `Designer` |
 
-Then fill in the profile fields:
+Then paste the contents into your AI's system prompt.
 
-| Field | What to write | Tips |
-|:------|:-------------|:-----|
-| **Personality** | 3-5 character traits | Less is more — they compound. Try: `curious, direct, pragmatic` |
-| **Communication** | How the AI should talk to you | Be specific: `concise by default, detailed when asked` |
-| **Values** | What the AI prioritizes | Frame as trade-offs: `honesty over comfort` |
-| **Boundaries** | Hard limits for the AI | `won't pretend to be human, flags when out of depth` |
-| **Communication** (Relationship) | How you like to communicate | `prefers direct feedback, likes bullet points` |
-| **Detail level** | How much detail you want | `concise`, `balanced`, or `thorough` |
-| **Work** | Your tech stack and domain | `TypeScript, React, building SaaS` |
-| **Personal** | Your goals and interests | `Learning Rust, interested in AI tooling` |
-| **Learned patterns** | *Leave empty* | The AI fills this in over time |
-
-</td>
-</tr>
-<tr>
-<td>
-
-### 3️⃣ &nbsp; Paste and go
-
-Copy the contents of `core.md` into your AI's system prompt. That's it.
+</details>
 
 <details>
-<summary>📋 <strong>Where to paste for each platform</strong></summary>
+<summary><strong>📋 Where to paste for each platform</strong></summary>
 
 <br>
 
@@ -172,10 +167,6 @@ Copy the contents of `core.md` into your AI's system prompt. That's it.
 | **Any LLM API** | Pass as the `system` message |
 
 </details>
-
-</td>
-</tr>
-</table>
 
 ---
 
@@ -259,6 +250,34 @@ Copy the output → save it back to `core.md` → done.
 
 <br>
 
+## 📁 Multi-Project Support
+
+Your identity is global. Your project context is local.
+
+```
+~/.acore/
+  core.md              ← Who you are + who your AI is (shared everywhere)
+
+~/project-a/
+  .acore/context.md    ← Tech stack, session, project-specific patterns
+
+~/project-b/
+  .acore/context.md    ← Different stack, different session
+```
+
+When you run `acore copy`, both files are merged into one seamless output. The AI sees a single unified prompt — it doesn't know about the split.
+
+| What | Where it lives | Changes when |
+|:-----|:--------------|:-------------|
+| AI personality, values, style | `~/.acore/core.md` | You evolve your AI's character |
+| Your preferences, trust, dynamics | `~/.acore/core.md` | Your relationship deepens |
+| Tech stack, domain, focus | `.acore/context.md` | You switch projects |
+| Session state, active topics | `.acore/context.md` | Every session |
+
+---
+
+<br>
+
 ## 🚀 Supercharge with amem
 
 > 💡 **This section is optional.** `core.md` works perfectly on its own. amem adds automated knowledge memory for power users with MCP-compatible tools.
@@ -308,10 +327,10 @@ npx @aman_asmuei/amem
 ### Architecture
 
 ```
-  core.md                              amem
+  ~/.acore/core.md                     amem
   ┌─────────────────────┐              ┌─────────────────────┐
   │                     │              │                     │
-  │  IDENTITY LAYER     │              │  KNOWLEDGE LAYER    │
+  │  GLOBAL IDENTITY    │              │  KNOWLEDGE LAYER    │
   │                     │              │                     │
   │  ▸ Who the AI is    │              │  ▸ Corrections      │
   │  ▸ Who you are      │              │  ▸ Decisions        │
@@ -319,13 +338,16 @@ npx @aman_asmuei/amem
   │  ▸ Context modes    │  unified     │  ▸ Overflow history │
   │  ▸ Memory rules     │  ecosystem   │  ▸ Consolidation    │
   │                     │              │                     │
-  │  Human-curated      │              │  Automated          │
-  │  System prompt      │              │  Local SQLite DB    │
-  │                     │              │                     │
-  └─────────────────────┘              └─────────────────────┘
+  ├─────────────────────┤              │  Automated          │
+  │  .acore/context.md  │              │  Local SQLite DB    │
+  │  ▸ Project stack    │              │                     │
+  │  ▸ Session state    │              └─────────────────────┘
+  │  ▸ Local patterns   │
+  │                     │
+  └─────────────────────┘
 
-  core.md defines the schema — amem automates and enriches it
-  [→ amem: topic] pointers bridge the two seamlessly
+  acore copy merges global + local → one prompt
+  [→ amem: topic] pointers bridge to amem
 ```
 
 ---
@@ -553,6 +575,15 @@ You always need `core.md`. amem supercharges it with automated memory.
 <br>
 
 Each person should have their own `core.md` — the AI's relationship with you is personal. For consistent team-wide AI behavior, maintain a shared `team-identity.md` with common values and standards, then layer individual `core.md` files on top.
+
+</details>
+
+<details>
+<summary><strong>How does acore work across multiple projects?</strong></summary>
+
+<br>
+
+Your AI's identity lives in `~/.acore/core.md` — shared across all projects. Each project gets its own `.acore/context.md` with project-specific tech stack, session state, and patterns. Run `acore copy` and both are merged into one output. Switching projects is just `cd` — no extra commands needed.
 
 </details>
 
