@@ -272,28 +272,18 @@ npx @aman_asmuei/amem
 
 ### Before & After
 
-<table>
-<tr>
-<td width="50%">
-
 #### Without amem
 - You say "update core" to save learnings
-- Context limited to what's in `core.md`
-- Resume via Summary only
-- Search past context with grep
-
-</td>
-<td width="50%">
+- AI applies Memory Lifecycle rules when updating
+- Dynamics (trust, emotions) updated manually
+- Context Modes work — just maintained by you
 
 #### With amem ✨
-- AI **auto-stores** corrections, decisions, patterns
+- AI **auto-updates** trust dynamics and emotional patterns
 - AI **recalls** relevant past context via semantic search
+- AI **consolidates** memory automatically using lifecycle rules
+- AI **overflows** detailed history to amem with `[→ amem: topic]` pointers
 - AI **loads** prior corrections + decisions at session start
-- AI **searches** with embeddings — no manual effort
-
-</td>
-</tr>
-</table>
 
 <br>
 
@@ -317,17 +307,18 @@ npx @aman_asmuei/amem
   │  IDENTITY LAYER     │              │  KNOWLEDGE LAYER    │
   │                     │              │                     │
   │  ▸ Who the AI is    │              │  ▸ Corrections      │
-  │  ▸ Who you are      │◄────────────►│  ▸ Decisions        │
-  │  ▸ How you work     │  complement  │  ▸ Patterns         │
-  │    together         │  each other  │  ▸ Preferences      │
+  │  ▸ Who you are      │              │  ▸ Decisions        │
+  │  ▸ Trust & dynamics │◄────────────►│  ▸ Patterns         │
+  │  ▸ Context modes    │  unified     │  ▸ Overflow history │
+  │  ▸ Memory rules     │  ecosystem   │  ▸ Consolidation    │
   │                     │              │                     │
   │  Human-curated      │              │  Automated          │
   │  System prompt      │              │  Local SQLite DB    │
   │                     │              │                     │
   └─────────────────────┘              └─────────────────────┘
 
-  Identity stays in core.md — never stored in amem
-  Knowledge stays in amem — never clutters core.md
+  core.md defines the schema — amem automates and enriches it
+  [→ amem: topic] pointers bridge the two seamlessly
 ```
 
 ---
