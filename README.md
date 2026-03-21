@@ -54,11 +54,10 @@ It tells the AI:
 - **Who it is** — personality, communication style, values, boundaries
 - **Who you are** — your role, preferences, work context
 - **Where you left off** — session summary, active topics, recent decisions
-- **How your relationship works** — trust level, emotional patterns, conflict history
-- **How to adapt** — context-aware behavior for coding, creative work, and personal conversations
-- **What to remember and forget** — intelligent memory lifecycle with importance scoring
 
-The AI reads it, behaves accordingly, and at the end of your session, you ask it to update the file. Next session, it picks up right where you left off.
+The AI reads it, behaves accordingly, and when your session is ending, it **proactively offers** to save what it learned. Next session, it picks up right where you left off.
+
+Your `core.md` starts simple and **grows with you** — after a few sessions, the AI suggests adding trust dynamics, context modes, and memory lifecycle rules. You're always in control of what gets added.
 
 > **No databases. No APIs. No accounts. Just a text file you control.**
 
@@ -121,54 +120,52 @@ AI memory is two things, not one.
 npx @aman_asmuei/acore
 ```
 
-The interactive wizard sets up your AI's identity in under a minute:
+One question. Five seconds. Done.
 
 ```
 ◆ acore — give your AI a soul
 
-? What should your AI be called?  Sage
 ? What's your name?  Aman
-? Pick a personality archetype:
-  ● The Pragmatist — concise, practical, efficient
-  ○ The Mentor — patient, thorough, encouraging
-  ○ The Sparring Partner — direct, challenging, honest
-  ○ The Collaborator — curious, supportive, adaptive
-  ○ The Architect — systematic, precise, forward-thinking
-  ○ Custom...
-
-? Where will you use this?
-  ● Claude Code (auto-injects into CLAUDE.md)
-  ○ Cursor (auto-injects into .cursorrules)
-  ○ Windsurf (auto-injects into .windsurfrules)
-  ○ ChatGPT (copies to clipboard)
 
 ✔ Created ~/.acore/core.md (identity)
-✔ Created .acore/context.md (project)
-✔ Injected into CLAUDE.md
+✔ Detected Claude Code → injected into CLAUDE.md
+✔ Inferred stack: TypeScript, React, Next.js
 
-Done. Claude Code will load your identity automatically.
+  ✔ You're set up. Here's how it works:
+
+  1. Start a conversation — your AI knows you
+  2. Work normally — it adapts to your style
+  3. When done, it'll offer to save what it learned
+
+  acore show        See your current identity
+  acore customize   Personalize your AI
+  acore pull        Save AI's updates
+
+  Your AI gets better every session.
 ```
+
+Everything is **auto-detected** — platform (from `CLAUDE.md`, `.cursorrules`, `.windsurfrules`), tech stack (from `package.json`, `Cargo.toml`, `go.mod`, etc.), and your role. Run `acore customize` anytime to personalize further.
 
 ### In another project
 
 ```bash
 cd ~/my-other-project
-npx @aman_asmuei/acore init
+npx @aman_asmuei/acore
 ```
 
 Your identity carries over automatically. Only project-specific context is created.
 
-### Ongoing commands
+### Commands
 
 | Command | What it does |
 |:--------|:------------|
-| `acore copy` | Inject identity into platform config (or clipboard) |
-| `acore show` | View your current config summary |
-| `acore update` | Save AI's updated output back |
-| `acore update --global` | Update your global identity |
+| `acore` | First run: setup. After that: show status |
+| `acore show` | View your current identity summary |
+| `acore customize` | Personalize your AI (name, archetype, platform, context) |
+| `acore pull` | Save AI's updated output + re-sync platform config |
+| `acore pull --global` | Update your global identity |
 | `acore reset` | Start fresh (archives current config) |
 | `acore connect` | Connect acore with amem for automated memory |
-| `acore sync` | Re-inject identity into platform config file |
 | `acore disconnect` | Remove amem integration |
 
 <details>
@@ -176,13 +173,17 @@ Your identity carries over automatically. Only project-specific context is creat
 
 <br>
 
-Prefer to do it yourself? Download [`core.md`](core.md) directly and edit the placeholders:
+Prefer to do it yourself? Download [`core.md`](core.md) directly and edit the `{{PLACEHOLDER}}` tokens:
 
 | Find and Replace | With | Example |
 |:--------------|:-----|:--------|
-| `[AI-NAME]` | Your AI's name | `Nova`, `Atlas`, `Sage`, `Kai` |
-| `[USER-NAME]` | Your name | `Aman` |
-| `[USER-ROLE]` | What you do | `Software Engineer`, `Designer` |
+| `{{AI_NAME}}` | Your AI's name | `Nova`, `Atlas`, `Sage`, `Kai` |
+| `{{USER_NAME}}` | Your name | `Aman` |
+| `{{USER_ROLE}}` | What you do | `Software Engineer`, `Designer` |
+| `{{PERSONALITY}}` | Personality traits | `curious, supportive, adaptive` |
+| `{{COMMUNICATION}}` | Communication style | `concise by default, detailed when asked` |
+| `{{VALUES}}` | Values as trade-offs | `honesty over comfort, simplicity over cleverness` |
+| `{{BOUNDARIES}}` | Hard limits | `won't pretend to be human, flags when out of depth` |
 
 Then paste the contents into your AI's system prompt.
 
@@ -243,9 +244,9 @@ Every session follows a **3-phase lifecycle**:
  │                                                              │
  │   ③ SESSION END                                             │
  │   ─────────────                                             │
- │   Say "update core" → AI updates Relationship, Dynamics,    │
- │   and Session → runs Memory Lifecycle rules (consolidate,    │
- │   compress, forget) → outputs full updated core.md.         │
+ │   AI proactively offers to save what it learned.            │
+ │   Updates Relationship and Session → outputs updated        │
+ │   core.md → run `acore pull` to save it back.              │
  │                                                              │
  │   With amem: observations auto-stored during session.        │
  │   Next session picks up seamlessly.                         │
@@ -257,31 +258,33 @@ Every session follows a **3-phase lifecycle**:
 
 ### What's inside `core.md`
 
-| Section | What it does | How often it changes |
-|:--------|:------------|:--------------------|
-| **Identity** | AI's name, personality, communication style, values, boundaries | Rarely — you set it once and refine over time |
-| **Relationship** | Your preferences, work context, learned patterns | Grows as the AI learns about you |
-| **Session** | Resume summary, active topics, temporary notes | Every session — this is your continuity layer |
-| **Dynamics** | Trust and rapport, emotional patterns, conflict and repair history | Evolves over many sessions — the relationship deepens |
-| **Context Modes** | Per-domain behavior (coding, creative, personal) | Set once, refined as AI learns your preferences per mode |
-| **Memory Lifecycle** | What to remember, consolidate, and forget | Rarely — these are the operating rules for memory |
-| **Instructions** | How to update, permission model, amem integration | Never — these are the system rules |
+Your `core.md` starts with 3 sections and grows over time:
 
-### The `update core` command
+| Section | What it does | When it appears |
+|:--------|:------------|:----------------|
+| **Identity** | AI's name, personality, communication style, values, boundaries | From day one |
+| **Relationship** | Your preferences, work context, learned patterns | From day one |
+| **Session** | Resume summary, where you left off | From day one |
+| **Instructions** | How to update, growth protocol, amem integration | From day one |
+| **Dynamics** | Trust and rapport, emotional patterns, conflict history | AI suggests after ~3 sessions |
+| **Context Modes** | Per-domain behavior (coding, creative, personal) | AI suggests after ~5 sessions |
+| **Memory Lifecycle** | What to remember, consolidate, and forget | AI suggests after ~10 sessions |
 
-At the end of any session, say **"update core"**. The AI follows these steps:
+> Each new section is suggested by the AI and requires your approval. Run `acore customize` → "Everything" to enable all sections immediately.
+
+### Saving updates
+
+When your conversation is winding down, the AI **proactively offers** to save what it learned — no need to remember a command. You can also say **"update core"** at any time.
 
 | Step | What the AI does |
 |:-----|:----------------|
 | **1** | Reviews the conversation for new insights |
-| **2** | Updates **Session** (resume summary, active topics, decisions) |
-| **3** | Updates **Relationship** with anything new it learned about you |
-| **4** | Updates **Dynamics** (trust, emotional patterns, conflict data) |
-| **5** | Runs **Memory Lifecycle** rules (consolidate, compress, forget) |
-| **6** | Outputs the **full** updated `core.md` in a code block |
-| **7** | Flags any **Identity** changes for your explicit approval |
+| **2** | Updates **Session** and **Relationship** with anything new |
+| **3** | Suggests adding new sections if enough sessions have passed |
+| **4** | Outputs the **full** updated `core.md` in a code block |
+| **5** | Flags any **Identity** changes for your explicit approval |
 
-Using the CLI? Run `acore update` and paste the AI's output to save it back automatically.
+Save it back: copy the AI's output, then run `acore pull` and paste it.
 
 ---
 
@@ -302,7 +305,7 @@ Your identity is global. Your project context is local.
   .acore/context.md    ← Different stack, different session
 ```
 
-When you run `acore copy`, both files are merged into one seamless output. The AI sees a single unified prompt — it doesn't know about the split.
+Both files are automatically merged into one seamless prompt. The AI sees a unified identity — it doesn't know about the split.
 
 | What | Where it lives | Changes when |
 |:-----|:--------------|:-------------|
@@ -396,7 +399,7 @@ npx @aman_asmuei/amem
   │                     │
   └─────────────────────┘
 
-  acore copy merges global + local → one prompt
+  Auto-merged into one prompt at setup + pull
   [→ amem: topic] pointers bridge to amem
 ```
 
@@ -413,7 +416,7 @@ npx @aman_asmuei/amem
 
 ### Personality Archetypes
 
-The CLI wizard includes these built-in archetypes. Pick one or create your own.
+Run `acore customize` to change your AI's personality. The CLI includes these built-in archetypes (the default is **The Collaborator**):
 
 | Archetype | Traits | What you get |
 |:----------|:-------|:-------------|
@@ -574,15 +577,15 @@ Use **Claude Projects** and paste into **Project Instructions**. Persists across
 
 ### Claude Code
 
-The CLI auto-injects into your project's **`CLAUDE.md`** when you select Claude Code during setup. Claude Code reads it automatically every session. Run `acore sync` to update it anytime.
+The CLI **auto-detects** Claude Code from `CLAUDE.md` and injects your identity automatically. Claude Code reads it every session. Run `acore pull --sync-only` to re-sync anytime.
 
 ### Cursor
 
-The CLI auto-injects into **`.cursorrules`** when you select Cursor during setup. Pair with amem (`acore connect`) for the best experience.
+The CLI **auto-detects** Cursor from `.cursorrules` and injects your identity automatically. Pair with amem (`acore connect`) for the best experience.
 
 ### Windsurf
 
-The CLI auto-injects into **`.windsurfrules`** when you select Windsurf during setup. Pair with amem (`acore connect`) for the best experience.
+The CLI **auto-detects** Windsurf from `.windsurfrules` and injects your identity automatically. Pair with amem (`acore connect`) for the best experience.
 
 ### API Usage
 
@@ -631,7 +634,7 @@ You always need `core.md`. amem supercharges it with automated memory.
 
 <br>
 
-Your AI's identity lives in `~/.acore/core.md` — shared across all projects. Each project gets its own `.acore/context.md` with project-specific tech stack, session state, and patterns. Run `acore copy` and both are merged into one output. Switching projects is just `cd` — no extra commands needed.
+Your AI's identity lives in `~/.acore/core.md` — shared across all projects. Each project gets its own `.acore/context.md` with project-specific tech stack, session state, and patterns. Both files are merged automatically. Switching projects is just `cd` and run `npx @aman_asmuei/acore` — your identity carries over, only project context is created.
 
 </details>
 
@@ -663,11 +666,13 @@ Those files define **project behavior** — coding standards, tool preferences, 
 </details>
 
 <details>
-<summary><strong>What happens if I forget to say "update core"?</strong></summary>
+<summary><strong>What happens if I forget to save?</strong></summary>
 
 <br>
 
-**Standalone mode:** Session context is lost — you'll need to re-establish it next time.
+The AI **proactively offers** to save what it learned when your conversation is winding down — so you're unlikely to forget.
+
+**If you do forget (standalone mode):** Session context is lost — you'll need to re-establish it next time.
 
 **With amem:** The AI has already stored corrections, decisions, and patterns via amem during the conversation. Only the Resume Summary is lost.
 
@@ -678,7 +683,7 @@ Those files define **project behavior** — coding standards, tool preferences, 
 
 <br>
 
-Dynamics track the quality of your relationship with the AI — trust level, emotional patterns, and conflict history. In standalone mode, you update these yourself during "update core." With amem, they auto-update based on conversation patterns.
+Dynamics track the quality of your relationship with the AI — trust level, emotional patterns, and conflict history. They're **not included by default** — your AI will suggest adding them after ~3 sessions, once there's enough data to make them meaningful. In standalone mode, you update these during "update core." With amem, they auto-update based on conversation patterns.
 
 </details>
 
