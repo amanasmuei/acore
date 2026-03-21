@@ -5,12 +5,14 @@ import { showCommand } from "./commands/show.js";
 import { updateCommand } from "./commands/update.js";
 import { resetCommand } from "./commands/reset.js";
 
+declare const __VERSION__: string;
+
 const program = new Command();
 
 program
   .name("acore")
   .description("The identity layer for AI companions")
-  .version("0.1.0")
+  .version(__VERSION__)
   .action(() => initCommand({}));
 
 program
