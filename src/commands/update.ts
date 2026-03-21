@@ -4,6 +4,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { getGlobalDir, getLocalDir, globalConfigExists } from "../lib/paths.js";
 import { parseMarkdown } from "../lib/merge.js";
+import { loadPlatformConfig, getPlatformFile, isFileBasedPlatform } from "../lib/platform.js";
+import { injectIntoFile } from "../lib/inject.js";
+import { buildMergedOutput } from "./copy.js";
 
 export function writeUpdate(
   content: string,
@@ -114,4 +117,14 @@ export async function updateCommand(options: {
 
   writeUpdate(input, targetDir, isGlobal);
   p.log.success(`Updated ${pc.dim(targetFile)}`);
+
+  // Auto-sync to platform file
+  const config = loadPlatformConfig();
+  if (config && isFileBasedPlatform(config.platform)) {
+    const merged = buildMergedOutput(getGlobalDir(), getLocalDir());
+    const platformFile = getPlatformFile(config.platform)!;
+    const filePath = path.join(process.cwd(), platformFile);
+    injectIntoFile(filePath, merged);
+    p.log.success(`Synced to ${pc.dim(platformFile)}`);
+  }
 }
