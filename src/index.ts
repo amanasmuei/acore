@@ -1,12 +1,12 @@
 import { Command } from "commander";
 import { initCommand } from "./commands/init.js";
-import { copyCommand } from "./commands/copy.js";
 import { showCommand } from "./commands/show.js";
-import { updateCommand } from "./commands/update.js";
+import { customizeCommand } from "./commands/customize.js";
+import { pullCommand } from "./commands/pull.js";
 import { resetCommand } from "./commands/reset.js";
 import { connectCommand } from "./commands/connect.js";
 import { disconnectCommand } from "./commands/disconnect.js";
-import { syncCommand } from "./commands/sync.js";
+import { globalConfigExists } from "./lib/paths.js";
 
 declare const __VERSION__: string;
 
@@ -16,30 +16,34 @@ program
   .name("acore")
   .description("The identity layer for AI companions")
   .version(__VERSION__)
-  .action(() => initCommand({}));
+  .action(() => {
+    // Smart default: first run → setup, subsequent → show status
+    if (globalConfigExists()) {
+      showCommand();
+    } else {
+      initCommand({});
+    }
+  });
 
-program
-  .command("init")
-  .description("Set up your AI identity (interactive wizard)")
-  .option("--global", "Re-run identity wizard only")
-  .action((options) => initCommand(options));
-
-program
-  .command("copy")
-  .description("Copy merged identity to clipboard")
-  .action(() => copyCommand());
-
+// Primary commands
 program
   .command("show")
-  .description("View your current config summary")
+  .description("View your current identity summary")
   .action(() => showCommand());
 
 program
-  .command("update")
-  .description("Save AI's updated output back to config")
+  .command("customize")
+  .description("Personalize your AI identity")
+  .action(() => customizeCommand());
+
+program
+  .command("pull")
+  .description("Save AI's updated output and re-sync platform config")
   .option("--global", "Update global identity instead of project context")
+  .option("--clipboard", "Read from clipboard instead of stdin")
   .option("-y, --yes", "Skip confirmation")
-  .action((options) => updateCommand(options));
+  .option("--sync-only", "Re-inject into platform file without reading new content")
+  .action((options) => pullCommand(options));
 
 program
   .command("reset")
@@ -56,9 +60,27 @@ program
   .description("Remove amem integration")
   .action(() => disconnectCommand());
 
+// Hidden backward-compat aliases
 program
-  .command("sync")
-  .description("Re-inject identity into platform config file")
-  .action(() => syncCommand());
+  .command("init", { hidden: true })
+  .option("--global", "Re-run identity wizard only")
+  .action((options) => initCommand(options));
+
+program
+  .command("update", { hidden: true })
+  .option("--global", "Update global identity")
+  .option("-y, --yes", "Skip confirmation")
+  .action((options) => pullCommand(options));
+
+program
+  .command("sync", { hidden: true })
+  .action(() => pullCommand({ syncOnly: true }));
+
+program
+  .command("copy", { hidden: true })
+  .action(async () => {
+    const { copyCommand } = await import("./commands/copy.js");
+    copyCommand();
+  });
 
 program.parse();
