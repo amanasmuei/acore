@@ -1,102 +1,86 @@
-interface Section {
+export interface ParsedSection {
+  name: string;
   heading: string;
   content: string;
 }
 
-function parseSections(markdown: string): Section[] {
+export interface ParsedMarkdown {
+  preamble: string;
+  sections: ParsedSection[];
+}
+
+export function parseMarkdown(markdown: string): ParsedMarkdown {
   const lines = markdown.split("\n");
-  const sections: Section[] = [];
-  let current: Section | null = null;
+  const result: ParsedMarkdown = { preamble: "", sections: [] };
+  let current: ParsedSection | null = null;
+  let preambleLines: string[] = [];
 
   for (const line of lines) {
     if (line.startsWith("## ")) {
-      if (current) sections.push(current);
-      current = { heading: line, content: "" };
+      if (current) result.sections.push(current);
+      const name = line.slice(3).trim();
+      current = { name, heading: line, content: "" };
     } else if (current) {
       current.content += line + "\n";
     } else {
-      // Content before first ## (title line)
-      if (!sections.length) {
-        sections.push({ heading: "", content: line + "\n" });
-      }
+      preambleLines.push(line);
     }
   }
-  if (current) sections.push(current);
-  return sections;
+  if (current) result.sections.push(current);
+  result.preamble = preambleLines.join("\n");
+  return result;
 }
 
-function findSection(sections: Section[], name: string): Section | undefined {
-  return sections.find((s) => s.heading.includes(name));
+export function findSection(parsed: ParsedMarkdown, name: string): ParsedSection | undefined {
+  return parsed.sections.find((s) => s.name === name);
 }
 
-export function mergeConfigs(
-  globalContent: string,
-  localContent: string | null
-): string {
+export function reassemble(parsed: ParsedMarkdown): string {
+  let result = parsed.preamble;
+  for (const section of parsed.sections) {
+    result += "\n" + section.heading + "\n" + section.content;
+  }
+  return result.replace(/\n{3,}/g, "\n\n").trim() + "\n";
+}
+
+export function mergeConfigs(globalContent: string, localContent: string | null): string {
   if (!localContent) return globalContent;
 
-  const localSections = parseSections(localContent);
-  const localWork = findSection(localSections, "Work");
-  const localSession = findSection(localSections, "Session");
-  const localPatterns = findSection(localSections, "Project Patterns");
+  const global = parseMarkdown(globalContent);
+  const local = parseMarkdown(localContent);
 
-  const lines = globalContent.split("\n");
-  const result: string[] = [];
-  let skipUntilNextSection = false;
+  const localWork = findSection(local, "Work");
+  const localSession = findSection(local, "Session");
+  const localPatterns = findSection(local, "Project Patterns");
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+  // Build merged sections
+  const merged: ParsedMarkdown = { preamble: global.preamble, sections: [] };
 
-    if (line.startsWith("## ")) {
-      skipUntilNextSection = false;
-
-      // Replace Work line in Relationship with local Work
-      if (line.includes("Relationship") && localWork) {
-        result.push(line);
-        // Read Relationship content, replace Work line
-        let j = i + 1;
-        while (j < lines.length && !lines[j].startsWith("## ")) {
-          const rl = lines[j];
-          if (rl.startsWith("- Work:")) {
-            // Replace with local work content
-            const workLines = localWork.content.trim().split("\n");
-            for (const wl of workLines) {
-              result.push(wl);
-            }
-          } else {
-            result.push(rl);
-          }
-          j++;
-        }
-        // Add project patterns after Relationship if exists
-        if (localPatterns) {
-          result.push("");
-          result.push("### Project Patterns");
-          result.push(localPatterns.content.trimEnd());
-        }
-        i = j - 1;
-        continue;
+  for (const section of global.sections) {
+    if (section.name === "Relationship" && localWork) {
+      // Inject local Work content into Relationship
+      let content = section.content;
+      // Replace the "- Work:" line with local work content
+      const workLineRegex = /^- Work:.*$/m;
+      if (workLineRegex.test(content)) {
+        const workContent = localWork.content.trim().split("\n").map(l => l).join("\n");
+        content = content.replace(workLineRegex, workContent);
+      } else {
+        // No Work line found, append work content
+        content = content.trimEnd() + "\n" + localWork.content;
       }
-
-      // Replace Session with local Session
-      if (line.includes("Session") && localSession) {
-        result.push(localSession.heading || line);
-        result.push(localSession.content.trimEnd());
-        // Skip global Session content
-        skipUntilNextSection = true;
-        continue;
+      // Append project patterns if they exist
+      if (localPatterns) {
+        content = content.trimEnd() + "\n\n### Project Patterns\n" + localPatterns.content;
       }
+      merged.sections.push({ ...section, content });
+    } else if (section.name === "Session" && localSession) {
+      // Replace global Session with local Session
+      merged.sections.push({ ...localSession, heading: section.heading });
+    } else {
+      merged.sections.push(section);
     }
-
-    if (skipUntilNextSection && !line.startsWith("## ")) {
-      continue;
-    }
-    if (skipUntilNextSection && line.startsWith("## ")) {
-      skipUntilNextSection = false;
-    }
-
-    result.push(line);
   }
 
-  return result.join("\n");
+  return reassemble(merged);
 }
