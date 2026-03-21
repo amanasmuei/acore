@@ -376,25 +376,30 @@ Frame as trade-offs — the AI uses these when making judgment calls:
 
 <br>
 
-### The 2,000-word rule
+### The 2,000-token rule
 
-`core.md` works best under **2,000 words**. Beyond that, the AI starts paying less attention to individual instructions — the signal gets diluted.
+`core.md` works best under **2,000 tokens**. Beyond that, the AI starts paying less attention to individual instructions — the signal gets diluted.
 
-### When it grows too big
+### Memory Lifecycle handles this automatically
 
-| Mode | Strategy |
-|:-----|:---------|
-| **Standalone** | Move older Learned Patterns and Recent Decisions to `core-archive.md`. Keep only what's actively relevant. |
-| **Enhanced (amem)** | Offload patterns and preferences to amem via `memory_store`. Let `core.md` focus on identity essentials. |
+The Memory Lifecycle section in `core.md` defines rules for consolidation and forgetting. When you say "update core," the AI applies these rules:
+
+| Rule | What happens |
+|:-----|:------------|
+| **Consolidation** | Repetitive patterns merge into single observations |
+| **Compression** | Similar entries become summaries |
+| **Forgetting** | Stale session details (3+ sessions old) get removed |
+| **Overflow** | In full mode, detailed history moves to amem with `[→ amem: topic]` pointers |
 
 ### What stays vs. what goes
 
 | ✅ Keep in `core.md` | ➡️ Offload |
 |:---------------------|:----------|
 | Personality traits | Specific technical corrections |
-| Communication preferences | Project-specific decisions |
-| Core work context | Historical patterns |
-| Current relationship summary | Old session notes |
+| Communication preferences | Old session details |
+| Current trust & dynamics | Resolved conflict details (keep lesson) |
+| Active context modes | Historical patterns (keep summary) |
+| Memory lifecycle rules | Project-specific decisions |
 
 </details>
 
