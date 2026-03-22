@@ -2,6 +2,7 @@ import * as p from "@clack/prompts";
 import pc from "picocolors";
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { getGlobalDir, getLocalDir, globalConfigExists } from "../lib/paths.js";
 import { mergeConfigs } from "../lib/merge.js";
 import { copyToClipboard } from "../lib/clipboard.js";
@@ -20,7 +21,16 @@ export function buildMergedOutput(
     ? fs.readFileSync(localPath, "utf-8")
     : null;
 
-  return mergeConfigs(globalContent, localContent);
+  let merged = mergeConfigs(globalContent, localContent);
+
+  // Include akit's kit.md if it exists
+  const kitPath = path.join(os.homedir(), ".akit", "kit.md");
+  if (fs.existsSync(kitPath)) {
+    const kitContent = fs.readFileSync(kitPath, "utf-8").trim();
+    merged = merged.trimEnd() + "\n\n---\n\n" + kitContent + "\n";
+  }
+
+  return merged;
 }
 
 export async function copyCommand(): Promise<void> {

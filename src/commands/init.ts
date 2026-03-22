@@ -6,12 +6,12 @@ import { loadTemplate, fillTemplate } from "../lib/template.js";
 import { archetypes } from "../lib/archetypes.js";
 import { getGlobalDir, getLocalDir, globalConfigExists, localConfigExists } from "../lib/paths.js";
 import { copyToClipboard } from "../lib/clipboard.js";
-import { mergeConfigs } from "../lib/merge.js";
 import { savePlatformConfig, getPlatformFile, isFileBasedPlatform, type InjectPlatform } from "../lib/platform.js";
 import { injectIntoFile } from "../lib/inject.js";
 import { detectPlatform, detectStack, detectRole, detectUserName } from "../lib/detect.js";
 import { getUpdateInstructions } from "../lib/instructions.js";
 import { commitGlobalConfig } from "../lib/history.js";
+import { buildMergedOutput } from "./copy.js";
 import type { AcoreIdentity, AcoreContext } from "../types.js";
 
 export async function writeGlobalConfig(
@@ -201,17 +201,8 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
     // Save platform config
     savePlatformConfig(effectivePlatform, localDir);
 
-    // Merge and deliver
-    const globalContent = fs.readFileSync(
-      path.join(globalDir, "core.md"),
-      "utf-8"
-    );
-    const localPath = path.join(localDir, "context.md");
-    const localContent = fs.existsSync(localPath)
-      ? fs.readFileSync(localPath, "utf-8")
-      : null;
-
-    const merged = mergeConfigs(globalContent, localContent);
+    // Merge and deliver (includes kit.md if akit is installed)
+    const merged = buildMergedOutput(globalDir, localDir);
 
     if (isFileBasedPlatform(effectivePlatform)) {
       const platformFile = getPlatformFile(effectivePlatform)!;
@@ -258,16 +249,8 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
     // Save platform config
     savePlatformConfig(platform, localDir);
 
-    // Merge and deliver
-    const globalContent = fs.readFileSync(
-      path.join(globalDir, "core.md"),
-      "utf-8"
-    );
-    const localContent = fs.readFileSync(
-      path.join(localDir, "context.md"),
-      "utf-8"
-    );
-    const merged = mergeConfigs(globalContent, localContent);
+    // Merge and deliver (includes kit.md if akit is installed)
+    const merged = buildMergedOutput(globalDir, localDir);
 
     if (isFileBasedPlatform(platform)) {
       const platformFile = getPlatformFile(platform)!;
