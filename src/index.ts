@@ -8,6 +8,7 @@ import { connectCommand } from "./commands/connect.js";
 import { disconnectCommand } from "./commands/disconnect.js";
 import { upgradeCommand } from "./commands/upgrade.js";
 import { exportCommand } from "./commands/export.js";
+import { importCommand } from "./commands/import-cmd.js";
 import { globalConfigExists } from "./lib/paths.js";
 
 declare const __VERSION__: string;
@@ -56,6 +57,11 @@ program
   .command("export")
   .description("Generate a shareable link to your AI identity")
   .action(() => exportCommand());
+
+program
+  .command("import")
+  .description("Import existing AI preferences from other platforms")
+  .action(() => importCommand());
 
 program
   .command("reset")
