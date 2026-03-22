@@ -761,6 +761,7 @@ footer a:hover {
 
   <!-- Result -->
   <div class="result" id="result">
+    <div class="shared-banner" id="sharedBanner">Shared identity — customize or copy</div>
     <div class="result-header">
       <div class="checkmark">&#10003;</div>
       <h2>Your AI identity is ready</h2>
@@ -1077,8 +1078,51 @@ footer a:hover {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
+  // --- URL param pre-fill (for shared links from `acore export`) ---
+  function checkSharedLink() {
+    var params = new URLSearchParams(window.location.search);
+    var name = params.get('name');
+    var ai = params.get('ai');
+    var personality = params.get('personality');
+    var platform = params.get('platform');
+
+    // Need at least a name to treat this as a shared link
+    if (!name) return;
+
+    // Pre-fill state
+    state.userName = name;
+    state.aiName = ai || 'Companion';
+    state.personality = personality || 'collaborator';
+    state.platform = platform || 'other';
+
+    // Update input fields
+    userNameInput.value = state.userName;
+    aiNameInput.value = state.aiName;
+
+    // Select personality card
+    if (personality) {
+      // Map sparring-partner to sparring (web wizard uses 'sparring')
+      var webPersonality = personality === 'sparring-partner' ? 'sparring' : personality;
+      state.personality = webPersonality;
+      var pCard = personalityGrid.querySelector('.card[data-personality="' + webPersonality + '"]');
+      if (pCard) pCard.classList.add('selected');
+    }
+
+    // Select platform card
+    if (platform) {
+      var plCard = platformGrid.querySelector('.card[data-platform="' + platform + '"]');
+      if (plCard) plCard.classList.add('selected');
+    }
+
+    // Show shared banner and skip to result
+    var banner = document.getElementById('sharedBanner');
+    if (banner) banner.classList.add('visible');
+    showResult();
+  }
+
   // --- Init ---
   updateProgress();
+  checkSharedLink();
 })();
 </script>
 </body>

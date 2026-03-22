@@ -7,6 +7,7 @@ import { resetCommand } from "./commands/reset.js";
 import { connectCommand } from "./commands/connect.js";
 import { disconnectCommand } from "./commands/disconnect.js";
 import { upgradeCommand } from "./commands/upgrade.js";
+import { exportCommand } from "./commands/export.js";
 import { globalConfigExists } from "./lib/paths.js";
 
 declare const __VERSION__: string;
@@ -50,6 +51,11 @@ program
   .command("upgrade")
   .description("Refresh templates with latest features (auto-save, etc.)")
   .action(() => upgradeCommand());
+
+program
+  .command("export")
+  .description("Generate a shareable link to your AI identity")
+  .action(() => exportCommand());
 
 program
   .command("reset")
