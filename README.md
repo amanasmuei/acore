@@ -86,6 +86,10 @@ Your `core.md` starts simple and **grows with you**:
 | `acore show` | View your current identity summary |
 | `acore customize` | Personalize your AI (name, archetype, platform, context) |
 | `acore pull` | Save AI's updated output + re-sync platform config |
+| `acore import` | Import existing AI preferences from other platforms |
+| `acore diff` | Show what changed in your core.md |
+| `acore doctor` | Health check your core.md |
+| `acore history` | View and restore previous versions |
 | `acore upgrade` | Refresh templates with latest features |
 | `acore export` | Generate a shareable link to your AI identity |
 | `acore reset` | Start fresh (archives current config) |
