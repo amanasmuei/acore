@@ -9,13 +9,15 @@ import { copyToClipboard } from "../lib/clipboard.js";
 import { mergeConfigs } from "../lib/merge.js";
 import { savePlatformConfig, getPlatformFile, isFileBasedPlatform, type InjectPlatform } from "../lib/platform.js";
 import { injectIntoFile } from "../lib/inject.js";
-import { detectPlatform, detectStack, detectRole } from "../lib/detect.js";
+import { detectPlatform, detectStack, detectRole, detectUserName } from "../lib/detect.js";
+import { getUpdateInstructions } from "../lib/instructions.js";
 import type { AcoreIdentity, AcoreContext } from "../types.js";
 
 export async function writeGlobalConfig(
   globalDir: string,
   identity: AcoreIdentity,
-  templateName: "core" | "core-starter" = "core-starter"
+  templateName: "core" | "core-starter" = "core-starter",
+  platform?: InjectPlatform | null,
 ): Promise<void> {
   fs.mkdirSync(globalDir, { recursive: true });
 
@@ -29,6 +31,7 @@ export async function writeGlobalConfig(
     VALUES: identity.values.join(", "),
     BOUNDARIES: identity.boundaries,
     DATE: new Date().toISOString().split("T")[0],
+    UPDATE_INSTRUCTIONS: getUpdateInstructions(platform ?? null),
   });
 
   fs.writeFileSync(path.join(globalDir, "core.md"), content, "utf-8");
@@ -57,12 +60,18 @@ async function runQuickSetup(): Promise<{
   context: AcoreContext;
   platform: InjectPlatform | null;
 }> {
-  const userName = (await p.text({
-    message: "What's your name?",
-    validate: (v) => (v.length === 0 ? "Name is required" : undefined),
-  })) as string;
+  // Try git config first for zero-question setup
+  let userName = detectUserName();
 
-  if (p.isCancel(userName)) process.exit(0);
+  if (!userName) {
+    const prompted = (await p.text({
+      message: "What's your name?",
+      validate: (v) => (v.length === 0 ? "Name is required" : undefined),
+    })) as string;
+
+    if (p.isCancel(prompted)) process.exit(0);
+    userName = prompted;
+  }
 
   const platform = detectPlatform();
   const stack = detectStack();
@@ -145,17 +154,10 @@ function platformLabel(platform: InjectPlatform): string {
 function showOnboardingCard(): void {
   const card = [
     "",
-    `  ${pc.green("✔")} You're set up. Here's how it works:`,
+    `  ${pc.green("✔")} Your AI knows you now. Just start talking.`,
     "",
-    "  1. Start a conversation — your AI knows you",
-    "  2. Work normally — it adapts to your style",
-    "  3. When done, it'll offer to save what it learned",
-    "",
-    `  ${pc.bold("acore show")}        See your current identity`,
-    `  ${pc.bold("acore customize")}   Personalize your AI`,
-    `  ${pc.bold("acore pull")}        Save AI's updates`,
-    "",
-    `  ${pc.dim("Your AI gets better every session.")}`,
+    `  ${pc.bold("acore show")}        See your identity`,
+    `  ${pc.bold("acore customize")}   Change anything`,
     "",
   ];
   p.note(card.join("\n"), "");
@@ -172,14 +174,19 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
     // Quick setup — 1 question
     const { identity, context, platform } = await runQuickSetup();
 
-    await writeGlobalConfig(globalDir, identity, "core-starter");
+    await writeGlobalConfig(globalDir, identity, "core-starter", platform);
     p.log.success(`Created ${pc.dim("~/.acore/core.md")} (identity)`);
 
     if (context.stack && context.stack !== "not specified yet") {
       await writeLocalContext(localDir, context);
       p.log.success(`Created ${pc.dim(".acore/context.md")} (project)`);
-      p.log.info(`Detected stack: ${pc.dim(context.stack)}`);
     }
+
+    // Show inferred summary
+    const inferredParts = [identity.userName];
+    if (identity.userRole) inferredParts.push(identity.userRole);
+    if (context.stack && context.stack !== "not specified yet") inferredParts.push(context.stack);
+    p.log.info(`Inferred: ${pc.dim(inferredParts.join(" · "))}`);
 
     const effectivePlatform: InjectPlatform = platform || "other";
 

@@ -82,4 +82,61 @@ describe("init helpers", () => {
     expect(content).not.toContain("## Dynamics");
     expect(content).toContain("### Growth Protocol");
   });
+
+  it("writeGlobalConfig fills UPDATE_INSTRUCTIONS for file-based platform", async () => {
+    const { writeGlobalConfig } = await import("../src/commands/init.js");
+    const globalDir = path.join(tmpDir, ".acore");
+
+    await writeGlobalConfig(globalDir, {
+      aiName: "Companion",
+      userName: "Aman",
+      userRole: "Developer",
+      personality: "curious, supportive, adaptive",
+      communication: "concise by default",
+      values: ["honesty over comfort"],
+      boundaries: "flags when out of depth",
+    }, "core-starter", "claude-code");
+
+    const content = fs.readFileSync(path.join(globalDir, "core.md"), "utf-8");
+    expect(content).toContain("Write updated version directly");
+    expect(content).not.toContain("{{UPDATE_INSTRUCTIONS}}");
+  });
+
+  it("writeGlobalConfig fills UPDATE_INSTRUCTIONS for clipboard platform", async () => {
+    const { writeGlobalConfig } = await import("../src/commands/init.js");
+    const globalDir = path.join(tmpDir, ".acore");
+
+    await writeGlobalConfig(globalDir, {
+      aiName: "Companion",
+      userName: "Aman",
+      userRole: "Developer",
+      personality: "curious, supportive, adaptive",
+      communication: "concise by default",
+      values: ["honesty over comfort"],
+      boundaries: "flags when out of depth",
+    }, "core-starter", "chatgpt");
+
+    const content = fs.readFileSync(path.join(globalDir, "core.md"), "utf-8");
+    expect(content).toContain("Output the complete updated core.md");
+    expect(content).not.toContain("{{UPDATE_INSTRUCTIONS}}");
+  });
+
+  it("writeGlobalConfig defaults to clipboard instructions when no platform", async () => {
+    const { writeGlobalConfig } = await import("../src/commands/init.js");
+    const globalDir = path.join(tmpDir, ".acore");
+
+    await writeGlobalConfig(globalDir, {
+      aiName: "Companion",
+      userName: "Aman",
+      userRole: "Developer",
+      personality: "curious, supportive, adaptive",
+      communication: "concise by default",
+      values: ["honesty over comfort"],
+      boundaries: "flags when out of depth",
+    }, "core-starter");
+
+    const content = fs.readFileSync(path.join(globalDir, "core.md"), "utf-8");
+    expect(content).toContain("Output the complete updated core.md");
+    expect(content).not.toContain("{{UPDATE_INSTRUCTIONS}}");
+  });
 });
