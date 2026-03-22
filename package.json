@@ -1,6 +1,6 @@
 {
   "name": "@aman_asmuei/acore",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "The identity layer for AI companions — give any AI a persistent personality and relationship memory",
   "type": "module",
   "bin": {
