@@ -20,7 +20,7 @@ Give any AI a persistent personality, emotional intelligence, and relationship m
 [![npm](https://img.shields.io/npm/v/@aman_asmuei/acore?style=flat-square&color=cb3837)](https://www.npmjs.com/package/@aman_asmuei/acore)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-any_LLM-brightgreen.svg?style=flat-square)](#-supported-platforms)
-[![amem](https://img.shields.io/badge/enhanced_by-amem-ff6b35.svg?style=flat-square)](https://github.com/amanasmuei/amem)
+[![aman](https://img.shields.io/badge/part_of-aman_ecosystem-ff6b35.svg?style=flat-square)](https://github.com/amanasmuei/aman)
 
 </div>
 
@@ -107,14 +107,29 @@ cd ~/other-project && npx @aman_asmuei/acore
 
 ---
 
-## Supercharge with amem
+## The Ecosystem
 
-[**amem**](https://github.com/amanasmuei/amem) adds automated knowledge memory — corrections, decisions, patterns — without manual effort. Optional but powerful. [Learn more](docs/guides/amem.md)
-
-```bash
-npx @aman_asmuei/amem      # setup
-acore connect               # link them
 ```
+aman
+├── acore   →  identity     →  who your AI IS
+├── amem    →  memory       →  what your AI KNOWS
+├── akit    →  tools        →  what your AI CAN DO
+├── aflow   →  workflows    →  HOW your AI works
+├── arules  →  guardrails   →  what your AI WON'T do
+└── aeval   →  evaluation   →  how GOOD your AI is
+```
+
+| Layer | Package | What it does |
+|:------|:--------|:-------------|
+| Identity | **acore** | Personality, values, relationship memory |
+| Memory | [amem](https://github.com/amanasmuei/amem) | Automated knowledge storage (MCP) |
+| Tools | [akit](https://github.com/amanasmuei/akit) | 15 portable AI tools (MCP + manual fallback) |
+| Workflows | [aflow](https://github.com/amanasmuei/aflow) | Reusable AI workflows (code review, bug fix, etc.) |
+| Guardrails | [arules](https://github.com/amanasmuei/arules) | Safety boundaries and permissions |
+| Evaluation | [aeval](https://github.com/amanasmuei/aeval) | Relationship tracking and session logging |
+| **Unified** | **[aman](https://github.com/amanasmuei/aman)** | **One command to set up everything** |
+
+Each works independently. `aman` is the front door.
 
 ---
 
