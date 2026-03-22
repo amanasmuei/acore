@@ -9,6 +9,8 @@ import { disconnectCommand } from "./commands/disconnect.js";
 import { upgradeCommand } from "./commands/upgrade.js";
 import { exportCommand } from "./commands/export.js";
 import { importCommand } from "./commands/import-cmd.js";
+import { diffCommand } from "./commands/diff.js";
+import { doctorCommand } from "./commands/doctor.js";
 import { globalConfigExists } from "./lib/paths.js";
 
 declare const __VERSION__: string;
@@ -57,6 +59,16 @@ program
   .command("export")
   .description("Generate a shareable link to your AI identity")
   .action(() => exportCommand());
+
+program
+  .command("diff")
+  .description("Show what changed in your core.md")
+  .action(() => diffCommand());
+
+program
+  .command("doctor")
+  .description("Health check your core.md")
+  .action(() => doctorCommand());
 
 program
   .command("import")
