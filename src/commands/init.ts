@@ -11,6 +11,7 @@ import { savePlatformConfig, getPlatformFile, isFileBasedPlatform, type InjectPl
 import { injectIntoFile } from "../lib/inject.js";
 import { detectPlatform, detectStack, detectRole, detectUserName } from "../lib/detect.js";
 import { getUpdateInstructions } from "../lib/instructions.js";
+import { commitGlobalConfig } from "../lib/history.js";
 import type { AcoreIdentity, AcoreContext } from "../types.js";
 
 export async function writeGlobalConfig(
@@ -20,6 +21,12 @@ export async function writeGlobalConfig(
   platform?: InjectPlatform | null,
 ): Promise<void> {
   fs.mkdirSync(globalDir, { recursive: true });
+
+  // Save backup for `acore diff`
+  const corePath = path.join(globalDir, "core.md");
+  if (fs.existsSync(corePath)) {
+    fs.copyFileSync(corePath, path.join(globalDir, "core.md.prev"));
+  }
 
   const template = loadTemplate(templateName);
   const content = fillTemplate(template, {
@@ -175,6 +182,7 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
     const { identity, context, platform } = await runQuickSetup();
 
     await writeGlobalConfig(globalDir, identity, "core-starter", platform);
+    commitGlobalConfig("Created via acore init");
     p.log.success(`Created ${pc.dim("~/.acore/core.md")} (identity)`);
 
     if (context.stack && context.stack !== "not specified yet") {

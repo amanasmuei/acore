@@ -15,7 +15,14 @@ export function writeUpdate(
 ): void {
   fs.mkdirSync(dir, { recursive: true });
   const filename = isGlobal ? "core.md" : "context.md";
-  fs.writeFileSync(path.join(dir, filename), content, "utf-8");
+  const filePath = path.join(dir, filename);
+
+  // Save backup for `acore diff`
+  if (fs.existsSync(filePath)) {
+    fs.copyFileSync(filePath, filePath + ".prev");
+  }
+
+  fs.writeFileSync(filePath, content, "utf-8");
 }
 
 export function diffSections(
