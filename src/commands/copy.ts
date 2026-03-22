@@ -37,6 +37,13 @@ export function buildMergedOutput(
     merged = merged.trimEnd() + "\n\n---\n\n" + flowContent + "\n";
   }
 
+  // Include arules' rules.md if it exists
+  const rulesPath = path.join(os.homedir(), ".arules", "rules.md");
+  if (fs.existsSync(rulesPath)) {
+    const rulesContent = fs.readFileSync(rulesPath, "utf-8").trim();
+    merged = merged.trimEnd() + "\n\n---\n\n" + rulesContent + "\n";
+  }
+
   return merged;
 }
 
