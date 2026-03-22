@@ -30,6 +30,13 @@ export function buildMergedOutput(
     merged = merged.trimEnd() + "\n\n---\n\n" + kitContent + "\n";
   }
 
+  // Include aflow's flow.md if it exists
+  const flowPath = path.join(os.homedir(), ".aflow", "flow.md");
+  if (fs.existsSync(flowPath)) {
+    const flowContent = fs.readFileSync(flowPath, "utf-8").trim();
+    merged = merged.trimEnd() + "\n\n---\n\n" + flowContent + "\n";
+  }
+
   return merged;
 }
 
