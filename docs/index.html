@@ -507,6 +507,60 @@ header p {
   color: var(--text-muted);
 }
 
+/* amem callout card */
+.amem-callout {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.amem-callout .amem-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+
+.amem-callout .amem-text {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.amem-callout .amem-snippet {
+  display: block;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-bottom: 14px;
+  user-select: all;
+}
+
+.amem-callout .amem-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.amem-callout .amem-link:hover {
+  color: var(--accent);
+}
+
 /* Footer */
 footer {
   text-align: center;
@@ -522,6 +576,18 @@ footer a {
 
 footer a:hover {
   color: var(--accent);
+}
+
+/* Analytics badge */
+.analytics-badge {
+  display: flex;
+  justify-content: center;
+  padding: 0 0 24px;
+  opacity: 0.35;
+}
+
+.analytics-badge img {
+  height: 18px;
 }
 
 /* Enter-to-continue hint */
@@ -541,6 +607,24 @@ footer a:hover {
   border: 1px solid var(--border);
   border-radius: 5px;
   margin: 0 2px;
+}
+
+/* Shared identity banner */
+.shared-banner {
+  display: none;
+  text-align: center;
+  padding: 12px 20px;
+  margin-bottom: 24px;
+  background: var(--accent-glow);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: var(--radius);
+  color: var(--accent-bright);
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+
+.shared-banner.visible {
+  display: block;
 }
 
 /* Responsive */
@@ -693,11 +777,21 @@ footer a:hover {
       Copy to Clipboard
     </button>
     <a href="#" class="start-over" id="startOver">Start over</a>
+    <div class="amem-callout">
+      <div class="amem-label">Optional</div>
+      <div class="amem-text">Want automated memory? Pair with <strong>amem</strong> &mdash; your AI stores corrections, decisions, and patterns automatically.</div>
+      <code class="amem-snippet">npx @aman_asmuei/amem</code>
+      <a href="https://github.com/amanasmuei/amem" target="_blank" rel="noopener" class="amem-link">Learn more &rarr;</a>
+    </div>
   </div>
 
   <footer>
     <a href="https://github.com/amanasmuei/acore" target="_blank" rel="noopener">acore</a> &mdash; the identity layer for AI companions
   </footer>
+
+  <div class="analytics-badge">
+    <img src="https://hits.sh/amanasmuei.github.io/acore.svg?label=visitors&color=818cf8" alt="visitors">
+  </div>
 </div>
 
 <script>
