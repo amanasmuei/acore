@@ -11,6 +11,7 @@ import { exportCommand } from "./commands/export.js";
 import { importCommand } from "./commands/import-cmd.js";
 import { diffCommand } from "./commands/diff.js";
 import { doctorCommand } from "./commands/doctor.js";
+import { historyCommand } from "./commands/history.js";
 import { globalConfigExists } from "./lib/paths.js";
 
 declare const __VERSION__: string;
@@ -69,6 +70,12 @@ program
   .command("doctor")
   .description("Health check your core.md")
   .action(() => doctorCommand());
+
+program
+  .command("history")
+  .description("View and restore previous versions of your identity")
+  .option("--restore <hash>", "Restore a previous version")
+  .action((options) => historyCommand(options));
 
 program
   .command("import")

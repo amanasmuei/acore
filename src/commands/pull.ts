@@ -8,6 +8,7 @@ import { injectIntoFile } from "../lib/inject.js";
 import { buildMergedOutput } from "./copy.js";
 import { readFromClipboard } from "../lib/clipboard.js";
 import { diffSections, writeUpdate } from "./update.js";
+import { commitGlobalConfig } from "../lib/history.js";
 
 export async function pullCommand(options: {
   global?: boolean;
@@ -126,6 +127,9 @@ export async function pullCommand(options: {
   }
 
   writeUpdate(input, targetDir, isGlobal);
+  if (isGlobal) {
+    commitGlobalConfig("Updated via acore pull");
+  }
   p.log.success(`Updated ${pc.dim(targetFile)}`);
 
   // Auto-sync to platform file if file-based platform configured

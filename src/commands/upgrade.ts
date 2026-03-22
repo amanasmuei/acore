@@ -7,6 +7,7 @@ import { writeGlobalConfig } from "./init.js";
 import { parseMarkdown, findSection, mergeConfigs } from "../lib/merge.js";
 import { loadPlatformConfig, getPlatformFile, isFileBasedPlatform } from "../lib/platform.js";
 import { injectIntoFile } from "../lib/inject.js";
+import { commitGlobalConfig } from "../lib/history.js";
 import type { AcoreIdentity } from "../types.js";
 
 function extractIdentity(content: string): AcoreIdentity {
@@ -78,6 +79,7 @@ export async function upgradeCommand(): Promise<void> {
 
   // Regenerate
   await writeGlobalConfig(globalDir, identity, templateName, savedPlatform);
+  commitGlobalConfig("Updated via acore upgrade");
   p.log.success(`Upgraded ${pc.dim("~/.acore/core.md")} to latest template`);
 
   // Re-sync platform file

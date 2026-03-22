@@ -13,6 +13,7 @@ import {
   savePlatformConfig,
 } from "../lib/platform.js";
 import { injectIntoFile } from "../lib/inject.js";
+import { commitGlobalConfig } from "../lib/history.js";
 import type { AcoreIdentity } from "../types.js";
 import type { InjectPlatform } from "../lib/platform.js";
 
@@ -140,6 +141,7 @@ async function customizePersonality(globalDir: string): Promise<void> {
 
   const savedPlatform = loadPlatformConfig()?.platform ?? null;
   await writeGlobalConfig(globalDir, identity, templateName, savedPlatform);
+  commitGlobalConfig("Updated via acore customize");
   p.log.success(`Updated ${pc.dim("~/.acore/core.md")} with new personality`);
 }
 
@@ -276,6 +278,7 @@ async function customizeEverything(globalDir: string): Promise<void> {
 
       const savedPlatform = loadPlatformConfig()?.platform ?? null;
       await writeGlobalConfig(globalDir, identity, "core", savedPlatform);
+      commitGlobalConfig("Upgraded to full template via acore customize");
       p.log.success("Upgraded to full template with Dynamics and Memory sections");
     }
   }
