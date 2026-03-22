@@ -138,7 +138,8 @@ async function customizePersonality(globalDir: string): Promise<void> {
     boundaries: boundariesInput || "won't pretend to be human, flags when out of depth",
   };
 
-  await writeGlobalConfig(globalDir, identity, templateName);
+  const savedPlatform = loadPlatformConfig()?.platform ?? null;
+  await writeGlobalConfig(globalDir, identity, templateName, savedPlatform);
   p.log.success(`Updated ${pc.dim("~/.acore/core.md")} with new personality`);
 }
 
@@ -273,7 +274,8 @@ async function customizeEverything(globalDir: string): Promise<void> {
         boundaries: boundariesMatch?.[1] || "won't pretend to be human, flags when out of depth",
       };
 
-      await writeGlobalConfig(globalDir, identity, "core");
+      const savedPlatform = loadPlatformConfig()?.platform ?? null;
+      await writeGlobalConfig(globalDir, identity, "core", savedPlatform);
       p.log.success("Upgraded to full template with Dynamics and Memory sections");
     }
   }
