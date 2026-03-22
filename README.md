@@ -86,6 +86,7 @@ Your `core.md` starts simple and **grows with you**:
 | `acore show` | View your current identity summary |
 | `acore customize` | Personalize your AI (name, archetype, platform, context) |
 | `acore pull` | Save AI's updated output + re-sync platform config |
+| `acore upgrade` | Refresh templates with latest features |
 | `acore reset` | Start fresh (archives current config) |
 | `acore connect` | Connect with [amem](https://github.com/amanasmuei/amem) for automated memory |
 

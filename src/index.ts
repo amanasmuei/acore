@@ -6,6 +6,7 @@ import { pullCommand } from "./commands/pull.js";
 import { resetCommand } from "./commands/reset.js";
 import { connectCommand } from "./commands/connect.js";
 import { disconnectCommand } from "./commands/disconnect.js";
+import { upgradeCommand } from "./commands/upgrade.js";
 import { globalConfigExists } from "./lib/paths.js";
 
 declare const __VERSION__: string;
@@ -44,6 +45,11 @@ program
   .option("-y, --yes", "Skip confirmation")
   .option("--sync-only", "Re-inject into platform file without reading new content")
   .action((options) => pullCommand(options));
+
+program
+  .command("upgrade")
+  .description("Refresh templates with latest features (auto-save, etc.)")
+  .action(() => upgradeCommand());
 
 program
   .command("reset")
