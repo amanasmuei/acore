@@ -44,6 +44,13 @@ export function buildMergedOutput(
     merged = merged.trimEnd() + "\n\n---\n\n" + rulesContent + "\n";
   }
 
+  // Include askill's skills.md if it exists
+  const skillsPath = path.join(os.homedir(), ".askill", "skills.md");
+  if (fs.existsSync(skillsPath)) {
+    const skillsContent = fs.readFileSync(skillsPath, "utf-8").trim();
+    merged = merged.trimEnd() + "\n\n---\n\n" + skillsContent + "\n";
+  }
+
   return merged;
 }
 
