@@ -11,7 +11,7 @@ describe("template", () => {
   it("loadTemplate reads the context template", () => {
     const content = loadTemplate("context");
     expect(content).toContain("{{STACK}}");
-    expect(content).toContain("## Work");
+    expect(content).toContain("## Domain");
   });
 
   it("loadTemplate reads the starter template", () => {

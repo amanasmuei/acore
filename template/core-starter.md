@@ -13,7 +13,7 @@
 - Name: {{USER_NAME}}
 - Role: {{USER_ROLE}}
 - Communication: [learns over time]
-- Work: [set per project]
+- Domain: [expertise, field, or focus area — set per project]
 - Learned patterns: [builds over time]
 
 ---

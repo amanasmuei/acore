@@ -1,9 +1,14 @@
 import { describe, it, expect } from "vitest";
-import { archetypes, getArchetype } from "../src/lib/archetypes.js";
+import { archetypes, getArchetype, getArchetypesByRole } from "../src/lib/archetypes.js";
 
 describe("archetypes", () => {
-  it("has 5 predefined archetypes", () => {
-    expect(archetypes).toHaveLength(5);
+  it("has 25 predefined archetypes (5 per role)", () => {
+    expect(archetypes).toHaveLength(25);
+    expect(getArchetypesByRole("developer")).toHaveLength(5);
+    expect(getArchetypesByRole("creative")).toHaveLength(5);
+    expect(getArchetypesByRole("business")).toHaveLength(5);
+    expect(getArchetypesByRole("student")).toHaveLength(5);
+    expect(getArchetypesByRole("personal")).toHaveLength(5);
   });
 
   it("each archetype has required fields", () => {
@@ -14,6 +19,7 @@ describe("archetypes", () => {
       expect(a.personality).toBeTruthy();
       expect(a.communication).toBeTruthy();
       expect(a.values.length).toBeGreaterThan(0);
+      expect(a.role).toBeTruthy();
     }
   });
 

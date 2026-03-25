@@ -1,49 +1,60 @@
-<div align="center">
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/acore-identity_layer-white?style=for-the-badge&labelColor=0d1117&color=58a6ff">
+    <img alt="acore" src="https://img.shields.io/badge/acore-identity_layer-black?style=for-the-badge&labelColor=f6f8fa&color=24292f">
+  </picture>
+</p>
 
-<br>
+<h1 align="center">acore</h1>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/acore-identity_layer-white?style=for-the-badge&labelColor=0d1117&color=58a6ff">
-  <img alt="acore" src="https://img.shields.io/badge/acore-identity_layer-black?style=for-the-badge&labelColor=f6f8fa&color=24292f">
-</picture>
+<p align="center">
+  <strong>Give any AI a persistent identity — across every session, every platform.</strong>
+</p>
 
-### The identity layer for AI companions.
+<p align="center">
+  <a href="https://www.npmjs.com/package/@aman_asmuei/acore"><img src="https://img.shields.io/npm/v/@aman_asmuei/acore?style=for-the-badge&logo=npm&logoColor=white&color=cb3837" alt="npm version" /></a>
+  &nbsp;
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue?style=for-the-badge" alt="MIT License" /></a>
+  &nbsp;
+  <img src="https://img.shields.io/badge/platform-any_LLM-brightgreen?style=for-the-badge" alt="Any LLM" />
+  &nbsp;
+  <a href="https://github.com/amanasmuei/aman"><img src="https://img.shields.io/badge/part_of-aman_ecosystem-ff6b35?style=for-the-badge" alt="aman ecosystem" /></a>
+</p>
 
-Give any AI a persistent personality, emotional intelligence, and relationship memory — in a single file.
+<p align="center">
+  Persistent personality, emotional intelligence, and relationship memory for any AI — in a single file.<br/>
+  No databases. No APIs. No accounts. One command. Any LLM.
+</p>
 
-<br>
-
-<img src="assets/demo.gif" alt="acore demo" width="600" />
-
-<br>
-
-[![npm](https://img.shields.io/npm/v/@aman_asmuei/acore?style=flat-square&color=cb3837)](https://www.npmjs.com/package/@aman_asmuei/acore)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-any_LLM-brightgreen.svg?style=flat-square)](#-supported-platforms)
-[![aman](https://img.shields.io/badge/part_of-aman_ecosystem-ff6b35.svg?style=flat-square)](https://github.com/amanasmuei/aman)
-
-</div>
+<p align="center">
+  <a href="#-quick-start">Quick Start</a> &bull;
+  <a href="#-role-based-archetypes">Archetypes</a> &bull;
+  <a href="#-how-it-works">How It Works</a> &bull;
+  <a href="#-commands">Commands</a> &bull;
+  <a href="#-supported-platforms">Platforms</a> &bull;
+  <a href="#-the-ecosystem">Ecosystem</a>
+</p>
 
 ---
 
 ## The Problem
 
-Every AI conversation starts from zero. Your preferences, work context, decisions — all gone. You re-explain yourself every session.
+Every AI conversation starts from zero. Your preferences, context, decisions — all gone. You re-explain yourself every session. Whether you're a developer, writer, student, or business professional — your AI doesn't know you.
 
 ## The Solution
 
-**acore** gives any AI persistent identity and relationship memory. One command. One file. Any LLM.
+**acore** gives any AI persistent identity and relationship memory. One command. One file. Any role. Any LLM.
 
 ```bash
 npx @aman_asmuei/acore
 ```
 
 ```
-◆ acore — give your AI a soul
+acore — give your AI a soul
 
-✔ Created ~/.acore/core.md (identity)
-✔ Detected Claude Code → injected into CLAUDE.md
-✔ Inferred: Aman · Developer · TypeScript, React
+  Created ~/.acore/core.md (identity)
+  Detected Claude Code -> injected into CLAUDE.md
+  Inferred: Aman . Developer . TypeScript, React
 
   Your AI knows you now. Just start talking.
 
@@ -51,9 +62,94 @@ npx @aman_asmuei/acore
   acore customize   Change anything
 ```
 
-Zero questions — your name, platform, and stack are auto-detected. Run `acore customize` to personalize further.
+Zero questions — your name, role, and domain are auto-detected. Run `acore customize` to personalize further.
 
-> **No databases. No APIs. No accounts. Just a text file you control.**
+---
+
+## What's New in v0.4.0
+
+**acore is now universal.** Not just for developers — for anyone who uses AI.
+
+| Before (v0.3) | After (v0.4) |
+|---|---|
+| 5 developer archetypes | **25 archetypes** across 5 roles |
+| "Tech stack" detection | **Domain detection** (code, writing, business, study) |
+| Developer-only language | **Universal** — works for any profession |
+| "Work" section | **"Domain"** section (expertise, field, focus) |
+| "Coding" context mode | **"Focused Work"** context mode |
+
+---
+
+## Role-Based Archetypes
+
+On setup or `acore customize`, choose your role — then pick from role-specific archetypes:
+
+<details open>
+<summary><strong>Developer</strong> — coding, architecture, debugging</summary>
+
+| Archetype | Style |
+|---|---|
+| **The Pragmatist** | concise, practical, efficient |
+| **The Mentor** | patient, thorough, encouraging |
+| **The Sparring Partner** | direct, challenging, honest |
+| **The Collaborator** | curious, supportive, adaptive |
+| **The Architect** | systematic, precise, forward-thinking |
+
+</details>
+
+<details>
+<summary><strong>Creative</strong> — writing, design, brainstorming</summary>
+
+| Archetype | Style |
+|---|---|
+| **The Muse** | imaginative, inspiring, free-flowing |
+| **The Editor** | sharp, precise, constructive |
+| **The Critic** | analytical, honest, discerning |
+| **The Co-Creator** | collaborative, energetic, adaptive |
+| **The Storyteller** | narrative-driven, evocative, immersive |
+
+</details>
+
+<details>
+<summary><strong>Business</strong> — strategy, analysis, planning</summary>
+
+| Archetype | Style |
+|---|---|
+| **The Strategist** | analytical, big-picture, decisive |
+| **The Analyst** | data-driven, thorough, objective |
+| **The Coach** | empowering, structured, goal-oriented |
+| **The Devil's Advocate** | contrarian, rigorous, stress-testing |
+| **The Executor** | action-oriented, efficient, results-focused |
+
+</details>
+
+<details>
+<summary><strong>Student</strong> — learning, research, studying</summary>
+
+| Archetype | Style |
+|---|---|
+| **The Tutor** | patient, clear, scaffolding |
+| **The Study Buddy** | encouraging, collaborative, persistent |
+| **The Challenger** | socratic, probing, growth-focused |
+| **The Explainer** | visual, analogical, multi-angle |
+| **The Quizmaster** | testing, gamified, motivating |
+
+</details>
+
+<details>
+<summary><strong>Personal</strong> — life organizer, advisor, companion</summary>
+
+| Archetype | Style |
+|---|---|
+| **The Companion** | warm, attentive, present |
+| **The Advisor** | wise, balanced, thoughtful |
+| **The Organizer** | structured, proactive, detail-oriented |
+| **The Motivator** | energetic, positive, action-driving |
+| **The Listener** | empathetic, non-judgmental, reflective |
+
+</details>
+
+Every archetype is fully customizable. Pick one as a starting point, then make it yours.
 
 ---
 
@@ -61,34 +157,34 @@ Zero questions — your name, platform, and stack are auto-detected. Run `acore 
 
 **Session start** — AI loads `core.md`, picks up where you left off, knows your preferences and trust level.
 
-**During session** — AI responds shaped by your personality settings, communication style, and context mode (direct when coding, exploratory when brainstorming).
+**During session** — AI responds shaped by your personality settings, communication style, and context mode.
 
-**Session end** — AI proactively offers to save what it learned. On dev tools (Claude Code, Cursor, Windsurf), it writes directly to your file. On other platforms, it outputs an update you can save.
+**Session end** — AI proactively offers to save what it learned. On dev tools (Claude Code, Cursor, Windsurf), it writes directly. On other platforms, it outputs an update you can save.
 
 Your `core.md` starts simple and **grows with you**:
 
 | Section | What it does | When it appears |
-|:--------|:------------|:----------------|
+|:---|:---|:---|
 | **Identity** | AI personality, values, boundaries | From day one |
-| **Relationship** | Your preferences, work context | From day one |
+| **Relationship** | Your preferences, domain, communication style | From day one |
 | **Session** | Resume summary, where you left off | From day one |
 | **Dynamics** | Trust, emotional patterns, conflict history | AI suggests after ~3 sessions |
-| **Context Modes** | Per-domain behavior (coding, creative, personal) | AI suggests after ~5 sessions |
+| **Context Modes** | Per-domain behavior (focused work, creative, personal) | AI suggests after ~5 sessions |
 | **Memory Lifecycle** | What to remember, consolidate, and forget | AI suggests after ~10 sessions |
 
 ---
 
 ## Commands
 
-| Command | What it does |
-|:--------|:------------|
+| Command | Description |
+|:---|:---|
 | `acore` | First run: setup. After that: show status |
 | `acore show` | View your current identity summary |
-| `acore customize` | Personalize your AI (name, archetype, platform, context) |
+| `acore customize` | Personalize your AI (role, archetype, platform, context) |
 | `acore pull` | Save AI's updated output + re-sync platform config |
 | `acore import` | Import existing AI preferences from other platforms |
 | `acore diff` | Show what changed in your core.md |
-| `acore doctor` | Health check your core.md |
+| `acore doctor` | Health check your core.md (scoring 0-10) |
 | `acore history` | View and restore previous versions |
 | `acore upgrade` | Refresh templates with latest features |
 | `acore export` | Generate a shareable link to your AI identity |
@@ -99,37 +195,11 @@ Your `core.md` starts simple and **grows with you**:
 
 ## Multi-Project
 
-Your identity is global (`~/.acore/core.md`). Project context is local (`.acore/context.md`). Both merge automatically. [Learn more](docs/guides/multi-project.md)
+Your identity is global (`~/.acore/core.md`). Project context is local (`.acore/context.md`). Both merge automatically.
 
 ```bash
 cd ~/other-project && npx @aman_asmuei/acore
 ```
-
----
-
-## The Ecosystem
-
-```
-aman
-├── acore   →  identity     →  who your AI IS
-├── amem    →  memory       →  what your AI KNOWS
-├── akit    →  tools        →  what your AI CAN DO
-├── aflow   →  workflows    →  HOW your AI works
-├── arules  →  guardrails   →  what your AI WON'T do
-└── aeval   →  evaluation   →  how GOOD your AI is
-```
-
-| Layer | Package | What it does |
-|:------|:--------|:-------------|
-| Identity | **acore** | Personality, values, relationship memory |
-| Memory | [amem](https://github.com/amanasmuei/amem) | Automated knowledge storage (MCP) |
-| Tools | [akit](https://github.com/amanasmuei/akit) | 15 portable AI tools (MCP + manual fallback) |
-| Workflows | [aflow](https://github.com/amanasmuei/aflow) | Reusable AI workflows (code review, bug fix, etc.) |
-| Guardrails | [arules](https://github.com/amanasmuei/arules) | Safety boundaries and permissions |
-| Evaluation | [aeval](https://github.com/amanasmuei/aeval) | Relationship tracking and session logging |
-| **Unified** | **[aman](https://github.com/amanasmuei/aman)** | **One command to set up everything** |
-
-Each works independently. `aman` is the front door.
 
 ---
 
@@ -182,23 +252,47 @@ Each works independently. `aman` is the front door.
 
 ---
 
-## Guides
+## The Ecosystem
 
-- [Customization](docs/guides/customization.md) — personality archetypes, communication style, values
-- [Dynamics & Trust](docs/guides/dynamics.md) — trust levels, emotional patterns, conflict repair
-- [Context Modes](docs/guides/context-modes.md) — domain-aware AI behavior
-- [Size Management](docs/guides/size-management.md) — keeping core.md under 2000 tokens
-- [Platform Setup](docs/guides/platforms.md) — ChatGPT, Claude, Cursor, Windsurf, API
-- [Multi-Project](docs/guides/multi-project.md) — global identity + local project context
-- [amem Integration](docs/guides/amem.md) — automated knowledge memory
-- [FAQ](docs/faq.md) — common questions
+```
+aman
+├── acore       → identity    → who your AI IS           ← YOU ARE HERE
+├── amem        → memory      → what your AI KNOWS
+├── akit        → tools       → what your AI CAN DO
+├── aflow       → workflows   → HOW your AI works
+├── arules      → guardrails  → what your AI WON'T do
+├── askill      → skills      → what your AI MASTERS
+├── aeval       → evaluation  → how GOOD your AI is
+├── achannel    → channels    → WHERE your AI lives
+└── aman-agent  → runtime     → the engine
+```
+
+<details>
+<summary><strong>Full ecosystem packages</strong></summary>
+
+| Layer | Package | What it does |
+|:---|:---|:---|
+| Identity | **acore** | Personality, values, relationship memory |
+| Memory | [amem](https://github.com/amanasmuei/amem) | Persistent memory with knowledge graph (MCP) |
+| Tools | [akit](https://github.com/amanasmuei/akit) | Portable AI tools (MCP + manual fallback) |
+| Workflows | [aflow](https://github.com/amanasmuei/aflow) | Reusable AI workflows |
+| Guardrails | [arules](https://github.com/amanasmuei/arules) | Safety boundaries and permissions |
+| Skills | [askill](https://github.com/amanasmuei/askill) | Domain expertise |
+| Evaluation | [aeval](https://github.com/amanasmuei/aeval) | Relationship tracking |
+| Channels | [achannel](https://github.com/amanasmuei/achannel) | Telegram, Discord, webhooks |
+| Runtime | [aman-agent](https://github.com/amanasmuei/aman-agent) | Local streaming AI agent |
+| **Unified** | **[aman](https://github.com/amanasmuei/aman)** | **One command to set up everything** |
+
+</details>
+
+Each works independently. `aman` is the front door.
 
 ---
 
 ## Privacy
 
 | Scenario | What to do |
-|:---------|:-----------|
+|:---|:---|
 | **Public repo** | Add `.acore/` to `.gitignore` before pushing |
 | **Private repo** | Safe to keep in version control |
 | **Shared device** | Treat `~/.acore/core.md` like a credentials file |
@@ -207,7 +301,14 @@ Each works independently. `aman` is the front door.
 
 ## Contributing
 
-Contributions welcome! Open an issue or submit a PR.
+```bash
+git clone https://github.com/amanasmuei/acore.git
+cd acore && npm install
+npm run build   # zero errors
+npm test        # 154 tests pass
+```
+
+PRs welcome. See [Issues](https://github.com/amanasmuei/acore/issues).
 
 ## Credits
 
@@ -220,8 +321,16 @@ Contributions welcome! Open an issue or submit a PR.
 
 ---
 
-<div align="center">
+<p align="center">
+  Built by <a href="https://github.com/amanasmuei"><strong>Aman Asmuei</strong></a>
+</p>
 
-**One command. One file. Any AI. Your identity.**
+<p align="center">
+  <a href="https://github.com/amanasmuei/acore">GitHub</a> &middot;
+  <a href="https://www.npmjs.com/package/@aman_asmuei/acore">npm</a> &middot;
+  <a href="https://github.com/amanasmuei/acore/issues">Issues</a>
+</p>
 
-</div>
+<p align="center">
+  <sub>One command. One file. Any AI. Your identity.</sub>
+</p>

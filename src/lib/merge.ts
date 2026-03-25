@@ -49,7 +49,7 @@ export function mergeConfigs(globalContent: string, localContent: string | null)
   const global = parseMarkdown(globalContent);
   const local = parseMarkdown(localContent);
 
-  const localWork = findSection(local, "Work");
+  const localWork = findSection(local, "Domain") || findSection(local, "Work");
   const localSession = findSection(local, "Session");
   const localPatterns = findSection(local, "Project Patterns");
 
@@ -60,8 +60,8 @@ export function mergeConfigs(globalContent: string, localContent: string | null)
     if (section.name === "Relationship" && localWork) {
       // Inject local Work content into Relationship
       let content = section.content;
-      // Replace the "- Work:" line with local work content
-      const workLineRegex = /^- Work:.*$/m;
+      // Replace the "- Work:" or "- Domain:" line with local domain content
+      const workLineRegex = /^- (?:Work|Domain):.*$/m;
       if (workLineRegex.test(content)) {
         const workContent = localWork.content.trim().split("\n").map(l => l).join("\n");
         content = content.replace(workLineRegex, workContent);

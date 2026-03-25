@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import type { InjectPlatform } from "./platform.js";
+import type { UserRole } from "../types.js";
 
 const CODE_MANIFESTS = [
   "package.json",
@@ -154,4 +155,48 @@ export function detectRole(cwd?: string): string {
     exists(path.join(dir, manifest))
   );
   return hasManifest ? "Developer" : "Professional";
+}
+
+const CREATIVE_FILES = [".scriv", "manuscript", "draft", "outline.md", "novel", "screenplay"];
+const BUSINESS_FILES = [".xlsx", ".pptx", "pitch-deck", "business-plan", "strategy"];
+const STUDENT_FILES = ["syllabus", "homework", "assignment", "notes", "study-guide", "textbook"];
+
+/**
+ * Detect the UserRole category based on files in the working directory.
+ * Returns "developer" if code manifests found, otherwise attempts to infer
+ * from file patterns. Defaults to "personal".
+ */
+export function detectUserRole(cwd?: string): UserRole {
+  const dir = cwd ?? process.cwd();
+
+  // Check developer first (most reliable signals)
+  const hasCodeManifest = CODE_MANIFESTS.some((manifest) =>
+    exists(path.join(dir, manifest))
+  );
+  if (hasCodeManifest) return "developer";
+
+  // Check other domains by file patterns
+  try {
+    const files = fs.readdirSync(dir).map((f) => f.toLowerCase());
+    const allText = files.join(" ");
+
+    if (CREATIVE_FILES.some((p) => allText.includes(p))) return "creative";
+    if (BUSINESS_FILES.some((p) => allText.includes(p))) return "business";
+    if (STUDENT_FILES.some((p) => allText.includes(p))) return "student";
+  } catch {
+    // Can't read directory — fallback
+  }
+
+  return "personal";
+}
+
+/**
+ * Detect the user's domain as a human-readable label.
+ */
+export function detectDomain(role: UserRole, cwd?: string): string {
+  if (role === "developer") return detectStack(cwd) || "Software Development";
+  if (role === "creative") return "Creative Work";
+  if (role === "business") return "Business";
+  if (role === "student") return "Studies";
+  return "";
 }

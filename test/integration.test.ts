@@ -34,6 +34,7 @@ describe("integration: full lifecycle", () => {
       communication: "lead with the answer",
       values: ["honesty over comfort", "simplicity over cleverness"],
       boundaries: "flags when out of depth",
+      role: "developer" as const,
     }, "core");
 
     const content = fs.readFileSync(path.join(globalDir, "core.md"), "utf-8");
@@ -79,6 +80,7 @@ describe("integration: full lifecycle", () => {
       communication: "concise",
       values: ["honesty over comfort"],
       boundaries: "none",
+      role: "developer" as const,
     });
 
     // Step 2: Create local context
@@ -115,6 +117,7 @@ describe("integration: full lifecycle", () => {
       communication: "clear",
       values: ["simplicity over cleverness"],
       boundaries: "none",
+      role: "developer" as const,
     });
 
     const globalContent = fs.readFileSync(path.join(globalDir, "core.md"), "utf-8");
@@ -212,6 +215,7 @@ describe("integration: merge edge cases with real templates", () => {
       communication: "concise",
       values: ["honesty over comfort"],
       boundaries: "none",
+      role: "developer" as const,
     }, "core");
 
     await writeLocalContext(localDir, {
@@ -227,7 +231,7 @@ describe("integration: merge edge cases with real templates", () => {
     // Should have local work injected
     expect(merged).toContain("TypeScript");
     // Should NOT have template placeholder
-    expect(merged).not.toContain("[tech stack, domain — set per project]");
+    expect(merged).not.toContain("[expertise, field, or focus area — set per project]");
     // Section order should be preserved
     const parsed = parseMarkdown(merged);
     const names = parsed.sections.map(s => s.name);

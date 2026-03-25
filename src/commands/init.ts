@@ -3,16 +3,17 @@ import pc from "picocolors";
 import fs from "node:fs";
 import path from "node:path";
 import { loadTemplate, fillTemplate } from "../lib/template.js";
-import { archetypes } from "../lib/archetypes.js";
+import { getDefaultArchetype, getArchetypesByRole } from "../lib/archetypes.js";
 import { getGlobalDir, getLocalDir, globalConfigExists, localConfigExists } from "../lib/paths.js";
 import { copyToClipboard } from "../lib/clipboard.js";
 import { savePlatformConfig, getPlatformFile, isFileBasedPlatform, type InjectPlatform } from "../lib/platform.js";
 import { injectIntoFile } from "../lib/inject.js";
-import { detectPlatform, detectStack, detectRole, detectUserName } from "../lib/detect.js";
+import { detectPlatform, detectStack, detectUserName, detectUserRole, detectDomain } from "../lib/detect.js";
 import { getUpdateInstructions } from "../lib/instructions.js";
 import { commitGlobalConfig } from "../lib/history.js";
 import { buildMergedOutput } from "./copy.js";
-import type { AcoreIdentity, AcoreContext } from "../types.js";
+import type { AcoreIdentity, AcoreContext, UserRole } from "../types.js";
+import { USER_ROLES } from "../types.js";
 
 export async function writeGlobalConfig(
   globalDir: string,
@@ -81,15 +82,19 @@ async function runQuickSetup(): Promise<{
   }
 
   const platform = detectPlatform();
-  const stack = detectStack();
-  const userRole = detectRole();
+  const detectedRole = detectUserRole();
+  const domain = detectDomain(detectedRole);
 
-  const archetype = archetypes.find((a) => a.name === "collaborator")!;
+  // Use detected role — user can change later via acore customize
+  const role: UserRole = detectedRole;
+  const archetype = getDefaultArchetype(role);
+  const roleLabel = USER_ROLES.find((r) => r.value === role)?.label ?? "Professional";
 
   const identity: AcoreIdentity = {
     aiName: "Companion",
     userName,
-    userRole,
+    userRole: roleLabel,
+    role,
     personality: archetype.personality,
     communication: archetype.communication,
     values: ["honesty over comfort", "simplicity over cleverness"],
@@ -97,7 +102,7 @@ async function runQuickSetup(): Promise<{
   };
 
   const context: AcoreContext = {
-    stack: stack || "not specified yet",
+    stack: domain || "not specified yet",
     domain: "",
     focus: "",
   };
@@ -120,9 +125,9 @@ async function runProjectWizard(globalDir: string): Promise<AcoreContext> {
   p.note(`Identity loaded: ${pc.bold(aiName)} + ${pc.bold(userName)}`);
 
   const stack = (await p.text({
-    message: "What's the tech stack for this project?",
-    placeholder: "TypeScript, React, Next.js",
-    validate: (v) => (v.length === 0 ? "Tech stack is required" : undefined),
+    message: "What's your expertise or tools for this project?",
+    placeholder: "e.g. TypeScript, React / creative writing / financial analysis",
+    validate: (v) => (v.length === 0 ? "Expertise is required" : undefined),
   })) as string;
 
   if (p.isCancel(stack)) process.exit(0);

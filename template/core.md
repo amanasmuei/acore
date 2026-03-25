@@ -14,7 +14,7 @@
 - Role: {{USER_ROLE}}
 - Communication: [how you prefer to communicate — updated over time]
 - Detail level: [concise / balanced / thorough]
-- Work: [tech stack, domain — set per project]
+- Domain: [expertise, field, or focus area — set per project]
 - Personal: [relevant interests, goals]
 - Learned patterns: [observations built over time]
 
@@ -59,11 +59,11 @@
 - Detail: [concise / balanced / thorough]
 - Initiative: [proactive / reactive / ask-first]
 
-### Coding
-- Tone: [e.g., direct, no fluff]
-- Style: [e.g., show code first, explain after]
+### Focused Work
+- Tone: [e.g., direct, efficient]
+- Style: [e.g., lead with the answer, explain after]
 - Preferences: [e.g., prefer simplicity over abstraction]
-- Stack: [loaded from Work context]
+- Domain context: [loaded from Relationship.Domain]
 
 ### Creative
 - Tone: [e.g., exploratory, encouraging]

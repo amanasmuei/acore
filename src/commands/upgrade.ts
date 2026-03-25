@@ -20,6 +20,7 @@ function extractIdentity(content: string): AcoreIdentity {
     aiName: aiNameMatch?.[1] || "Companion",
     userName: relSection?.content.match(/- Name: (.+)$/m)?.[1] || "",
     userRole: relSection?.content.match(/- Role: (.+)$/m)?.[1] || "",
+    role: "custom" as const,
     personality: idSection?.content.match(/- Personality: (.+)$/m)?.[1] || "curious, supportive, adaptive",
     communication: idSection?.content.match(/- Communication: (.+)$/m)?.[1] || "explore ideas together, match your energy",
     values: idSection?.content.match(/- Values: (.+)$/m)?.[1]?.split(",").map((v) => v.trim()).filter(Boolean) || ["understanding over speed"],

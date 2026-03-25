@@ -1,6 +1,6 @@
-## Work
-- Stack: {{STACK}}
-- Domain: {{DOMAIN}}
+## Domain
+- Expertise: {{STACK}}
+- Field: {{DOMAIN}}
 - Focus: {{FOCUS}}
 
 ## Session

@@ -3,7 +3,7 @@ import pc from "picocolors";
 import fs from "node:fs";
 import path from "node:path";
 import { getGlobalDir, getLocalDir, globalConfigExists } from "../lib/paths.js";
-import { archetypes } from "../lib/archetypes.js";
+import { getArchetypesByRole } from "../lib/archetypes.js";
 import { writeGlobalConfig, writeLocalContext } from "./init.js";
 import { mergeConfigs, parseMarkdown, findSection } from "../lib/merge.js";
 import {
@@ -14,7 +14,8 @@ import {
 } from "../lib/platform.js";
 import { injectIntoFile } from "../lib/inject.js";
 import { commitGlobalConfig } from "../lib/history.js";
-import type { AcoreIdentity } from "../types.js";
+import type { AcoreIdentity, UserRole } from "../types.js";
+import { USER_ROLES } from "../types.js";
 import type { InjectPlatform } from "../lib/platform.js";
 
 async function customizePersonality(globalDir: string): Promise<void> {
@@ -51,8 +52,21 @@ async function customizePersonality(globalDir: string): Promise<void> {
     return;
   }
 
+  // Ask for role category first
+  const selectedRole = (await p.select({
+    message: "What role is this AI for?",
+    options: USER_ROLES.map((r) => ({ value: r.value, label: r.label, hint: r.hint })),
+  })) as UserRole;
+
+  if (p.isCancel(selectedRole)) {
+    p.log.info("Cancelled.");
+    return;
+  }
+
+  // Show role-appropriate archetypes
+  const roleArchetypes = selectedRole === "custom" ? [] : getArchetypesByRole(selectedRole);
   const archetypeChoices = [
-    ...archetypes.map((a) => ({
+    ...roleArchetypes.map((a) => ({
       value: a.name,
       label: a.label,
       hint: a.description,
@@ -112,11 +126,13 @@ async function customizePersonality(globalDir: string): Promise<void> {
     communication = communicationInput;
     values = valuesInput.split(",").map((v) => v.trim()).filter(Boolean);
   } else {
-    const archetype = archetypes.find((a) => a.name === selectedArchetype)!;
+    const archetype = roleArchetypes.find((a) => a.name === selectedArchetype)!;
     personality = archetype.personality;
     communication = archetype.communication;
     values = archetype.values;
   }
+
+  const roleLabel = USER_ROLES.find((r) => r.value === selectedRole)?.label ?? currentUserRole;
 
   const boundariesInput = (await p.text({
     message: "Boundaries (what the AI won't do)",
@@ -132,7 +148,8 @@ async function customizePersonality(globalDir: string): Promise<void> {
   const identity: AcoreIdentity = {
     aiName,
     userName: currentUserName,
-    userRole: currentUserRole,
+    userRole: roleLabel,
+    role: selectedRole,
     personality,
     communication,
     values,
@@ -183,8 +200,8 @@ async function customizeContext(): Promise<void> {
 
   if (fs.existsSync(contextPath)) {
     const contextContent = fs.readFileSync(contextPath, "utf-8");
-    const stackMatch = contextContent.match(/- Stack: (.+)$/m);
-    const domainMatch = contextContent.match(/- Domain: (.+)$/m);
+    const stackMatch = contextContent.match(/- (?:Stack|Expertise): (.+)$/m);
+    const domainMatch = contextContent.match(/- (?:Domain|Field): (.+)$/m);
     const focusMatch = contextContent.match(/- Focus: (.+)$/m);
     currentStack = stackMatch?.[1] || "";
     currentDomain = domainMatch?.[1] || "";
@@ -192,10 +209,10 @@ async function customizeContext(): Promise<void> {
   }
 
   const stack = (await p.text({
-    message: "Tech stack for this project?",
-    placeholder: "TypeScript, React, Next.js",
+    message: "Your expertise or tools for this project?",
+    placeholder: "e.g. TypeScript, React / creative writing / financial analysis",
     initialValue: currentStack,
-    validate: (v) => (v.length === 0 ? "Tech stack is required" : undefined),
+    validate: (v) => (v.length === 0 ? "Expertise is required" : undefined),
   })) as string;
 
   if (p.isCancel(stack)) {
@@ -270,6 +287,7 @@ async function customizeEverything(globalDir: string): Promise<void> {
         aiName: aiNameMatch?.[1] || "Companion",
         userName: userNameMatch?.[1] || "",
         userRole: userRoleMatch?.[1] || "",
+        role: "custom",
         personality: personalityMatch?.[1] || "curious, supportive, adaptive",
         communication: communicationMatch?.[1] || "explore ideas together, match your energy",
         values: valuesMatch?.[1]?.split(",").map((v) => v.trim()).filter(Boolean) || ["understanding over speed"],
