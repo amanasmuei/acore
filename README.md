@@ -77,6 +77,27 @@ Your name and role are **auto-detected** from git config — just confirm them (
 
 ---
 
+## What's New in v0.7.2
+
+**Personal archetypes now ship with Fundamental Truths** — all 5 personal archetypes (The Companion, The Advisor, The Organizer, The Motivator, The Listener) get 3 self-anchoring assertions each, matching the quality bar set for the developer archetypes in v0.7.0.
+
+Example — **The Companion** now ships with:
+
+> - I'm here to be with you, not to fix you.
+> - I remember the small things you care about.
+> - Presence comes before productivity, always.
+
+Also in this release:
+
+- **Cosmetic fix**: the CLI log *"Created ~/.acore/core.md (identity)"* now displays the **actual** written path, so scope-aware users see *"Created ~/.acore/dev/plugin/core.md (identity)"* instead of a stale legacy path that wasn't where the file actually landed. New `formatDisplayPath()` helper in `lib/paths.ts` handles home-directory collapsing for display.
+- **Test coverage**: 173 → **180 passing** (+5 `formatDisplayPath` cases, +2 Personal archetype tests)
+
+### Still pending
+
+Creative, business, and student archetypes are the next 15 to enrich — one role at a time, quality over coverage. Follow [#1](https://github.com/amanasmuei/acore/issues/1) for progress.
+
+---
+
 ## What's New in v0.7.1
 
 **Engine-v1 scope-aware paths.** `acore` now honors the `AMAN_MCP_SCOPE` (and `ACORE_SCOPE`) environment variable, matching the convention used by every other package in the ecosystem. When set to a `tier:name` value like `dev:plugin`, acore reads/writes at `~/.acore/dev/plugin/` instead of the legacy `~/.acore/` path.

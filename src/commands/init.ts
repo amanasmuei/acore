@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { loadTemplate, fillTemplate, renderFundamentalTruthsBlock } from "../lib/template.js";
 import { getDefaultArchetype, getArchetypesByRole } from "../lib/archetypes.js";
-import { getGlobalDir, getLocalDir, globalConfigExists, localConfigExists } from "../lib/paths.js";
+import { getGlobalDir, getLocalDir, globalConfigExists, localConfigExists, formatDisplayPath } from "../lib/paths.js";
 import { copyToClipboard } from "../lib/clipboard.js";
 import { savePlatformConfig, getPlatformFile, isFileBasedPlatform, type InjectPlatform } from "../lib/platform.js";
 import { injectIntoFile } from "../lib/inject.js";
@@ -270,7 +270,7 @@ export async function initCommand(options: { global?: boolean }): Promise<void> 
 
     await writeGlobalConfig(globalDir, identity, "core-starter", platform);
     commitGlobalConfig("Created via acore init");
-    p.log.success(`Created ${pc.dim("~/.acore/core.md")} (identity)`);
+    p.log.success(`Created ${pc.dim(formatDisplayPath(path.join(globalDir, "core.md")))} (identity)`);
 
     if (context.stack && context.stack !== "not specified yet") {
       await writeLocalContext(localDir, context);

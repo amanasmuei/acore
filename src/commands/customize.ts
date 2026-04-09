@@ -2,7 +2,7 @@ import * as p from "@clack/prompts";
 import pc from "picocolors";
 import fs from "node:fs";
 import path from "node:path";
-import { getGlobalDir, getLocalDir, globalConfigExists } from "../lib/paths.js";
+import { getGlobalDir, getLocalDir, globalConfigExists, formatDisplayPath } from "../lib/paths.js";
 import { getArchetypesByRole } from "../lib/archetypes.js";
 import { writeGlobalConfig, writeLocalContext } from "./init.js";
 import { mergeConfigs, parseMarkdown, findSection } from "../lib/merge.js";
@@ -164,7 +164,7 @@ async function customizePersonality(globalDir: string): Promise<void> {
   const savedPlatform = loadPlatformConfig()?.platform ?? null;
   await writeGlobalConfig(globalDir, identity, templateName, savedPlatform);
   commitGlobalConfig("Updated via acore customize");
-  p.log.success(`Updated ${pc.dim("~/.acore/core.md")} with new personality`);
+  p.log.success(`Updated ${pc.dim(formatDisplayPath(path.join(globalDir, "core.md")))} with new personality`);
 }
 
 async function customizePlatform(): Promise<void> {

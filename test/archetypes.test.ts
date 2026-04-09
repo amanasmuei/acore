@@ -32,46 +32,59 @@ describe("archetypes", () => {
     expect(getArchetype("nonexistent")).toBeUndefined();
   });
 
-  describe("fundamentalTruths (v0.7.0)", () => {
-    it("all 5 developer archetypes define fundamentalTruths", () => {
-      const devArchetypes = getArchetypesByRole("developer");
-      for (const a of devArchetypes) {
+  describe("fundamentalTruths", () => {
+    // Roles enriched with Fundamental Truths (as of v0.7.2).
+    // Adding a new enriched role = add it here + its population test below.
+    const ENRICHED_ROLES = ["developer", "personal"] as const;
+    const PENDING_ROLES = ["creative", "business", "student"] as const;
+
+    it.each(ENRICHED_ROLES)("all 5 %s archetypes define fundamentalTruths", (role) => {
+      const roleArchetypes = getArchetypesByRole(role);
+      expect(roleArchetypes.length).toBe(5);
+      for (const a of roleArchetypes) {
         expect(a.fundamentalTruths, `${a.name} is missing fundamentalTruths`).toBeDefined();
         expect(a.fundamentalTruths!.length).toBeGreaterThanOrEqual(3);
         expect(a.fundamentalTruths!.length).toBeLessThanOrEqual(5);
       }
     });
 
-    it("every fundamental truth is a non-empty first-person assertion", () => {
-      const devArchetypes = getArchetypesByRole("developer");
-      for (const a of devArchetypes) {
-        for (const truth of a.fundamentalTruths!) {
-          expect(truth.length).toBeGreaterThan(0);
-          // Truths should be short — anchor assertions, not paragraphs
-          expect(truth.length).toBeLessThan(160);
-          // Truths should not contain template placeholders
-          expect(truth).not.toContain("{{");
+    it("every fundamental truth is a short non-empty first-person assertion", () => {
+      for (const role of ENRICHED_ROLES) {
+        for (const a of getArchetypesByRole(role)) {
+          for (const truth of a.fundamentalTruths!) {
+            expect(truth.length).toBeGreaterThan(0);
+            // Anchor assertions, not paragraphs
+            expect(truth.length).toBeLessThan(160);
+            // No template placeholders
+            expect(truth).not.toContain("{{");
+          }
         }
       }
     });
 
-    it("non-developer archetypes leave fundamentalTruths undefined (not yet enriched)", () => {
-      const nonDevRoles = ["creative", "business", "student", "personal"] as const;
-      for (const role of nonDevRoles) {
+    it("pending roles leave fundamentalTruths undefined (deferred to follow-up releases)", () => {
+      for (const role of PENDING_ROLES) {
         for (const a of getArchetypesByRole(role)) {
           expect(a.fundamentalTruths).toBeUndefined();
         }
       }
     });
 
-    it("fundamentalTruths is an optional field — existing archetype shape still valid", () => {
-      // If truths are absent, the archetype should still have all required fields
+    it("fundamentalTruths is an optional field — existing archetype shape still valid for pending roles", () => {
       const creative = getArchetypesByRole("creative");
       for (const a of creative) {
         expect(a.name).toBeTruthy();
         expect(a.personality).toBeTruthy();
         expect(a.values.length).toBeGreaterThan(0);
       }
+    });
+
+    // v0.7.2 smoke test — The Companion is the user's own archetype and must
+    // always carry truths through releases.
+    it("The Companion (user's archetype) has ≥3 Fundamental Truths", () => {
+      const companion = getArchetype("companion");
+      expect(companion?.fundamentalTruths).toBeDefined();
+      expect(companion!.fundamentalTruths!.length).toBeGreaterThanOrEqual(3);
     });
   });
 });

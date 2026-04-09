@@ -58,3 +58,23 @@ export function localConfigExists(dir?: string): boolean {
     : getLocalContextPath();
   return fs.existsSync(contextPath);
 }
+
+/**
+ * Format an absolute path for display in CLI logs.
+ *
+ * Collapses the home directory prefix to `~` so messages stay short
+ * and readable regardless of which scope is in effect.
+ *
+ * Examples:
+ *   /Users/aman/.acore/core.md              → ~/.acore/core.md
+ *   /Users/aman/.acore/dev/plugin/core.md   → ~/.acore/dev/plugin/core.md
+ *   /tmp/some-other-path                    → /tmp/some-other-path (unchanged)
+ */
+export function formatDisplayPath(absolutePath: string): string {
+  const home = os.homedir();
+  if (absolutePath.startsWith(home + path.sep)) {
+    return "~" + absolutePath.slice(home.length);
+  }
+  if (absolutePath === home) return "~";
+  return absolutePath;
+}

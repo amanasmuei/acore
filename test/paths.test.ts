@@ -5,6 +5,7 @@ import {
   getLocalDir,
   globalConfigExists,
   localConfigExists,
+  formatDisplayPath,
 } from "../src/lib/paths.js";
 import path from "node:path";
 import os from "node:os";
@@ -92,6 +93,34 @@ describe("paths", () => {
       // a legacy file exists.
       process.env.AMAN_MCP_SCOPE = "dev:nonexistent-test-scope";
       expect(globalConfigExists()).toBe(false);
+    });
+  });
+
+  describe("formatDisplayPath (v0.7.2)", () => {
+    const home = os.homedir();
+
+    it("collapses the home directory prefix to ~", () => {
+      expect(formatDisplayPath(path.join(home, ".acore", "core.md"))).toBe("~/.acore/core.md");
+    });
+
+    it("collapses scope-aware paths too", () => {
+      expect(formatDisplayPath(path.join(home, ".acore", "dev", "plugin", "core.md"))).toBe(
+        "~/.acore/dev/plugin/core.md"
+      );
+    });
+
+    it("collapses bare home to ~", () => {
+      expect(formatDisplayPath(home)).toBe("~");
+    });
+
+    it("leaves non-home paths unchanged", () => {
+      expect(formatDisplayPath("/tmp/some/other/path")).toBe("/tmp/some/other/path");
+    });
+
+    it("does NOT collapse paths that merely start with the home string but are not under home", () => {
+      // e.g. if home is /Users/aman, "/Users/aman-other/x" must NOT become "~-other/x"
+      const sibling = home + "-other/x";
+      expect(formatDisplayPath(sibling)).toBe(sibling);
     });
   });
 });
