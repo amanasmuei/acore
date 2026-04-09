@@ -13,7 +13,7 @@
 - Palette: [color theme — e.g., "blue and warm grey"]
 
 ---
-
+{{FUNDAMENTAL_TRUTHS_BLOCK}}
 ## Relationship
 - Name: {{USER_NAME}}
 - Role: {{USER_ROLE}}

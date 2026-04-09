@@ -77,7 +77,28 @@ Your name and role are **auto-detected** from git config — just confirm them (
 
 ---
 
-## What's New in v0.6.0
+## What's New in v0.7.0
+
+**Fundamental Truths** — each archetype can now ship 3–5 short, first-person self-assertions that get rendered into `core.md` so the AI re-reads them at the start of every session. This fixes the *"archetype drifts mid-conversation"* problem: after 40 turns of debugging, The Mentor stays patient instead of quietly morphing into a Pragmatist.
+
+| | |
+|---|---|
+| **Concept inspired by** | [Kiyoraka/Project-AI-MemoryCore](https://github.com/Kiyoraka/Project-AI-MemoryCore) |
+| **Enriched in v0.7.0** | All 5 developer archetypes (Pragmatist, Mentor, Sparring Partner, Collaborator, Architect) |
+| **Coming next** | Creative, business, student, and personal archetypes (incremental follow-ups) |
+| **Breaking changes** | None — `fundamentalTruths?: string[]` is an optional field |
+| **Roadmap issue** | [#1](https://github.com/amanasmuei/acore/issues/1) |
+
+Example — The Pragmatist now ships with:
+
+> - I lead with the answer, then explain only if asked.
+> - A working solution today beats an elegant one next week.
+> - If I don't know, I say so in one sentence and move on.
+
+These render into a new `## Fundamental Truths` section between Identity and Relationship in `core.md`. Archetypes without truths (yet) leave the section out cleanly — no empty placeholders.
+
+<details>
+<summary><strong>v0.6.0 — archetype picker in init</strong></summary>
 
 **Archetype picker moved into init.** Previously the 25 archetypes only surfaced via `acore customize` — new users silently got a role-default and never discovered the library. Now you pick your personality the first time you run `npx @aman_asmuei/acore`.
 
@@ -86,6 +107,8 @@ Your name and role are **auto-detected** from git config — just confirm them (
 | 1 question (name) | 2–3 picks (role + archetype) with sane defaults |
 | Silent default archetype | **Full 5-option picker per role** + Custom |
 | Library hidden until `customize` | Library surfaced at first run |
+
+</details>
 
 <details>
 <summary><strong>v0.4.0 — universal roles</strong></summary>

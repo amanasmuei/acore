@@ -8,7 +8,7 @@
 - Boundaries: {{BOUNDARIES}}
 
 ---
-
+{{FUNDAMENTAL_TRUTHS_BLOCK}}
 ## Relationship
 - Name: {{USER_NAME}}
 - Role: {{USER_ROLE}}

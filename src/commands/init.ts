@@ -2,7 +2,7 @@ import * as p from "@clack/prompts";
 import pc from "picocolors";
 import fs from "node:fs";
 import path from "node:path";
-import { loadTemplate, fillTemplate } from "../lib/template.js";
+import { loadTemplate, fillTemplate, renderFundamentalTruthsBlock } from "../lib/template.js";
 import { getDefaultArchetype, getArchetypesByRole } from "../lib/archetypes.js";
 import { getGlobalDir, getLocalDir, globalConfigExists, localConfigExists } from "../lib/paths.js";
 import { copyToClipboard } from "../lib/clipboard.js";
@@ -38,6 +38,7 @@ export async function writeGlobalConfig(
     COMMUNICATION: identity.communication,
     VALUES: identity.values.join(", "),
     BOUNDARIES: identity.boundaries,
+    FUNDAMENTAL_TRUTHS_BLOCK: renderFundamentalTruthsBlock(identity.fundamentalTruths),
     DATE: new Date().toISOString().split("T")[0],
     UPDATE_INSTRUCTIONS: getUpdateInstructions(platform ?? null),
   });
@@ -124,6 +125,7 @@ async function runQuickSetup(): Promise<{
   let personality: string;
   let communication: string;
   let values: string[];
+  let fundamentalTruths: string[] | undefined;
 
   if (selectedArchetype === "custom") {
     const personalityInput = (await p.text({
@@ -156,12 +158,15 @@ async function runQuickSetup(): Promise<{
       .split(",")
       .map((v) => v.trim())
       .filter(Boolean);
+    // Custom archetypes don't ship with pre-written Fundamental Truths.
+    fundamentalTruths = undefined;
   } else {
     const archetype =
       roleArchetypes.find((a) => a.name === selectedArchetype) ?? getDefaultArchetype(role);
     personality = archetype.personality;
     communication = archetype.communication;
     values = archetype.values;
+    fundamentalTruths = archetype.fundamentalTruths;
   }
 
   const roleLabel = USER_ROLES.find((r) => r.value === role)?.label ?? "Professional";
@@ -175,6 +180,7 @@ async function runQuickSetup(): Promise<{
     communication,
     values,
     boundaries: "won't pretend to be human, flags when out of depth",
+    fundamentalTruths,
   };
 
   const context: AcoreContext = {

@@ -87,6 +87,7 @@ async function customizePersonality(globalDir: string): Promise<void> {
   let personality: string;
   let communication: string;
   let values: string[];
+  let fundamentalTruths: string[] | undefined;
 
   if (selectedArchetype === "custom") {
     const personalityInput = (await p.text({
@@ -125,11 +126,14 @@ async function customizePersonality(globalDir: string): Promise<void> {
     personality = personalityInput;
     communication = communicationInput;
     values = valuesInput.split(",").map((v) => v.trim()).filter(Boolean);
+    // Custom archetypes don't ship with pre-written Fundamental Truths.
+    fundamentalTruths = undefined;
   } else {
     const archetype = roleArchetypes.find((a) => a.name === selectedArchetype)!;
     personality = archetype.personality;
     communication = archetype.communication;
     values = archetype.values;
+    fundamentalTruths = archetype.fundamentalTruths;
   }
 
   const roleLabel = USER_ROLES.find((r) => r.value === selectedRole)?.label ?? currentUserRole;
@@ -154,6 +158,7 @@ async function customizePersonality(globalDir: string): Promise<void> {
     communication,
     values,
     boundaries: boundariesInput || "won't pretend to be human, flags when out of depth",
+    fundamentalTruths,
   };
 
   const savedPlatform = loadPlatformConfig()?.platform ?? null;
