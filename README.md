@@ -77,6 +77,26 @@ Your name and role are **auto-detected** from git config — just confirm them (
 
 ---
 
+## What's New in v0.7.1
+
+**Engine-v1 scope-aware paths.** `acore` now honors the `AMAN_MCP_SCOPE` (and `ACORE_SCOPE`) environment variable, matching the convention used by every other package in the ecosystem. When set to a `tier:name` value like `dev:plugin`, acore reads/writes at `~/.acore/dev/plugin/` instead of the legacy `~/.acore/` path.
+
+**Why this matters:** users who install `aman-plugin` alongside acore were hitting a silent bug where `aman-plugin`'s session-start hook reads the scope-aware path first, but acore wrote only to the legacy path — so the plugin could never see what the user picked in the archetype wizard. Fixed in this patch. See [#2](https://github.com/amanasmuei/acore/issues/2) for the full write-up.
+
+**Backwards-compatible:** when no scope env var is set, behavior is unchanged — writes go to `~/.acore/core.md` exactly as before. Existing installs keep working.
+
+**Usage:**
+
+```bash
+# Legacy single-tenant (unchanged default):
+npx @aman_asmuei/acore@latest
+
+# Engine-v1 scope-aware (for aman-plugin users):
+AMAN_MCP_SCOPE=dev:plugin npx @aman_asmuei/acore@latest
+```
+
+---
+
 ## What's New in v0.7.0
 
 **Fundamental Truths** — each archetype can now ship 3–5 short, first-person self-assertions that get rendered into `core.md` so the AI re-reads them at the start of every session. This fixes the *"archetype drifts mid-conversation"* problem: after 40 turns of debugging, The Mentor stays patient instead of quietly morphing into a Pragmatist.

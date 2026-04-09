@@ -2,7 +2,34 @@ import path from "node:path";
 import os from "node:os";
 import fs from "node:fs";
 
+/**
+ * Get the canonical global directory for acore config.
+ *
+ * Engine-v1 scope-aware: when `AMAN_MCP_SCOPE` or `ACORE_SCOPE` is set to
+ * a "tier:name" value (e.g. "dev:plugin"), config is written to
+ * `~/.acore/<tier>/<name>/`. This matches the path convention used by
+ * `arules`, `aman-mcp`, and `aman-plugin`.
+ *
+ * When no scope is set, falls back to the legacy single-tenant
+ * `~/.acore/` path. Existing installs keep working unchanged.
+ */
 export function getGlobalDir(): string {
+  const home = os.homedir();
+  const scope = process.env.AMAN_MCP_SCOPE || process.env.ACORE_SCOPE;
+  if (scope && scope.includes(":")) {
+    const [tier, name] = scope.split(":");
+    if (tier && name) {
+      return path.join(home, ".acore", tier, name);
+    }
+  }
+  return path.join(home, ".acore");
+}
+
+/**
+ * The legacy single-tenant global directory, ignoring any scope env var.
+ * Useful for migration tooling and backwards-compatible reads.
+ */
+export function getLegacyGlobalDir(): string {
   return path.join(os.homedir(), ".acore");
 }
 
