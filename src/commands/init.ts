@@ -85,9 +85,85 @@ async function runQuickSetup(): Promise<{
   const detectedRole = detectUserRole();
   const domain = detectDomain(detectedRole);
 
-  // Use detected role — user can change later via acore customize
-  const role: UserRole = detectedRole;
-  const archetype = getDefaultArchetype(role);
+  // Confirm role (pre-selected to detected value) — user can change it here
+  // instead of finding out later via `acore customize`.
+  const roleOptions = USER_ROLES.filter((r) => r.value !== "custom").map((r) => ({
+    value: r.value,
+    label: r.label,
+    hint: r.hint,
+  }));
+
+  const role = (await p.select({
+    message: "What role should your AI help with?",
+    initialValue: detectedRole,
+    options: roleOptions,
+  })) as UserRole;
+
+  if (p.isCancel(role)) process.exit(0);
+
+  // Offer 5 archetype presets for this role, plus a Custom escape hatch.
+  const roleArchetypes = getArchetypesByRole(role);
+  const defaultArchetypeName = getDefaultArchetype(role).name;
+  const archetypeOptions = [
+    ...roleArchetypes.map((a) => ({
+      value: a.name,
+      label: a.label,
+      hint: a.description,
+    })),
+    { value: "custom", label: "Custom", hint: "define your own traits" },
+  ];
+
+  const selectedArchetype = (await p.select({
+    message: "Choose your AI's personality",
+    initialValue: defaultArchetypeName,
+    options: archetypeOptions,
+  })) as string;
+
+  if (p.isCancel(selectedArchetype)) process.exit(0);
+
+  let personality: string;
+  let communication: string;
+  let values: string[];
+
+  if (selectedArchetype === "custom") {
+    const personalityInput = (await p.text({
+      message: "Describe the personality",
+      placeholder: "curious, direct, witty",
+      validate: (v) => (v.length === 0 ? "Personality is required" : undefined),
+    })) as string;
+
+    if (p.isCancel(personalityInput)) process.exit(0);
+
+    const communicationInput = (await p.text({
+      message: "Describe the communication style",
+      placeholder: "ask clarifying questions, use examples",
+      validate: (v) => (v.length === 0 ? "Communication style is required" : undefined),
+    })) as string;
+
+    if (p.isCancel(communicationInput)) process.exit(0);
+
+    const valuesInput = (await p.text({
+      message: "Core values (comma-separated)",
+      placeholder: "honesty over comfort, shipping over perfection",
+      validate: (v) => (v.length === 0 ? "At least one value is required" : undefined),
+    })) as string;
+
+    if (p.isCancel(valuesInput)) process.exit(0);
+
+    personality = personalityInput;
+    communication = communicationInput;
+    values = valuesInput
+      .split(",")
+      .map((v) => v.trim())
+      .filter(Boolean);
+  } else {
+    const archetype =
+      roleArchetypes.find((a) => a.name === selectedArchetype) ?? getDefaultArchetype(role);
+    personality = archetype.personality;
+    communication = archetype.communication;
+    values = archetype.values;
+  }
+
   const roleLabel = USER_ROLES.find((r) => r.value === role)?.label ?? "Professional";
 
   const identity: AcoreIdentity = {
@@ -95,9 +171,9 @@ async function runQuickSetup(): Promise<{
     userName,
     userRole: roleLabel,
     role,
-    personality: archetype.personality,
-    communication: archetype.communication,
-    values: ["honesty over comfort", "simplicity over cleverness"],
+    personality,
+    communication,
+    values,
     boundaries: "won't pretend to be human, flags when out of depth",
   };
 
