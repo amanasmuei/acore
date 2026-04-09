@@ -52,6 +52,17 @@ npx @aman_asmuei/acore
 ```
 acore — give your AI a soul
 
+  ◇  What role should your AI help with?
+  │  Developer  (detected — press Enter)
+  │
+  ◇  Choose your AI's personality
+  │  ● The Collaborator — curious, supportive, adaptive
+  │  ○ The Pragmatist — concise, practical, efficient
+  │  ○ The Mentor — patient, thorough, encouraging
+  │  ○ The Sparring Partner — direct, challenging, honest
+  │  ○ The Architect — systematic, precise, forward-thinking
+  │  ○ Custom — define your own traits
+
   Created ~/.acore/core.md (identity)
   Detected Claude Code -> injected into CLAUDE.md
   Inferred: Aman . Developer . TypeScript, React
@@ -62,11 +73,22 @@ acore — give your AI a soul
   acore customize   Change anything
 ```
 
-Zero questions — your name, role, and domain are auto-detected. Run `acore customize` to personalize further.
+Your name and role are **auto-detected** from git config — just confirm them (press Enter for the defaults) and pick a personality archetype. ~3 keypresses, ~15 seconds. Pick **Custom** if you want to define personality, communication style, and values by hand. Run `acore customize` any time to change your mind.
 
 ---
 
-## What's New in v0.4.0
+## What's New in v0.6.0
+
+**Archetype picker moved into init.** Previously the 25 archetypes only surfaced via `acore customize` — new users silently got a role-default and never discovered the library. Now you pick your personality the first time you run `npx @aman_asmuei/acore`.
+
+| Before (v0.5) | After (v0.6) |
+|---|---|
+| 1 question (name) | 2–3 picks (role + archetype) with sane defaults |
+| Silent default archetype | **Full 5-option picker per role** + Custom |
+| Library hidden until `customize` | Library surfaced at first run |
+
+<details>
+<summary><strong>v0.4.0 — universal roles</strong></summary>
 
 **acore is now universal.** Not just for developers — for anyone who uses AI.
 
@@ -78,11 +100,13 @@ Zero questions — your name, role, and domain are auto-detected. Run `acore cus
 | "Work" section | **"Domain"** section (expertise, field, focus) |
 | "Coding" context mode | **"Focused Work"** context mode |
 
+</details>
+
 ---
 
 ## Role-Based Archetypes
 
-On setup or `acore customize`, choose your role — then pick from role-specific archetypes:
+On first run of `acore` (or any time via `acore customize`), choose your role — then pick from role-specific archetypes:
 
 <details open>
 <summary><strong>Developer</strong> — coding, architecture, debugging</summary>
